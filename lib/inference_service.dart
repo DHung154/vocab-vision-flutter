@@ -1,16 +1,11 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// Service gọi API nhận diện — multipart POST, timeout, xử lý lỗi
-// ─────────────────────────────────────────────────────────────────────────────
-import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
 
 import 'app_config.dart';
 import 'detection_model.dart';
+import 'research_results_data.dart';
 
-/// Lỗi riêng cho quá trình nhận diện.
 class InferenceException implements Exception {
   final String message;
   const InferenceException(this.message);
@@ -19,57 +14,50 @@ class InferenceException implements Exception {
   String toString() => message;
 }
 
-/// Gửi ảnh multipart tới API và parse kết quả.
 class InferenceService {
+  static const _channel = MethodChannel('vocab_vision/e4');
+
   const InferenceService();
 
-  /// Gửi [imageFile] tới [inferenceUrl] và trả về [DetectionResult].
-  ///
-  /// Ném [InferenceException] với thông báo tiếng Việt cho mọi lỗi.
-  Future<DetectionResult> predict(File imageFile) async {
-    try {
-      final uri = Uri.parse(inferenceUrl);
-      final request = http.MultipartRequest('POST', uri)
-        ..files.add(await http.MultipartFile.fromPath('file', imageFile.path));
-
-      final streamed = await request.send().timeout(
-        const Duration(seconds: inferenceTimeoutSeconds),
+  Future<DetectionResult> predict(
+    File imageFile, {
+    String modelId = defaultDemoModelId,
+    double confidence = 0.25,
+  }) async {
+    if (modelId != defaultDemoModelId) {
+      throw const InferenceException('Bản offline chỉ chứa checkpoint E4.');
+    }
+    if (confidence <= 0 || confidence > 1) {
+      throw const InferenceException(
+        'Ngưỡng confidence phải nằm trong (0, 1].',
       );
+    }
+    if (!await imageFile.exists()) {
+      throw const InferenceException('Không tìm thấy ảnh đã chọn.');
+    }
 
-      final response = await http.Response.fromStream(streamed);
-
-      if (response.statusCode != 200) {
-        throw InferenceException(
-          'Máy chủ trả về lỗi (mã ${response.statusCode}). '
-          'Vui lòng thử lại sau.',
-        );
+    try {
+      final response = await _channel.invokeMapMethod<String, dynamic>(
+        'predict',
+        {'imagePath': imageFile.path, 'confidence': confidence},
+      );
+      if (response == null) {
+        throw const InferenceException('Android không trả kết quả E4.');
       }
-
-      final Map<String, dynamic> json;
-      try {
-        json = jsonDecode(response.body) as Map<String, dynamic>;
-      } catch (_) {
-        throw const InferenceException('Dữ liệu trả về không hợp lệ.');
-      }
-
-      try {
-        return DetectionResult.fromJson(json);
-      } on FormatException {
-        throw const InferenceException('Dữ liệu trả về không hợp lệ.');
-      }
+      return DetectionResult.fromJson(response);
     } on InferenceException {
       rethrow;
-    } on TimeoutException {
-      throw const InferenceException(
-        'Hết thời gian chờ. Kiểm tra kết nối mạng và thử lại.',
+    } on PlatformException catch (error) {
+      throw InferenceException(
+        error.message?.trim().isNotEmpty == true
+            ? error.message!
+            : 'Không thể chạy E4 offline (${error.code}).',
       );
-    } on SocketException {
-      throw const InferenceException(
-        'Không kết nối được máy nhận diện. '
-        'Kiểm tra mạng WiFi và địa chỉ IP server.',
-      );
-    } catch (e) {
-      throw InferenceException('Lỗi không xác định: $e');
+    } catch (error) {
+      throw InferenceException('Không thể chạy E4 offline: $error');
     }
   }
+
+  Future<Map<String, dynamic>> fetchResearchResults() async =>
+      researchResultsData;
 }

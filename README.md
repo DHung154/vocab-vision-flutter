@@ -1,43 +1,59 @@
-# Ứng dụng học từ vựng đồ dùng học tập
+# Vocab Vision Flutter
 
-Ứng dụng Flutter demo cho đề tài nhận diện 15 loại đồ dùng học tập.
+Ứng dụng Flutter demo khóa luận nhận diện 15 loại đồ dùng học tập bằng
+`YOLO26-S — E4 (nhóm đề xuất)`.
 
-## Chức năng hiện có
+## Nhận diện offline
 
-- Trang chủ và tiến độ học minh họa.
-- Danh sách 15 nhãn Anh–Việt đúng với dataset nghiên cứu.
-- Màn hình camera mô phỏng luồng nhận diện.
-- Thành tích, hồ sơ, cài đặt và bản đồ học tập.
+- Ảnh từ camera hoặc thư viện được xử lý trực tiếp trên thiết bị Android.
+- Không cần Wi-Fi, địa chỉ IP hay FastAPI để nhận diện.
+- Runtime ONNX được nạp một lần rồi tái sử dụng trong vòng đời ứng dụng.
+- App giữ nguyên class ID, vẽ box sau khi hoàn tác letterbox và chỉ lọc theo
+  ngưỡng confidence của demo; không tự xóa các box giao nhau.
+- Màn `Kết quả thực nghiệm E4` đọc bản chụp số liệu đã xác minh được đóng gói
+  trong app. Backend trong thư mục `backend` chỉ còn là công cụ kiểm chứng tùy
+  chọn, không phải thành phần cần để chạy APK.
 
-Màn hình camera hiện ghi rõ `Chế độ demo • chưa nối mô hình`. Các kết quả mẫu
-không phải dự đoán của YOLO.
-
-Đặc tả để triển khai camera thật và màn hình kết quả nằm trong
-`KE_HOACH_CAMERA_CHO_AI_KHAC.md`.
+Inference offline hiện được cài cho Android qua ONNX Runtime. Giao diện vẫn có
+thể biên dịch trên nền tảng khác, nhưng nút nhận diện cần Android.
 
 ## Chạy ứng dụng
 
-```cmd
-cd /d E:\KLTN\APP\vocab_app_flutter
+```powershell
+cd E:\KLTN\APP\vocab_app_flutter
 flutter pub get
-flutter run -d chrome
+flutter run
 ```
 
-Hoặc chạy trên Windows:
+Không cần mở server và không cần truyền `INFERENCE_BASE_URL`.
 
-```cmd
-flutter run -d windows
-```
+## Mô hình
+
+- Checkpoint nguồn (không bị di chuyển/chỉnh sửa):
+  `E:\KLTN\runs\E4_balanced_seed0\weights\best.pt`
+- SHA-256 checkpoint nguồn:
+  `5791196A7575B9061B4E3D86C48A0E9AE56B17493CD968A85B4B74B08B65EB63`
+- Model Android được xuất riêng:
+  `android\app\src\main\assets\e4.onnx`
+- SHA-256 model Android:
+  `0256115F2E4339527B665C0FD22ED5C4961AAC2539B7889BB9AC297588A61E66`
+- Input/output đã xác minh: `[1,3,512,512]` → `[1,300,6]`, 15 lớp.
+
+## Nguồn kết quả nghiên cứu
+
+- Ba seed E0/E4: `E:\KLTN\outputs\yolo_seed_test_fixed\summary.csv`
+- E1 seed 0: bảng kết quả kiểm thử đã khóa trong
+  `E:\KLTN\analysis\fair_rewrite_teacher_notes_20260825\source_content.txt`
+
+Confidence trên một box không phải AP/mAP. Ảnh người dùng không có ground truth
+không được dùng để tính AP, Precision hoặc Recall. Latency trong kết quả demo là
+thời gian thực đo trên chính thiết bị Android đang chạy app.
 
 ## Kiểm tra
 
-```cmd
+```powershell
 flutter analyze
 flutter test
-flutter build web
+flutter build apk --debug
+python -m backend.smoke_test
 ```
-
-## Bước tiếp theo
-
-Chỉ nối inference thật sau khi đã chọn checkpoint YOLO cuối cùng. Khi đó cần
-thêm chọn ảnh/camera, tiền xử lý 512×512, suy luận và ánh xạ 15 nhãn Anh–Việt.

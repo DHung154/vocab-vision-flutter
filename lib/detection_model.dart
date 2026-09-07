@@ -43,11 +43,21 @@ class DetectionResult {
   final int imageWidth;
   final int imageHeight;
   final List<Detection> detections;
+  final String modelId;
+  final String modelLabel;
+  final double? latencyMs;
+  final String? device;
+  final String? latencyScope;
 
   const DetectionResult({
     required this.imageWidth,
     required this.imageHeight,
     required this.detections,
+    this.modelId = '',
+    this.modelLabel = '',
+    this.latencyMs,
+    this.device,
+    this.latencyScope,
   });
 
   /// Parse kết quả từ JSON map. Ném [FormatException] nếu sai cấu trúc.
@@ -58,8 +68,13 @@ class DetectionResult {
         imageWidth: (json['image_width'] as num).toInt(),
         imageHeight: (json['image_height'] as num).toInt(),
         detections: rawDetections
-            .map((d) => Detection.fromJson(d as Map<String, dynamic>))
+            .map((d) => Detection.fromJson(Map<String, dynamic>.from(d as Map)))
             .toList(),
+        modelId: json['model_id'] as String? ?? '',
+        modelLabel: json['model_label'] as String? ?? '',
+        latencyMs: (json['latency_ms'] as num?)?.toDouble(),
+        device: json['device'] as String?,
+        latencyScope: json['latency_scope'] as String?,
       );
     } catch (e) {
       if (e is FormatException) rethrow;

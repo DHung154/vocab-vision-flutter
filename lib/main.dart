@@ -11,8 +11,12 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'app_config.dart';
 import 'inference_service.dart';
+import 'learning_screen.dart';
+import 'research_results_screen.dart';
 import 'result_screen.dart';
+import 'vocabulary_data.dart';
 
 void main() => runApp(const VocabApp());
 
@@ -74,7 +78,14 @@ class _ShellState extends State<Shell> {
   Widget _screen() {
     switch (activeTab) {
       case 0:
-        return HomeScreen(onOpenMap: () => setState(() => showMap = true));
+        return HomeScreen(
+          onOpenMap: () => setState(() => showMap = true),
+          onOpenVocabulary: () => setState(() => activeTab = 1),
+          onOpenAchievements: () => setState(() => activeTab = 3),
+          onOpenMode: (mode) => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => LearningScreen(mode: mode))),
+        );
       case 1:
         return const VocabularyScreen();
       case 2:
@@ -92,79 +103,69 @@ class _ShellState extends State<Shell> {
   @override
   Widget build(BuildContext c) {
     return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final frameWidth = math.min(480.0, constraints.maxWidth);
-            return Center(
-              child: SizedBox(
-                width: frameWidth,
-                height: constraints.maxHeight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(44),
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [C.mint, C.mintLight, C.mintPale],
-                      stops: [0.0, 0.55, 1.0],
-                    ),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x2A000000),
-                        offset: Offset(0, 32),
-                        blurRadius: 80,
-                      ),
-                      BoxShadow(
-                        color: Color(0x18000000),
-                        offset: Offset(0, 4),
-                        blurRadius: 16,
-                      ),
-                    ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isPhone = constraints.maxWidth < 600;
+          final frameWidth = math.min(480.0, constraints.maxWidth);
+          return Center(
+            child: SizedBox(
+              width: frameWidth,
+              height: constraints.maxHeight,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: isPhone
+                      ? BorderRadius.zero
+                      : BorderRadius.circular(32),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [C.mint, C.mintLight, C.mintPale],
+                    stops: [0.0, 0.55, 1.0],
                   ),
-                  clipBehavior: Clip.antiAlias,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x2A000000),
+                      offset: Offset(0, 32),
+                      blurRadius: 80,
+                    ),
+                  ],
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: SafeArea(
                   child: Column(
                     children: [
                       Expanded(
                         child: Stack(
                           children: [
-                            // Icon trang trí mờ ở nền (ẩn khi ở camera)
                             if (!isCamera)
                               const Positioned.fill(child: _BgDecor()),
-                            // Header + main content
                             if (!isCamera && !isOverlay)
                               Padding(
                                 padding: EdgeInsets.only(
-                                  top: isProfile ? 0 : 56,
+                                  top: isProfile ? 0 : 84,
                                 ),
                                 child: _screen(),
                               ),
-                            // Camera overlay
                             if (isCamera) const CameraScreen(),
-                            // Map overlay
                             if (showMap)
                               LearningMapScreen(
                                 onClose: () => setState(() => showMap = false),
                               ),
-                            // Settings overlay
                             if (showSettings)
                               SettingsScreen(
                                 onClose: () =>
                                     setState(() => showSettings = false),
                               ),
-                            // Header (hide on camera/profile/overlay)
                             if (!isCamera && !isProfile && !isOverlay)
                               Positioned(
-                                top: 44,
-                                left: 16,
-                                right: 16,
+                                top: 12,
+                                left: 20,
+                                right: 20,
                                 child: _header(),
                               ),
                           ],
                         ),
                       ),
-                      // Navigation occupies its own layout space, so it cannot
-                      // cover the last row of scrollable content.
                       if (!isOverlay)
                         BottomCutoutNav(
                           activeTab: activeTab,
@@ -174,9 +175,9 @@ class _ShellState extends State<Shell> {
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -263,7 +264,17 @@ class _ShellState extends State<Shell> {
 // ─── Home screen ─────────────────────────────────────────────────────────────
 class HomeScreen extends StatelessWidget {
   final VoidCallback onOpenMap;
-  const HomeScreen({super.key, required this.onOpenMap});
+  final VoidCallback onOpenVocabulary;
+  final VoidCallback onOpenAchievements;
+  final ValueChanged<LearningMode> onOpenMode;
+
+  const HomeScreen({
+    super.key,
+    required this.onOpenMap,
+    required this.onOpenVocabulary,
+    required this.onOpenAchievements,
+    required this.onOpenMode,
+  });
 
   static const _features = [
     ('📖', 'Từ vựng', C.amberSoft),
@@ -274,16 +285,21 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext c) {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 68, 16, 24),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
       children: [
         Row(
           children: _features.map((f) {
-            final isMap = f.$2 == 'Ôn tập';
+            final onTap = switch (f.$2) {
+              'Từ vựng' => onOpenVocabulary,
+              'Ôn tập' => onOpenMap,
+              _ => onOpenAchievements,
+            };
             return Expanded(
               child: Padding(
                 padding: EdgeInsets.only(right: f == _features.last ? 0 : 10),
                 child: GestureDetector(
-                  onTap: isMap ? onOpenMap : null,
+                  onTap: onTap,
+                  behavior: HitTestBehavior.opaque,
                   child: _glassPill(f.$1, f.$2, f.$3),
                 ),
               ),
@@ -304,10 +320,28 @@ class HomeScreen extends StatelessWidget {
 
   // 4 ô trò chơi (chế độ học)
   static const _modes = [
-    ('🃏', 'Flashcard', 'lật thẻ', [C.orange, C.coral]),
-    ('🧩', 'Ghép hình', 'kéo thả', [C.indigoMid, C.indigo]),
-    ('✏️', 'Điền từ', 'còn thiếu', [C.coral, Color(0xFFF15A4B)]),
-    ('🎧', 'Nghe & chọn', 'chọn hình', [C.mint, Color(0xFF1FB9AA)]),
+    ('🃏', 'Flashcard', 'lật thẻ', [C.orange, C.coral], LearningMode.flashcard),
+    (
+      '🧩',
+      'Ghép hình',
+      'chọn cặp',
+      [C.indigoMid, C.indigo],
+      LearningMode.matching,
+    ),
+    (
+      '✏️',
+      'Điền từ',
+      'nhập đáp án',
+      [C.coral, Color(0xFFF15A4B)],
+      LearningMode.fillWord,
+    ),
+    (
+      '🎧',
+      'Nghe & chọn',
+      'nghe phát âm',
+      [C.mint, Color(0xFF1FB9AA)],
+      LearningMode.listening,
+    ),
   ];
 
   Widget _modesGrid() => Column(
@@ -326,69 +360,88 @@ class HomeScreen extends StatelessWidget {
     ],
   );
 
-  Widget _modeCard((String, String, String, List<Color>) m) => Container(
-    height: 190,
-    padding: const EdgeInsets.all(14),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(22),
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: m.$4,
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: m.$4.last.withValues(alpha: 0.35),
-          offset: const Offset(0, 6),
-          blurRadius: 16,
-        ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(9),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.25),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Text(m.$1, style: const TextStyle(fontSize: 20)),
-            ),
-            const Text('⭐', style: TextStyle(fontSize: 16)),
-          ],
-        ),
-        const Spacer(),
-        Text(
-          m.$2,
-          style: t(16, w: FontWeight.w800, color: Colors.white),
-        ),
-        Text(
-          m.$3,
-          style: t(
-            11,
-            w: FontWeight.w600,
-            color: Colors.white.withValues(alpha: 0.9),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+  Widget _modeCard((String, String, String, List<Color>, LearningMode) m) =>
+      GestureDetector(
+        onTap: () => onOpenMode(m.$5),
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+          height: 190,
+          padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.25),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(22),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: m.$4,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: m.$4.last.withValues(alpha: 0.28),
+                offset: const Offset(0, 5),
+                blurRadius: 14,
+              ),
+            ],
           ),
-          child: Text(
-            'Bắt đầu học',
-            style: t(10.5, w: FontWeight.w700, color: Colors.white),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(9),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.25),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Text(m.$1, style: const TextStyle(fontSize: 20)),
+                  ),
+                  const Text('⭐', style: TextStyle(fontSize: 16)),
+                ],
+              ),
+              const Spacer(),
+              SizedBox(
+                width: double.infinity,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    m.$2,
+                    maxLines: 1,
+                    style: t(16, w: FontWeight.w800, color: Colors.white),
+                  ),
+                ),
+              ),
+              Text(
+                m.$3,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: t(
+                  11,
+                  w: FontWeight.w600,
+                  color: Colors.white.withValues(alpha: 0.9),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  'Bắt đầu học',
+                  maxLines: 1,
+                  style: t(10.5, w: FontWeight.w700, color: Colors.white),
+                ),
+              ),
+            ],
           ),
         ),
-      ],
-    ),
-  );
+      );
 
   Widget _glassPill(String icon, String label, Color bg) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -480,10 +533,10 @@ class HomeScreen extends StatelessWidget {
   );
 
   Widget _wordsCard() {
-    const words = [
-      ('🍎', 'Táo', 'Apple'),
-      ('🐶', 'Chó', 'Dog'),
-      ('📚', 'Sách', 'Book'),
+    final words = [
+      vocabularyWords[11],
+      vocabularyWords[9],
+      vocabularyWords[14],
     ];
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
@@ -528,11 +581,14 @@ class HomeScreen extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            Text(w.$1, style: const TextStyle(fontSize: 24)),
+                            Text(w.emoji, style: const TextStyle(fontSize: 24)),
                             const SizedBox(height: 4),
-                            Text(w.$2, style: t(13, w: FontWeight.w800)),
                             Text(
-                              w.$3,
+                              w.vietnamese,
+                              style: t(13, w: FontWeight.w800),
+                            ),
+                            Text(
+                              w.english,
                               style: t(10, w: FontWeight.w600, color: C.muted),
                             ),
                           ],
@@ -553,27 +609,9 @@ class HomeScreen extends StatelessWidget {
 class VocabularyScreen extends StatelessWidget {
   const VocabularyScreen({super.key});
 
-  static const words = [
-    ('🧮', 'Abacus', 'Bàn tính'),
-    ('🎒', 'Backpack', 'Ba lô'),
-    ('▱', 'Chalk', 'Phấn'),
-    ('🟩', 'Chalkboard', 'Bảng phấn'),
-    ('🖍️', 'Crayon', 'Bút sáp màu'),
-    ('🥤', 'Cup', 'Cốc'),
-    ('🧽', 'Eraser', 'Cục tẩy'),
-    ('🧴', 'Glue stick', 'Hồ khô'),
-    ('🪑', 'Kids chair', 'Ghế trẻ em'),
-    ('📓', 'Notebook', 'Vở'),
-    ('🖌️', 'Paintbrush', 'Cọ vẽ'),
-    ('✏️', 'Pencil', 'Bút chì'),
-    ('🔺', 'Pencil sharpener', 'Gọt bút chì'),
-    ('📏', 'Ruler', 'Thước kẻ'),
-    ('✂️', 'Scissors', 'Kéo'),
-  ];
-
   @override
   Widget build(BuildContext context) => ListView(
-    padding: const EdgeInsets.fromLTRB(16, 68, 16, 120),
+    padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
     children: [
       Text('15 đồ dùng học tập', style: t(22, w: FontWeight.w900)),
       Text(
@@ -581,7 +619,7 @@ class VocabularyScreen extends StatelessWidget {
         style: t(13, w: FontWeight.w600, color: C.muted),
       ),
       const SizedBox(height: 14),
-      for (final word in words)
+      for (final word in vocabularyWords)
         Container(
           margin: const EdgeInsets.only(bottom: 10),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -592,14 +630,14 @@ class VocabularyScreen extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Text(word.$1, style: const TextStyle(fontSize: 28)),
+              Text(word.emoji, style: const TextStyle(fontSize: 28)),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(word.$2, style: t(15, w: FontWeight.w800)),
+                  Text(word.english, style: t(15, w: FontWeight.w800)),
                   Text(
-                    word.$3,
+                    word.vietnamese,
                     style: t(12, w: FontWeight.w600, color: C.muted),
                   ),
                 ],
@@ -625,6 +663,7 @@ class _CameraScreenState extends State<CameraScreen> {
   File? _pickedImage;
   bool _isSending = false;
   String? _error;
+  final String _selectedModelId = defaultDemoModelId;
 
   // ─── Chụp ảnh bằng camera ─────────────────────────────────────────────────
   Future<void> _takePhoto() async {
@@ -673,7 +712,10 @@ class _CameraScreenState extends State<CameraScreen> {
       _error = null;
     });
     try {
-      final result = await _inference.predict(_pickedImage!);
+      final result = await _inference.predict(
+        _pickedImage!,
+        modelId: _selectedModelId,
+      );
       if (!mounted) return;
       await Navigator.push(
         context,
@@ -699,6 +741,77 @@ class _CameraScreenState extends State<CameraScreen> {
     _error = null;
   });
 
+  Widget _modelSelector({bool compact = false}) => Container(
+    width: double.infinity,
+    padding: EdgeInsets.all(compact ? 10 : 12),
+    decoration: BoxDecoration(
+      color: Colors.white.withValues(alpha: compact ? 0.90 : 0.08),
+      borderRadius: BorderRadius.circular(14),
+      border: Border.all(
+        color: compact
+            ? C.mint.withValues(alpha: 0.55)
+            : Colors.white.withValues(alpha: 0.18),
+      ),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Mô hình nhận diện',
+          style: t(
+            11,
+            w: FontWeight.w700,
+            color: compact ? C.muted : Colors.white60,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            Icon(
+              Icons.offline_bolt_rounded,
+              size: 18,
+              color: compact ? C.indigo : C.mint,
+            ),
+            const SizedBox(width: 7),
+            Expanded(
+              child: Text(
+                demoModelOptions.single.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: t(
+                  12,
+                  w: FontWeight.w800,
+                  color: compact ? C.navy : Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Text(
+          'Chạy trực tiếp trên thiết bị • không cần Wi-Fi',
+          style: t(
+            10.5,
+            w: FontWeight.w600,
+            color: compact ? C.muted : Colors.white60,
+          ),
+        ),
+        if (!compact) ...[
+          const SizedBox(height: 5),
+          InkWell(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const ResearchResultsScreen()),
+            ),
+            child: Text(
+              'Xem kết quả thực nghiệm E4 →',
+              style: t(11.5, w: FontWeight.w700, color: C.mint),
+            ),
+          ),
+        ],
+      ],
+    ),
+  );
+
   // ─── Build ────────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext ctx) {
@@ -721,120 +834,134 @@ class _CameraScreenState extends State<CameraScreen> {
           ),
         ),
       ),
-      Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Icon camera lớn
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: const LinearGradient(colors: [C.mint, C.mintLight]),
-                  boxShadow: [
-                    BoxShadow(
-                      color: C.mint.withValues(alpha: 0.3),
-                      blurRadius: 28,
-                      spreadRadius: 4,
-                    ),
-                  ],
-                ),
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.camera_alt_rounded,
-                  size: 48,
-                  color: C.navy,
-                ),
+      Positioned.fill(
+        child: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: math.max(0, constraints.maxHeight - 32),
               ),
-              const SizedBox(height: 24),
-              Text(
-                'Nhận diện đồ dùng học tập',
-                textAlign: TextAlign.center,
-                style: t(20, w: FontWeight.w800, color: Colors.white),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Chụp ảnh hoặc chọn ảnh từ thư viện\nđể nhận diện vật thể',
-                textAlign: TextAlign.center,
-                style: t(13, w: FontWeight.w500, color: Colors.white54),
-              ),
-              const SizedBox(height: 32),
-
-              // Nút chụp ảnh
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: ElevatedButton.icon(
-                  onPressed: _takePhoto,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: C.mint,
-                    foregroundColor: C.navy,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 0,
-                  ),
-                  icon: const Icon(Icons.camera_alt_rounded, size: 22),
-                  label: Text('Chụp ảnh', style: t(15, w: FontWeight.w800)),
-                ),
-              ),
-              const SizedBox(height: 12),
-
-              // Nút chọn từ thư viện
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: OutlinedButton.icon(
-                  onPressed: _pickFromGallery,
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    side: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.3),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  icon: const Icon(Icons.photo_library_rounded, size: 22),
-                  label: Text(
-                    'Chọn từ thư viện',
-                    style: t(15, w: FontWeight.w700, color: Colors.white),
-                  ),
-                ),
-              ),
-
-              // Lỗi (nếu có)
-              if (_error != null) ...[
-                const SizedBox(height: 20),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: C.coral.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: C.coral.withValues(alpha: 0.3)),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.error_outline_rounded,
-                        color: C.coral,
-                        size: 20,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Icon camera lớn
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: const LinearGradient(
+                        colors: [C.mint, C.mintLight],
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          _error!,
-                          style: t(12, w: FontWeight.w600, color: C.coral),
+                      boxShadow: [
+                        BoxShadow(
+                          color: C.mint.withValues(alpha: 0.3),
+                          blurRadius: 28,
+                          spreadRadius: 4,
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.camera_alt_rounded,
+                      size: 48,
+                      color: C.navy,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    'Nhận diện đồ dùng học tập',
+                    textAlign: TextAlign.center,
+                    style: t(20, w: FontWeight.w800, color: Colors.white),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Chụp ảnh hoặc chọn ảnh từ thư viện\nđể nhận diện vật thể',
+                    textAlign: TextAlign.center,
+                    style: t(13, w: FontWeight.w500, color: Colors.white54),
+                  ),
+                  const SizedBox(height: 20),
+                  _modelSelector(),
+                  const SizedBox(height: 20),
+
+                  // Nút chụp ảnh
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton.icon(
+                      onPressed: _takePhoto,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: C.mint,
+                        foregroundColor: C.navy,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 0,
+                      ),
+                      icon: const Icon(Icons.camera_alt_rounded, size: 22),
+                      label: Text('Chụp ảnh', style: t(15, w: FontWeight.w800)),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Nút chọn từ thư viện
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: OutlinedButton.icon(
+                      onPressed: _pickFromGallery,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: BorderSide(
+                          color: Colors.white.withValues(alpha: 0.3),
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                    ],
+                      icon: const Icon(Icons.photo_library_rounded, size: 22),
+                      label: Text(
+                        'Chọn từ thư viện',
+                        style: t(15, w: FontWeight.w700, color: Colors.white),
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ],
+
+                  // Lỗi (nếu có)
+                  if (_error != null) ...[
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: C.coral.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: C.coral.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.error_outline_rounded,
+                            color: C.coral,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              _error!,
+                              style: t(12, w: FontWeight.w600, color: C.coral),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -846,6 +973,12 @@ class _CameraScreenState extends State<CameraScreen> {
     children: [
       // Ảnh preview
       Positioned.fill(child: Image.file(_pickedImage!, fit: BoxFit.contain)),
+      Positioned(
+        top: 16,
+        left: 16,
+        right: 16,
+        child: _modelSelector(compact: true),
+      ),
       // Gradient overlay phía dưới
       Positioned(
         left: 0,
@@ -1237,10 +1370,9 @@ class BottomCutoutNav extends StatelessWidget {
               }),
             ),
           ),
-          // camera bubble (fixed at center)
-          Positioned(
-            top: 0,
-            left: 375 / 2 - 29,
+          // camera bubble centered against the actual responsive width
+          Align(
+            alignment: Alignment.topCenter,
             child: Container(
               width: 58,
               height: 58,
@@ -1283,7 +1415,7 @@ class BottomCutoutNav extends StatelessWidget {
 class _NavBarPainter extends CustomPainter {
   @override
   void paint(Canvas c, Size s) {
-    const notchCx = 375 / 2;
+    final notchCx = s.width / 2;
     const depth = 38.0, spread = 44.0;
     final barTop = s.height - 68;
     final path = Path()
@@ -2862,7 +2994,7 @@ class AchievementsScreen extends StatelessWidget {
   Widget build(BuildContext ctx) {
     final unlocked = _all.where((a) => a.$6).length;
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 68, 16, 120),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
       children: [
         Text('Thành tích 🏆', style: t(22, w: FontWeight.w900)),
         const SizedBox(height: 4),

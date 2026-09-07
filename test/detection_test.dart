@@ -10,6 +10,10 @@ void main() {
     final json = <String, dynamic>{
       'image_width': 512,
       'image_height': 512,
+      'model_id': 'e4',
+      'model_label': 'YOLO26-S — E4 (nhóm đề xuất)',
+      'latency_ms': 16.7,
+      'device': 'cuda:0',
       'detections': [
         {
           'class_id': 11,
@@ -24,6 +28,10 @@ void main() {
 
     expect(result.imageWidth, 512);
     expect(result.imageHeight, 512);
+    expect(result.modelId, 'e4');
+    expect(result.modelLabel, 'YOLO26-S — E4 (nhóm đề xuất)');
+    expect(result.latencyMs, closeTo(16.7, 0.001));
+    expect(result.device, 'cuda:0');
     expect(result.detections.length, 1);
 
     final d = result.detections.first;
@@ -82,6 +90,23 @@ void main() {
     expect(result.topDetection, isNull);
   });
 
+  test('Parse Map<Object?, Object?> trả từ Android MethodChannel', () {
+    final platformDetection = <Object?, Object?>{
+      'class_id': 5,
+      'label': 'cup',
+      'confidence': 0.91,
+      'box': <Object?>[10.0, 20.0, 110.0, 220.0],
+    };
+    final result = DetectionResult.fromJson({
+      'image_width': 512,
+      'image_height': 512,
+      'detections': <Object?>[platformDetection],
+    });
+
+    expect(result.detections.single.label, 'cup');
+    expect(result.detections.single.box, [10.0, 20.0, 110.0, 220.0]);
+  });
+
   // ─── 4. Nhãn không có trong map tiếng Việt ──────────────────────────────────
   test('Nhãn lạ không có trong vocabularyVi trả "Chưa có bản dịch"', () {
     // Nhãn có trong map
@@ -89,6 +114,7 @@ void main() {
     expect(vietnameseName('ruler'), 'Thước kẻ');
     expect(vietnameseName('backpack'), 'Ba lô');
     expect(vietnameseName('scissors'), 'Kéo');
+    expect(vietnameseName('glue stick'), 'Hồ khô');
 
     // Nhãn lạ — fallback
     expect(vietnameseName('unknown_object'), 'Chưa có bản dịch');

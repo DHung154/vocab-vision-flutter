@@ -2,11 +2,11 @@
 // Màn hình kết quả nhận diện — bounding box, Anh–Việt, confidence
 // ─────────────────────────────────────────────────────────────────────────────
 import 'dart:io';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
 import 'app_config.dart';
+import 'box_geometry.dart';
 import 'detection_model.dart';
 import 'main.dart' show C, t;
 
@@ -80,6 +80,8 @@ class ResultScreen extends StatelessWidget {
             textAlign: TextAlign.center,
             style: t(13, w: FontWeight.w500, color: C.muted),
           ),
+          const SizedBox(height: 18),
+          _runtimeCard(),
           const SizedBox(height: 24),
           _actionButton(context, 'Chụp lại', Icons.camera_alt_rounded),
         ],
@@ -104,6 +106,8 @@ class ResultScreen extends StatelessWidget {
             imageWidth: result.imageWidth,
             imageHeight: result.imageHeight,
           ),
+          const SizedBox(height: 12),
+          _runtimeCard(),
           const SizedBox(height: 20),
 
           // Thẻ kết quả chính
@@ -128,6 +132,46 @@ class ResultScreen extends StatelessWidget {
 
           const SizedBox(height: 20),
           _actionButton(context, 'Chụp vật khác', Icons.camera_alt_rounded),
+        ],
+      ),
+    );
+  }
+
+  Widget _runtimeCard() {
+    final latency = result.latencyMs == null
+        ? 'Chưa có số đo'
+        : '${result.latencyMs!.toStringAsFixed(1)} ms';
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.88),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            result.modelLabel.isEmpty ? 'Mô hình nhận diện' : result.modelLabel,
+            style: t(12.5, w: FontWeight.w800),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Latency thực đo: $latency • thiết bị: ${result.device ?? 'không rõ'}',
+            style: t(11.5, w: FontWeight.w600, color: C.muted),
+          ),
+          if (result.latencyScope != null) ...[
+            const SizedBox(height: 3),
+            Text(
+              'Phạm vi đo: ${result.latencyScope}',
+              style: t(11.5, w: FontWeight.w600, color: C.muted),
+            ),
+          ],
+          const SizedBox(height: 3),
+          Text(
+            'Confidence của box không phải AP/mAP hay độ chính xác của mô hình.',
+            style: t(11.5, w: FontWeight.w600, color: C.muted),
+          ),
         ],
       ),
     );
@@ -375,17 +419,14 @@ class _BoundingBoxPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (imageWidth <= 0 || imageHeight <= 0) return;
 
-    final scaleX = size.width / imageWidth;
-    final scaleY = size.height / imageHeight;
-
     for (int i = 0; i < detections.length; i++) {
       final d = detections[i];
       final color = _colorForIndex(i);
-      final rect = Rect.fromLTRB(
-        d.box[0] * scaleX,
-        d.box[1] * scaleY,
-        d.box[2] * scaleX,
-        d.box[3] * scaleY,
+      final rect = scaleBoxToCanvas(
+        box: d.box,
+        imageWidth: imageWidth,
+        imageHeight: imageHeight,
+        canvasSize: size,
       );
 
       // Fill bán trong suốt
@@ -426,12 +467,7 @@ class _BoundingBoxPainter extends CustomPainter {
         ..layout();
 
       // Nền nhãn
-      final labelRect = Rect.fromLTWH(
-        rect.left,
-        math.max(rect.top - tp.height - 6, 0),
-        tp.width + 10,
-        tp.height + 6,
-      );
+      final labelRect = labelRectForBox(rect, tp.size, size);
       canvas.drawRRect(
         RRect.fromRectAndRadius(labelRect, const Radius.circular(4)),
         Paint()..color = color.withValues(alpha: 0.85),
