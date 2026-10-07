@@ -10,16 +10,32 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
+import android.media.MediaPlayer
+import android.media.AudioAttributes
+import android.media.SoundPool
+import android.os.Handler
+import android.os.Looper
+import android.speech.tts.UtteranceProgressListener
 import android.os.Build
 import android.os.SystemClock
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
 import android.speech.tts.TextToSpeech
+import android.util.Base64
 import androidx.exifinterface.media.ExifInterface
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.FlutterInjector
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import java.io.File
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.security.KeyStore
+import java.security.MessageDigest
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.GCMParameterSpec
 import java.util.Locale
 import java.util.concurrent.Executors
 import kotlin.math.min
@@ -27,6 +43,44 @@ import kotlin.math.roundToInt
 
 class MainActivity : FlutterActivity(), TextToSpeech.OnInitListener {
     private var textToSpeech: TextToSpeech? = null
+    private var ttsReady = false
+    private var gameMusic: MediaPlayer? = null
+    private var gameMusicGain = 0.12f
+    private val audioHandler = Handler(Looper.getMainLooper())
+    private var spokenId: String? = null
+    private var speechSerial = 0L
+    private var audioPlaying = false
+    private val gameSounds = SoundPool.Builder().setMaxStreams(4).setAudioAttributes(
+        AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
+    ).build()
+    private val soundIds = mutableMapOf<String, Int>()
+    private val loadedSounds = mutableSetOf<Int>()
+    private val effectStreams = mutableListOf<Int>()
+
+    private fun updateGameVolume() {
+        val volume = if (spokenId == null) gameMusicGain else 0.025f
+        gameMusic?.setVolume(volume, volume)
+        val fxVolume = if (spokenId == null) 0.24f else 0.06f
+        effectStreams.forEach { gameSounds.setVolume(it, fxVolume, fxVolume) }
+    }
+
+    private fun playGameEffect(id: Int) {
+        if (!audioPlaying) return
+        val volume = if (spokenId == null) 0.24f else 0.06f
+        val stream = gameSounds.play(id, volume, volume, 1, 0, 1f)
+        if (stream != 0) {
+            effectStreams.add(stream)
+            if (effectStreams.size > 4) effectStreams.removeAt(0)
+        }
+    }
+
+    private fun stopGameAudio() {
+        audioPlaying = false
+        gameMusic?.release(); gameMusic = null
+        effectStreams.forEach { gameSounds.stop(it) }
+        effectStreams.clear()
+    }
     private val inferenceExecutor = Executors.newSingleThreadExecutor()
     private val ortEnvironment: OrtEnvironment by lazy { OrtEnvironment.getEnvironment() }
 
@@ -37,25 +91,186 @@ class MainActivity : FlutterActivity(), TextToSpeech.OnInitListener {
         super.configureFlutterEngine(flutterEngine)
         textToSpeech = TextToSpeech(this, this)
         configureTextToSpeech(flutterEngine)
+        configureGameAudio(flutterEngine)
+        configureSecureStorage(flutterEngine)
         configureOfflineE4(flutterEngine)
+    }
+
+    private fun configureGameAudio(flutterEngine: FlutterEngine) {
+        gameSounds.setOnLoadCompleteListener { _, id, status ->
+            audioHandler.post {
+                if (status == 0) { loadedSounds.add(id); playGameEffect(id) }
+            }
+        }
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "vocab_vision/game_audio")
+            .setMethodCallHandler { call, result ->
+                if (call.method == "device") {
+                    result.success(mapOf("model" to "${Build.MANUFACTURER} ${Build.MODEL}", "sdk" to Build.VERSION.SDK_INT))
+                    return@setMethodCallHandler
+                }
+                if (call.method == "stop") {
+                    stopGameAudio()
+                    result.success(null)
+                    return@setMethodCallHandler
+                }
+                if (call.method != "music" && call.method != "effect") {
+                    result.notImplemented()
+                    return@setMethodCallHandler
+                }
+                val asset = call.argument<String>("asset")
+                if (asset == null || !asset.startsWith("assets/games/space_words/") || asset.contains("..")) {
+                    result.error("INVALID_AUDIO", "File âm thanh game không hợp lệ.", null)
+                    return@setMethodCallHandler
+                }
+                audioPlaying = true
+                if (call.method == "effect") {
+                    try {
+                        val existing = soundIds[asset]
+                        if (existing != null) {
+                            if (loadedSounds.contains(existing)) playGameEffect(existing)
+                        } else {
+                            val lookup = FlutterInjector.instance().flutterLoader().getLookupKeyForAsset(asset)
+                            assets.openFd(lookup).use { fd -> soundIds[asset] = gameSounds.load(fd, 1) }
+                        }
+                        result.success(null)
+                    } catch (error: Exception) {
+                        result.error("GAME_AUDIO_ERROR", error.message, null)
+                    }
+                    return@setMethodCallHandler
+                }
+                val player = MediaPlayer()
+                try {
+                    val lookup = FlutterInjector.instance().flutterLoader().getLookupKeyForAsset(asset)
+                    assets.openFd(lookup).use { fd -> player.setDataSource(fd.fileDescriptor, fd.startOffset, fd.length) }
+                    player.isLooping = true
+                    gameMusicGain = if (asset.endsWith("/music_boss.mp3")) 0.18f else 0.12f
+                    gameMusic?.release(); gameMusic = player
+                    player.setOnPreparedListener { ready ->
+                        if (gameMusic === ready && audioPlaying) { updateGameVolume(); ready.start() }
+                    }
+                    player.setOnErrorListener { failed, _, _ ->
+                        if (gameMusic === failed) gameMusic = null
+                        failed.release()
+                        true
+                    }
+                    player.prepareAsync()
+                    result.success(null)
+                } catch (error: Exception) {
+                    if (gameMusic === player) gameMusic = null
+                    player.release()
+                    result.error("GAME_AUDIO_ERROR", error.message, null)
+                }
+            }
+    }
+
+    private fun configureSecureStorage(flutterEngine: FlutterEngine) {
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "vocab_vision/secure_storage")
+            .setMethodCallHandler { call, result ->
+                val key = call.argument<String>("key")
+                if (key.isNullOrBlank()) {
+                    result.error("INVALID_KEY", "Khóa lưu trữ không hợp lệ.", null)
+                    return@setMethodCallHandler
+                }
+                try {
+                    when (call.method) {
+                        "read" -> result.success(readSecureValue(key))
+                        "write" -> {
+                            val value = call.argument<String>("value")
+                            if (value == null) {
+                                result.error("INVALID_VALUE", "Giá trị lưu trữ bị thiếu.", null)
+                            } else {
+                                writeSecureValue(key, value)
+                                result.success(null)
+                            }
+                        }
+                        "delete" -> {
+                            getSharedPreferences(SECURE_PREFS, MODE_PRIVATE)
+                                .edit()
+                                .remove(key)
+                                .apply()
+                            result.success(null)
+                        }
+                        else -> result.notImplemented()
+                    }
+                } catch (error: Exception) {
+                    result.error(
+                        "SECURE_STORAGE_ERROR",
+                        error.message ?: "Không thể truy cập Android Keystore.",
+                        null,
+                    )
+                }
+            }
+    }
+
+    private fun readSecureValue(key: String): String? {
+        val encoded = getSharedPreferences(SECURE_PREFS, MODE_PRIVATE).getString(key, null)
+            ?: return null
+        val payload = Base64.decode(encoded, Base64.NO_WRAP)
+        require(payload.size > GCM_NONCE_BYTES) { "Dữ liệu secure storage không hợp lệ." }
+        val nonce = payload.copyOfRange(0, GCM_NONCE_BYTES)
+        val ciphertext = payload.copyOfRange(GCM_NONCE_BYTES, payload.size)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.DECRYPT_MODE, secureKey(), GCMParameterSpec(GCM_TAG_BITS, nonce))
+        return String(cipher.doFinal(ciphertext), Charsets.UTF_8)
+    }
+
+    private fun writeSecureValue(key: String, value: String) {
+        val nonce = ByteArray(GCM_NONCE_BYTES).also { java.security.SecureRandom().nextBytes(it) }
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, secureKey(), GCMParameterSpec(GCM_TAG_BITS, nonce))
+        val ciphertext = cipher.doFinal(value.toByteArray(Charsets.UTF_8))
+        val payload = nonce + ciphertext
+        getSharedPreferences(SECURE_PREFS, MODE_PRIVATE)
+            .edit()
+            .putString(key, Base64.encodeToString(payload, Base64.NO_WRAP))
+            .apply()
+    }
+
+    private fun secureKey(): SecretKey {
+        check(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            "Android Keystore AES-GCM cần Android 6.0 trở lên."
+        }
+        val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE).apply { load(null) }
+        val existing = keyStore.getKey(SECURE_KEY_ALIAS, null) as? SecretKey
+        if (existing != null) return existing
+        val generator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEYSTORE)
+        generator.init(
+            KeyGenParameterSpec.Builder(
+                SECURE_KEY_ALIAS,
+                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT,
+            )
+                .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                .setUserAuthenticationRequired(false)
+                .build(),
+        )
+        return generator.generateKey()
     }
 
     private fun configureTextToSpeech(flutterEngine: FlutterEngine) {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "vocab_vision/tts")
             .setMethodCallHandler { call, result ->
                 when (call.method) {
+                    "available" -> result.success(ttsReady && textToSpeech?.voice?.isNetworkConnectionRequired == false)
                     "speak" -> {
                         val text = call.argument<String>("text")
-                        if (text.isNullOrBlank()) {
+                        if (!ttsReady) {
+                            result.error("TTS_NOT_READY", "Giọng tiếng Anh chưa sẵn sàng trên thiết bị.", null)
+                        } else if (text.isNullOrBlank()) {
                             result.error("EMPTY_TEXT", "Không có từ để phát âm", null)
                         } else {
+                            val utterance = "vocab-word-${++speechSerial}"
+                            spokenId = utterance
+                            updateGameVolume()
                             val status = textToSpeech?.speak(
                                 text,
                                 TextToSpeech.QUEUE_FLUSH,
                                 null,
-                                "vocab-word",
+                                utterance,
                             )
                             if (status == TextToSpeech.ERROR) {
+                                spokenId = null
+                                updateGameVolume()
                                 result.error("TTS_ERROR", "Không thể phát âm", null)
                             } else {
                                 result.success(null)
@@ -65,6 +280,8 @@ class MainActivity : FlutterActivity(), TextToSpeech.OnInitListener {
 
                     "stop" -> {
                         textToSpeech?.stop()
+                        spokenId = null
+                        updateGameVolume()
                         result.success(null)
                     }
 
@@ -118,6 +335,9 @@ class MainActivity : FlutterActivity(), TextToSpeech.OnInitListener {
                 modelFile.outputStream().use { output -> input.copyTo(output) }
             }
         }
+        require(sha256(modelFile) == E4_ONNX_SHA256) {
+            "Hash model E4 không khớp manifest; không chạy model không xác minh."
+        }
 
         val session = OrtSession.SessionOptions().use { options ->
             options.setIntraOpNumThreads(4)
@@ -137,6 +357,21 @@ class MainActivity : FlutterActivity(), TextToSpeech.OnInitListener {
         }
 
         return session.also { e4Session = it }
+    }
+
+    private fun sha256(file: File): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        file.inputStream().use { input ->
+            val buffer = ByteArray(8192)
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        return digest.digest().joinToString("") { byte ->
+            "%02x".format(byte.toInt() and 0xff)
+        }
     }
 
     private fun predictOffline(imagePath: String, confidenceThreshold: Float): Map<String, Any> {
@@ -292,12 +527,28 @@ class MainActivity : FlutterActivity(), TextToSpeech.OnInitListener {
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            textToSpeech?.language = Locale.US
+            val language = textToSpeech?.setLanguage(Locale.US)
+            ttsReady = language != null && language >= TextToSpeech.LANG_AVAILABLE
             textToSpeech?.setSpeechRate(0.8f)
+            textToSpeech?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onStart(id: String?) { audioHandler.post { updateGameVolume() } }
+                private fun finish(id: String?) {
+                    audioHandler.post {
+                        if (spokenId == id) { spokenId = null; updateGameVolume() }
+                    }
+                }
+                override fun onDone(id: String?) = finish(id)
+                @Deprecated("Deprecated in Java")
+                override fun onError(id: String?) = finish(id)
+                override fun onError(id: String?, errorCode: Int) = finish(id)
+                override fun onStop(id: String?, interrupted: Boolean) = finish(id)
+            })
         }
     }
 
     override fun onDestroy() {
+        stopGameAudio()
+        gameSounds.release()
         inferenceExecutor.shutdownNow()
         e4Session?.close()
         e4Session = null
@@ -309,6 +560,14 @@ class MainActivity : FlutterActivity(), TextToSpeech.OnInitListener {
 
     companion object {
         private const val INPUT_SIZE = 512
+        private const val SECURE_PREFS = "vocab_vision_secure"
+        private const val SECURE_KEY_ALIAS = "vocab_vision_auth_v1"
+        private const val ANDROID_KEYSTORE = "AndroidKeyStore"
+        private const val TRANSFORMATION = "AES/GCM/NoPadding"
+        private const val GCM_NONCE_BYTES = 12
+        private const val GCM_TAG_BITS = 128
+        private const val E4_ONNX_SHA256 =
+            "0256115f2e4339527b665c0fd22ed5c4961aac2539b7889bb9ac297588a61e66"
         private val CLASS_NAMES = arrayOf(
             "abacus",
             "backpack",

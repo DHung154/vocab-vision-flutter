@@ -1,8 +1,11 @@
 // Tests cho detection model và vocabulary map.
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:giao_dien/app_config.dart';
 import 'package:giao_dien/detection_model.dart';
+import 'package:giao_dien/inference_service.dart';
 
 void main() {
   // ─── 1. Parse JSON 1 detection ──────────────────────────────────────────────
@@ -107,6 +110,26 @@ void main() {
     expect(result.detections.single.box, [10.0, 20.0, 110.0, 220.0]);
   });
 
+  test('Chuẩn hóa cả root map động từ Android MethodChannel', () {
+    final platformResponse = <Object?, Object?>{
+      'image_width': 640,
+      'image_height': 480,
+      'detections': <Object?>[
+        <Object?, Object?>{
+          'class_id': 4,
+          'label': 'cup',
+          'confidence': 0.8,
+          'box': <Object?>[1.0, 2.0, 30.0, 40.0],
+        },
+      ],
+    };
+
+    final result = DetectionResult.fromJson(platformResponse);
+
+    expect(result.imageWidth, 640);
+    expect(result.detections.single.classId, 4);
+  });
+
   // ─── 4. Nhãn không có trong map tiếng Việt ──────────────────────────────────
   test('Nhãn lạ không có trong vocabularyVi trả "Chưa có bản dịch"', () {
     // Nhãn có trong map
@@ -139,6 +162,105 @@ void main() {
         'box': [1.0, 2.0],
       }),
       throwsA(isA<FormatException>()),
+    );
+
+    // Không cho phép class ID ngoài đúng 15 lớp E4.
+    expect(
+      () => Detection.fromJson({
+        'class_id': 15,
+        'label': 'unknown',
+        'confidence': 0.9,
+        'box': [1.0, 2.0, 10.0, 20.0],
+      }),
+      throwsA(isA<FormatException>()),
+    );
+  });
+
+  test('Từ chối kích thước ảnh không hợp lệ trước khi vẽ box', () {
+    expect(
+      () => DetectionResult.fromJson({
+        'image_width': 0,
+        'image_height': 512,
+        'detections': <dynamic>[],
+      }),
+      throwsA(isA<FormatException>()),
+    );
+    expect(
+      () => DetectionResult.fromJson({
+        'image_width': 512,
+        'image_height': -1,
+        'detections': <dynamic>[],
+      }),
+      throwsA(isA<FormatException>()),
+    );
+  });
+
+  test('Từ chối box đảo chiều hoặc có diện tích bằng 0', () {
+    expect(
+      () => Detection.fromJson({
+        'class_id': 1,
+        'label': 'backpack',
+        'confidence': 0.9,
+        'box': [100.0, 20.0, 10.0, 200.0],
+      }),
+      throwsA(isA<FormatException>()),
+    );
+    expect(
+      () => Detection.fromJson({
+        'class_id': 1,
+        'label': 'backpack',
+        'confidence': 0.9,
+        'box': [10.0, 20.0, 10.0, 200.0],
+      }),
+      throwsA(isA<FormatException>()),
+    );
+  });
+
+  test(
+    'E4 offline rejects an unsupported model before platform inference',
+    () async {
+      await expectLater(
+        const InferenceService().predict(
+          File('missing-image.jpg'),
+          modelId: 'another-model',
+        ),
+        throwsA(
+          isA<InferenceException>().having(
+            (error) => error.message,
+            'message',
+            contains('chỉ chứa checkpoint E4'),
+          ),
+        ),
+      );
+    },
+  );
+
+  test('E4 offline validates confidence before opening the image', () async {
+    await expectLater(
+      const InferenceService().predict(
+        File('missing-image.jpg'),
+        confidence: 0,
+      ),
+      throwsA(
+        isA<InferenceException>().having(
+          (error) => error.message,
+          'message',
+          contains('confidence'),
+        ),
+      ),
+    );
+  });
+
+  test('E4 offline reports a missing image clearly', () async {
+    await expectLater(
+      const InferenceService().predict(File('missing-image.jpg')),
+      throwsA(
+        isA<InferenceException>().having(
+          (error) => error.message,
+          'message',
+          contains('Không tìm thấy ảnh'),
+        ),
+      ),
     );
   });
 }

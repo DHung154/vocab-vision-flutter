@@ -1,66 +1,433 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// Vietnamese kids vocabulary app — Flutter port
-//
-// pubspec.yaml dependencies:
-//   flutter: sdk: flutter
-//
-// Copy this file to lib/main.dart and run.
-// ─────────────────────────────────────────────────────────────────────────────
+// Vocab Vision product bootstrap and legacy compatibility screens.
+// ProductShell is the active app entrypoint; the legacy screens below remain
+// available to avoid breaking existing demo routes while features migrate.
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'app_config.dart';
+import 'catalog_data.dart';
+import 'core/state/app_state.dart';
+import 'core/learning/vocabulary_collection.dart';
+import 'core/learning/review_scheduler.dart';
+import 'core/network/catalog_api_client.dart';
+import 'core/storage/catalog_media_cache.dart';
+import 'core/text/search_normalizer.dart';
+import 'core/theme/app_theme.dart';
 import 'inference_service.dart';
 import 'learning_screen.dart';
+import 'features/space_words/space_words_page.dart';
+import 'mascot/may_mascot.dart';
+import 'mascot/may_corner_overlay.dart';
 import 'research_results_screen.dart';
 import 'result_screen.dart';
 import 'vocabulary_data.dart';
 
-void main() => runApp(const VocabApp());
+part 'app/product_shell.dart';
+part 'features/recognition/camera_screen.dart';
+
+void main() {
+  // Initialise plugin channels before AppState opens SQLite/SharedPreferences
+  // on a cold Android launch. Integration tests initialise their own binding,
+  // but a real APK must do this before the first asynchronous store call.
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const VocabApp());
+}
 
 // ─── Design tokens ───────────────────────────────────────────────────────────
 class C {
-  static const navy = Color(0xFF1A1A2E);
-  static const mint = Color(0xFF66FFCC);
-  static const mintLight = Color(0xFFAAFDE2);
-  static const mintPale = Color(0xFFD6FFF4);
-  static const indigo = Color(0xFF5B56F0);
-  static const indigoMid = Color(0xFF8E8BFF);
-  static const indigoSoft = Color(0xFFECEBFF);
-  static const coral = Color(0xFFFF6B6B);
-  static const coralSoft = Color(0xFFFFEEEE);
-  static const amber = Color(0xFFFFBE38);
-  static const amberSoft = Color(0xFFFFF7E0);
-  static const orange = Color(0xFFFF9550);
-  static const orangeSoft = Color(0xFFFFF2E8);
-  static const lavender = Color(0xFFAB9EFF);
-  static const purple = Color(0xFF7A4FBF);
-  static const muted = Color(0xFF7C7C8E);
+  static const navy = AppColors.ink; // text #FFFFFF
+  static const mint = AppColors.blue; // #2A7BE4
+  static const mintLight = AppColors.blueTint; // #1B3A5C
+  static const mintPale = AppColors.surfaceAlt; // #223444
+  static const mintDark = AppColors.blueEdge; // #1B57AE
+  static const indigo = AppColors.blueAccentText; // #6FB3FF
+  static const indigoMid = AppColors.cardBorder; // #2C3E4C
+  static const indigoSoft = AppColors.surface; // #1B2A35
+  static const coral = AppColors.coral; // #FF5A5F
+  static const coralSoft = AppColors.surfaceAlt; // #223444
+  static const amber = AppColors.gold; // #FFC83D
+  static const amberSoft = AppColors.surfaceAlt; // #223444
+  static const orange = AppColors.orange; // #FF9A3D
+  static const orangeSoft = AppColors.surfaceAlt; // #223444
+  static const lavender = AppColors.surfaceAlt; // #223444
+  static const purple = AppColors.purple; // #8A57E8
+  static const muted = AppColors.secondaryText; // #A9BAC6
 }
 
 TextStyle t(
   double size, {
   FontWeight w = FontWeight.w700,
-  Color color = C.navy,
+  Color? color,
   double? h,
 }) => TextStyle(fontSize: size, fontWeight: w, color: color, height: h);
 
 // ─── App root ────────────────────────────────────────────────────────────────
-class VocabApp extends StatelessWidget {
+class VocabApp extends StatefulWidget {
   const VocabApp({super.key});
+
   @override
-  Widget build(BuildContext c) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: ThemeData(scaffoldBackgroundColor: const Color(0xFFDDFCF5)),
-    home: const Shell(),
+  State<VocabApp> createState() => _VocabAppState();
+}
+
+class _VocabAppState extends State<VocabApp> with WidgetsBindingObserver {
+  late final AppState appState;
+  late final VoidCallback _rootStateListener;
+  var _rootReady = false;
+  var _rootOnboardingComplete = false;
+  var _rootThemeColor = 0;
+  var _rootDarkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    appState = AppState();
+    _captureRootState();
+    _rootStateListener = _handleRootStateChanged;
+    appState.addListener(_rootStateListener);
+    unawaited(appState.load());
+  }
+
+  void _captureRootState() {
+    _rootReady = appState.ready;
+    _rootOnboardingComplete = appState.onboardingComplete;
+    _rootThemeColor = appState.themeColor;
+    _rootDarkMode = appState.darkMode;
+  }
+
+  void _handleRootStateChanged() {
+    final changed =
+        _rootReady != appState.ready ||
+        _rootOnboardingComplete != appState.onboardingComplete ||
+        _rootThemeColor != appState.themeColor ||
+        _rootDarkMode != appState.darkMode;
+    if (!changed) return;
+    _captureRootState();
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    appState.removeListener(_rootStateListener);
+    appState.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // SQLite writes are transactional and happen at the action boundary. If
+    // Android reported a transient open/write failure while the app was in
+    // the background, retry as soon as the process is foregrounded again.
+    // This makes the recovery path useful without claiming that a killed
+    // process can run code after it has been terminated.
+    if (state == AppLifecycleState.resumed &&
+        appState.persistenceError != null) {
+      unawaited(appState.retryPersistence());
+    }
+  }
+
+  @override
+  Widget build(BuildContext c) {
+    final seedColor = switch (_rootThemeColor) {
+      1 => C.indigo,
+      2 => C.coral,
+      3 => C.amber,
+      4 => C.lavender,
+      _ => C.mint,
+    };
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: buildVocabTheme(
+        brightness: Brightness.light,
+        seedColor: seedColor,
+      ),
+      darkTheme: buildVocabTheme(
+        brightness: Brightness.dark,
+        seedColor: seedColor,
+      ),
+      themeMode: _rootDarkMode ? ThemeMode.dark : ThemeMode.light,
+      // Keep MaterialApp/Navigator and the product shell stable for routine
+      // progress, draft and sync notifications. Individual pages subscribe
+      // to AppState only where they need fresh data.
+      home: Platform.isAndroid && !_rootReady
+          ? const _BootScreen()
+          : Platform.isAndroid && !_rootOnboardingComplete
+          ? OnboardingScreen(appState: appState)
+          : ProductShell(appState: appState),
+    );
+  }
+}
+
+class _BootScreen extends StatelessWidget {
+  const _BootScreen();
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    backgroundColor: context.vocabColors.canvas,
+    body: Center(
+      child: SizedBox(
+        width: 32,
+        height: 32,
+        child: CircularProgressIndicator(
+          strokeWidth: 3,
+          color: context.vocabColors.accentDark,
+        ),
+      ),
+    ),
+  );
+}
+
+/// First-run setup stays deliberately short: it establishes only the values
+/// needed to personalize Home. Camera and notification permissions are asked
+/// by the feature that needs them, never during onboarding.
+class OnboardingScreen extends StatefulWidget {
+  final AppState appState;
+
+  const OnboardingScreen({super.key, required this.appState});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final _pages = PageController();
+  final _nameController = TextEditingController();
+  int _page = 0;
+  int _goal = 10;
+  bool _saving = false;
+
+  @override
+  void dispose() {
+    _pages.dispose();
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _finish() async {
+    if (_saving) return;
+    setState(() => _saving = true);
+    final name = _nameController.text.trim();
+    if (name.isNotEmpty) await widget.appState.setProfileName(name);
+    await widget.appState.setDailyGoal(_goal);
+    await widget.appState.completeOnboarding();
+  }
+
+  void _next() {
+    if (_page == 2) {
+      unawaited(_finish());
+      return;
+    }
+    setState(() => _page++);
+    unawaited(
+      _pages.animateToPage(
+        _page,
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutCubic,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    backgroundColor: context.vocabColors.canvas,
+    body: SafeArea(
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: _saving ? null : () => unawaited(_finish()),
+              child: const Text('Bỏ qua'),
+            ),
+          ),
+          Expanded(
+            child: PageView(
+              controller: _pages,
+              physics: const NeverScrollableScrollPhysics(),
+              onPageChanged: (value) => setState(() => _page = value),
+              children: [
+                const _OnboardingSlide(
+                  icon: Icons.auto_awesome_outlined,
+                  title: 'Học vừa đủ, nhớ lâu hơn',
+                  body:
+                      'Vocab Vision chia bài học thành những phiên ngắn, có ôn lại đúng lúc và không làm rối màn hình bằng đồ trang trí.',
+                ),
+                _OnboardingProfileSlide(
+                  controller: _nameController,
+                  goal: _goal,
+                  onGoalChanged: (value) => setState(() => _goal = value),
+                ),
+                const _OnboardingSlide(
+                  icon: Icons.offline_bolt_outlined,
+                  title: 'Nhận diện vẫn chạy offline',
+                  body:
+                      'E4 được đóng gói trên thiết bị. Bạn có thể học và nhận diện ảnh không cần Wi-Fi; mạng chỉ dùng cho nội dung mới và đồng bộ tùy chọn.',
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var index = 0; index < 3; index++)
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 180),
+                        width: index == _page ? 24 : 8,
+                        height: 8,
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        decoration: BoxDecoration(
+                          color: index == _page
+                              ? context.vocabColors.accentDark
+                              : context.vocabColors.accentSoft,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 18),
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: FilledButton(
+                    onPressed: _saving ? null : _next,
+                    child: Text(_page == 2 ? 'Bắt đầu học' : 'Tiếp theo'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+class _OnboardingSlide extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String body;
+
+  const _OnboardingSlide({
+    required this.icon,
+    required this.title,
+    required this.body,
+  });
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.fromLTRB(32, 28, 32, 16),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 104,
+          height: 104,
+          decoration: BoxDecoration(
+            color: context.vocabColors.accentSoft,
+            borderRadius: BorderRadius.circular(32),
+          ),
+          child: Icon(icon, size: 52, color: context.vocabColors.accentDark),
+        ),
+        const SizedBox(height: 28),
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: t(26, w: FontWeight.w900),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          body,
+          textAlign: TextAlign.center,
+          style: t(
+            16,
+            w: FontWeight.w500,
+            color: context.vocabColors.textSecondary,
+            h: 1.5,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+class _OnboardingProfileSlide extends StatelessWidget {
+  final TextEditingController controller;
+  final int goal;
+  final ValueChanged<int> onGoalChanged;
+
+  const _OnboardingProfileSlide({
+    required this.controller,
+    required this.goal,
+    required this.onGoalChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) => ListView(
+    padding: const EdgeInsets.fromLTRB(28, 40, 28, 16),
+    children: [
+      Text('Thiết lập mục tiêu', style: t(26, w: FontWeight.w900)),
+      const SizedBox(height: 8),
+      Text(
+        'Chỉ mất vài giây. Bạn có thể đổi lại trong Cài đặt.',
+        style: t(
+          15,
+          w: FontWeight.w500,
+          color: context.vocabColors.textSecondary,
+        ),
+      ),
+      const SizedBox(height: 28),
+      TextField(
+        controller: controller,
+        textInputAction: TextInputAction.done,
+        maxLength: 24,
+        decoration: InputDecoration(
+          labelText: 'Biệt danh (tùy chọn)',
+          prefixIcon: Icon(Icons.person_outline),
+          filled: true,
+          fillColor: context.vocabColors.surface,
+        ),
+      ),
+      const SizedBox(height: 20),
+      Card(
+        elevation: 0,
+        color: context.vocabColors.surface,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('$goal từ mỗi ngày', style: t(16, w: FontWeight.w800)),
+              Slider(
+                value: goal.toDouble(),
+                min: 5,
+                max: 15,
+                divisions: 2,
+                label: '$goal',
+                onChanged: (value) => onGoalChanged(value.round()),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
   );
 }
 
 // ─── Shell (tab state + overlays) ────────────────────────────────────────────
 class Shell extends StatefulWidget {
-  const Shell({super.key});
+  final AppState appState;
+
+  const Shell({super.key, required this.appState});
   @override
   State<Shell> createState() => _ShellState();
 }
@@ -82,18 +449,44 @@ class _ShellState extends State<Shell> {
           onOpenMap: () => setState(() => showMap = true),
           onOpenVocabulary: () => setState(() => activeTab = 1),
           onOpenAchievements: () => setState(() => activeTab = 3),
-          onOpenMode: (mode) => Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (_) => LearningScreen(mode: mode))),
+          onOpenMode: (mode) => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => LearningScreen(
+                mode: mode,
+                direction: widget.appState.direction,
+                difficulty: widget.appState.difficulty,
+                loadDraft: () =>
+                    widget.appState.learningDraft ??
+                    widget.appState.store.learningDraft,
+                saveDraft: widget.appState.saveLearningDraft,
+                clearDraft: widget.appState.clearLearningDraft,
+                onAttempt: (wordId, correct, assisted) =>
+                    widget.appState.recordAttempt(
+                      wordId: wordId,
+                      correct: correct,
+                      assisted: assisted,
+                    ),
+                onCompleted: (summary) => unawaited(
+                  widget.appState.recordSession(
+                    correct: summary.correct,
+                    total: summary.total,
+                    wordLabels: summary.wordLabels,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          appState: widget.appState,
         );
       case 1:
-        return const VocabularyScreen();
+        return VocabularyScreen(appState: widget.appState);
       case 2:
         return const CameraScreen();
       case 3:
-        return const AchievementsScreen();
+        return AchievementsScreen(appState: widget.appState);
       case 4:
         return ProfileScreen(
+          appState: widget.appState,
           onOpenSettings: () => setState(() => showSettings = true),
         );
     }
@@ -149,10 +542,45 @@ class _ShellState extends State<Shell> {
                             if (isCamera) const CameraScreen(),
                             if (showMap)
                               LearningMapScreen(
+                                appState: widget.appState,
                                 onClose: () => setState(() => showMap = false),
+                                onOpenMode: (mode) {
+                                  setState(() => showMap = false);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => LearningScreen(
+                                        mode: mode,
+                                        direction: widget.appState.direction,
+                                        difficulty: widget.appState.difficulty,
+                                        loadDraft: () =>
+                                            widget.appState.learningDraft ??
+                                            widget.appState.store.learningDraft,
+                                        saveDraft:
+                                            widget.appState.saveLearningDraft,
+                                        clearDraft:
+                                            widget.appState.clearLearningDraft,
+                                        onAttempt:
+                                            (wordId, correct, assisted) =>
+                                                widget.appState.recordAttempt(
+                                                  wordId: wordId,
+                                                  correct: correct,
+                                                  assisted: assisted,
+                                                ),
+                                        onCompleted: (summary) => unawaited(
+                                          widget.appState.recordSession(
+                                            correct: summary.correct,
+                                            total: summary.total,
+                                            wordLabels: summary.wordLabels,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             if (showSettings)
                               SettingsScreen(
+                                appState: widget.appState,
                                 onClose: () =>
                                     setState(() => showSettings = false),
                               ),
@@ -214,7 +642,9 @@ class _ShellState extends State<Shell> {
           ),
           alignment: Alignment.center,
           child: Text(
-            'B',
+            widget.appState.profileName.isEmpty
+                ? 'B'
+                : widget.appState.profileName.substring(0, 1).toUpperCase(),
             style: t(20, w: FontWeight.w900, color: Colors.white),
           ),
         ),
@@ -223,9 +653,12 @@ class _ShellState extends State<Shell> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Bo', style: t(18, w: FontWeight.w800)),
               Text(
-                '5 ngày liên tiếp',
+                widget.appState.profileName,
+                style: t(18, w: FontWeight.w800),
+              ),
+              Text(
+                '${widget.appState.streak} ngày liên tiếp',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: t(12, w: FontWeight.w600, color: C.muted),
@@ -252,7 +685,10 @@ class _ShellState extends State<Shell> {
             children: [
               const Text('⭐', style: TextStyle(fontSize: 16)),
               const SizedBox(width: 6),
-              Text('320', style: t(15, w: FontWeight.w800)),
+              Text(
+                '${widget.appState.points}',
+                style: t(15, w: FontWeight.w800),
+              ),
             ],
           ),
         ),
@@ -263,6 +699,7 @@ class _ShellState extends State<Shell> {
 
 // ─── Home screen ─────────────────────────────────────────────────────────────
 class HomeScreen extends StatelessWidget {
+  final AppState appState;
   final VoidCallback onOpenMap;
   final VoidCallback onOpenVocabulary;
   final VoidCallback onOpenAchievements;
@@ -270,6 +707,7 @@ class HomeScreen extends StatelessWidget {
 
   const HomeScreen({
     super.key,
+    required this.appState,
     required this.onOpenMap,
     required this.onOpenVocabulary,
     required this.onOpenAchievements,
@@ -320,26 +758,32 @@ class HomeScreen extends StatelessWidget {
 
   // 4 ô trò chơi (chế độ học)
   static const _modes = [
-    ('🃏', 'Flashcard', 'lật thẻ', [C.orange, C.coral], LearningMode.flashcard),
+    (
+      '🃏',
+      'Flashcard',
+      'lật thẻ',
+      [AppColors.purple, AppColors.purpleEdge],
+      LearningMode.flashcard,
+    ),
     (
       '🧩',
       'Ghép hình',
       'chọn cặp',
-      [C.indigoMid, C.indigo],
+      [AppColors.green, AppColors.greenEdge],
       LearningMode.matching,
     ),
     (
       '✏️',
       'Điền từ',
       'nhập đáp án',
-      [C.coral, Color(0xFFF15A4B)],
+      [AppColors.coral, AppColors.coralEdge],
       LearningMode.fillWord,
     ),
     (
       '🎧',
       'Nghe & chọn',
       'nghe phát âm',
-      [C.mint, Color(0xFF1FB9AA)],
+      [AppColors.orange, AppColors.orangeEdge],
       LearningMode.listening,
     ),
   ];
@@ -473,81 +917,92 @@ class HomeScreen extends StatelessWidget {
     ),
   );
 
-  Widget _progressCard() => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(24),
-      gradient: const LinearGradient(colors: [C.indigo, C.indigoMid]),
-      boxShadow: const [
-        BoxShadow(
-          color: Color(0x475B56F0),
-          offset: Offset(0, 4),
-          blurRadius: 20,
-        ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                'Tiến độ hôm nay',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: t(14, w: FontWeight.w800, color: Colors.white),
+  Widget _progressCard() {
+    final goal = appState.dailyGoal;
+    final completed = appState.todayWords.clamp(0, goal);
+    final ratio = goal == 0 ? 0.0 : completed / goal;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+      decoration: BoxDecoration(
+        color: AppColors.blue,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.blueEdge, width: 2),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.blueEdge,
+            offset: Offset(0, 4),
+            blurRadius: 0,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  'Tiến độ hôm nay',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: t(14, w: FontWeight.w800, color: Colors.white),
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              '7/10 từ',
-              style: t(
-                13,
-                w: FontWeight.w700,
-                color: Colors.white.withValues(alpha: 0.8),
+              const SizedBox(width: 8),
+              Text(
+                '$completed/$goal từ',
+                style: t(
+                  13,
+                  w: FontWeight.w700,
+                  color: Colors.white.withValues(alpha: 0.9),
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            height: 10,
-            color: Colors.white.withValues(alpha: 0.22),
-            child: FractionallySizedBox(
-              widthFactor: 0.7,
-              alignment: Alignment.centerLeft,
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(colors: [C.amber, C.orange]),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              height: 10,
+              color: AppColors.surfaceAlt,
+              child: FractionallySizedBox(
+                widthFactor: ratio,
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  decoration: const BoxDecoration(color: AppColors.gold),
                 ),
               ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 
   Widget _wordsCard() {
-    final words = [
-      vocabularyWords[11],
-      vocabularyWords[9],
-      vocabularyWords[14],
-    ];
+    final words = vocabularyWords
+        .where((word) => !appState.learnedWords.contains(word.apiLabel))
+        .take(3)
+        .toList();
+    if (words.length < 3) {
+      words.addAll(
+        vocabularyWords
+            .where((word) => !words.contains(word))
+            .take(3 - words.length),
+      );
+    }
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.cardBorder, width: 2),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x12000000),
+            color: AppColors.cardEdge,
             offset: Offset(0, 4),
-            blurRadius: 20,
+            blurRadius: 0,
           ),
         ],
       ),
@@ -568,15 +1023,11 @@ class HomeScreen extends StatelessWidget {
                           horizontal: 4,
                         ),
                         decoration: BoxDecoration(
+                          color: AppColors.surfaceAlt,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: C.mint.withValues(alpha: 0.35),
+                            color: AppColors.cardBorder,
                             width: 1.5,
-                          ),
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Color(0xFFF5FFFC), Color(0xFFEAFFF6)],
                           ),
                         ),
                         child: Column(
@@ -606,501 +1057,255 @@ class HomeScreen extends StatelessWidget {
 }
 
 // ─── Vocabulary ──────────────────────────────────────────────────────────────
-class VocabularyScreen extends StatelessWidget {
-  const VocabularyScreen({super.key});
+class VocabularyScreen extends StatefulWidget {
+  final AppState appState;
+
+  const VocabularyScreen({super.key, required this.appState});
 
   @override
-  Widget build(BuildContext context) => ListView(
-    padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-    children: [
-      Text('15 đồ dùng học tập', style: t(22, w: FontWeight.w900)),
-      Text(
-        'Tên tiếng Anh và nghĩa tiếng Việt',
-        style: t(13, w: FontWeight.w600, color: C.muted),
-      ),
-      const SizedBox(height: 14),
-      for (final word in vocabularyWords)
-        Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.76),
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: Colors.white),
-          ),
-          child: Row(
+  State<VocabularyScreen> createState() => _VocabularyScreenState();
+}
+
+class _VocabularyScreenState extends State<VocabularyScreen> {
+  final _searchController = TextEditingController();
+  String _query = '';
+  bool _onlyFavorites = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(() {
+      if (mounted) setState(() => _query = _searchController.text.trim());
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<VocabularyWord> _filteredWords() {
+    final query = _query.toLowerCase();
+    return vocabularyWords.where((word) {
+      final matchesQuery =
+          query.isEmpty ||
+          word.english.toLowerCase().contains(query) ||
+          word.vietnamese.toLowerCase().contains(query);
+      final matchesFavorite =
+          !_onlyFavorites ||
+          widget.appState.favoriteWords.contains(word.apiLabel);
+      return matchesQuery && matchesFavorite;
+    }).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) => AnimatedBuilder(
+    animation: widget.appState,
+    builder: (context, _) {
+      final words = _filteredWords();
+      return ListView(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+        children: [
+          Row(
             children: [
-              Text(word.emoji, style: const TextStyle(fontSize: 28)),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(word.english, style: t(15, w: FontWeight.w800)),
-                  Text(
-                    word.vietnamese,
-                    style: t(12, w: FontWeight.w600, color: C.muted),
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Từ vựng', style: t(22, w: FontWeight.w900)),
+                    Text(
+                      '${vocabularyWords.length} đồ dùng học tập',
+                      style: t(13, w: FontWeight.w600, color: C.muted),
+                    ),
+                    Text(
+                      '${widget.appState.learnedWords.length} từ đã học',
+                      style: t(12, w: FontWeight.w600, color: C.muted),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                tooltip: _onlyFavorites ? 'Hiện tất cả' : 'Chỉ hiện yêu thích',
+                onPressed: () =>
+                    setState(() => _onlyFavorites = !_onlyFavorites),
+                icon: Icon(
+                  _onlyFavorites
+                      ? Icons.star_rounded
+                      : Icons.star_border_rounded,
+                  color: C.amber,
+                ),
               ),
             ],
           ),
-        ),
-    ],
-  );
-}
-
-// ─── Camera fullscreen ───────────────────────────────────────────────────────
-class CameraScreen extends StatefulWidget {
-  const CameraScreen({super.key});
-  @override
-  State<CameraScreen> createState() => _CameraScreenState();
-}
-
-class _CameraScreenState extends State<CameraScreen> {
-  final _picker = ImagePicker();
-  final _inference = const InferenceService();
-
-  File? _pickedImage;
-  bool _isSending = false;
-  String? _error;
-  final String _selectedModelId = defaultDemoModelId;
-
-  // ─── Chụp ảnh bằng camera ─────────────────────────────────────────────────
-  Future<void> _takePhoto() async {
-    try {
-      final xFile = await _picker.pickImage(
-        source: ImageSource.camera,
-        imageQuality: 85,
-      );
-      if (xFile == null) return; // người dùng hủy
-      setState(() {
-        _pickedImage = File(xFile.path);
-        _error = null;
-      });
-    } catch (e) {
-      setState(
-        () => _error = 'Không thể mở camera. Hãy kiểm tra quyền truy cập.',
-      );
-    }
-  }
-
-  // ─── Chọn ảnh từ thư viện ─────────────────────────────────────────────────
-  Future<void> _pickFromGallery() async {
-    try {
-      final xFile = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 85,
-      );
-      if (xFile == null) return; // người dùng hủy
-      setState(() {
-        _pickedImage = File(xFile.path);
-        _error = null;
-      });
-    } catch (e) {
-      setState(
-        () =>
-            _error = 'Không thể mở thư viện ảnh. Hãy kiểm tra quyền truy cập.',
-      );
-    }
-  }
-
-  // ─── Gửi ảnh nhận diện ────────────────────────────────────────────────────
-  Future<void> _sendForInference() async {
-    if (_isSending || _pickedImage == null) return;
-    setState(() {
-      _isSending = true;
-      _error = null;
-    });
-    try {
-      final result = await _inference.predict(
-        _pickedImage!,
-        modelId: _selectedModelId,
-      );
-      if (!mounted) return;
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) =>
-              ResultScreen(imageFile: _pickedImage!, result: result),
-        ),
-      );
-      // Quay lại từ ResultScreen → reset để chụp tiếp
-      if (mounted) setState(() => _pickedImage = null);
-    } on InferenceException catch (e) {
-      if (mounted) setState(() => _error = e.message);
-    } catch (e) {
-      if (mounted) setState(() => _error = 'Lỗi không xác định: $e');
-    } finally {
-      if (mounted) setState(() => _isSending = false);
-    }
-  }
-
-  // ─── Chụp lại ─────────────────────────────────────────────────────────────
-  void _retake() => setState(() {
-    _pickedImage = null;
-    _error = null;
-  });
-
-  Widget _modelSelector({bool compact = false}) => Container(
-    width: double.infinity,
-    padding: EdgeInsets.all(compact ? 10 : 12),
-    decoration: BoxDecoration(
-      color: Colors.white.withValues(alpha: compact ? 0.90 : 0.08),
-      borderRadius: BorderRadius.circular(14),
-      border: Border.all(
-        color: compact
-            ? C.mint.withValues(alpha: 0.55)
-            : Colors.white.withValues(alpha: 0.18),
-      ),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Mô hình nhận diện',
-          style: t(
-            11,
-            w: FontWeight.w700,
-            color: compact ? C.muted : Colors.white60,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Row(
-          children: [
-            Icon(
-              Icons.offline_bolt_rounded,
-              size: 18,
-              color: compact ? C.indigo : C.mint,
-            ),
-            const SizedBox(width: 7),
-            Expanded(
-              child: Text(
-                demoModelOptions.single.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: t(
-                  12,
-                  w: FontWeight.w800,
-                  color: compact ? C.navy : Colors.white,
-                ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _searchController,
+            textInputAction: TextInputAction.search,
+            decoration: InputDecoration(
+              hintText: 'Tìm theo tiếng Anh hoặc tiếng Việt',
+              prefixIcon: const Icon(Icons.search_rounded),
+              suffixIcon: _query.isEmpty
+                  ? null
+                  : IconButton(
+                      tooltip: 'Xóa tìm kiếm',
+                      onPressed: _searchController.clear,
+                      icon: const Icon(Icons.clear_rounded),
+                    ),
+              filled: true,
+              fillColor: Colors.white.withValues(alpha: 0.84),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide.none,
               ),
             ),
-          ],
+          ),
+          const SizedBox(height: 14),
+          if (words.isEmpty)
+            _emptyVocabulary()
+          else
+            for (final word in words) _wordTile(context, word),
+        ],
+      );
+    },
+  );
+
+  Widget _emptyVocabulary() => Container(
+    padding: const EdgeInsets.all(28),
+    decoration: BoxDecoration(
+      color: Colors.white.withValues(alpha: 0.8),
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Column(
+      children: [
+        const Text('🔎', style: TextStyle(fontSize: 40)),
+        const SizedBox(height: 8),
+        Text(
+          _onlyFavorites ? 'Chưa có từ yêu thích' : 'Không tìm thấy từ phù hợp',
+          textAlign: TextAlign.center,
+          style: t(15, w: FontWeight.w800),
         ),
         const SizedBox(height: 4),
         Text(
-          'Chạy trực tiếp trên thiết bị • không cần Wi-Fi',
-          style: t(
-            10.5,
-            w: FontWeight.w600,
-            color: compact ? C.muted : Colors.white60,
-          ),
+          _onlyFavorites
+              ? 'Nhấn ngôi sao trên một thẻ từ để lưu lại.'
+              : 'Thử một từ khóa khác nhé.',
+          textAlign: TextAlign.center,
+          style: t(12, w: FontWeight.w600, color: C.muted),
         ),
-        if (!compact) ...[
-          const SizedBox(height: 5),
-          InkWell(
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const ResearchResultsScreen()),
-            ),
-            child: Text(
-              'Xem kết quả thực nghiệm E4 →',
-              style: t(11.5, w: FontWeight.w700, color: C.mint),
-            ),
-          ),
-        ],
       ],
     ),
   );
 
-  // ─── Build ────────────────────────────────────────────────────────────────
-  @override
-  Widget build(BuildContext ctx) {
+  Widget _wordTile(BuildContext context, VocabularyWord word) {
+    final favorite = widget.appState.favoriteWords.contains(word.apiLabel);
+    final learned = widget.appState.learnedWords.contains(word.apiLabel);
     return Container(
-      color: const Color(0xFF0E0E1C),
-      child: _pickedImage == null ? _buildPicker() : _buildPreview(),
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.82),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () => _showWordDetails(context, word),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          child: Row(
+            children: [
+              Text(word.emoji, style: const TextStyle(fontSize: 30)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            word.english,
+                            style: t(15, w: FontWeight.w800),
+                          ),
+                        ),
+                        if (learned) ...[
+                          const SizedBox(width: 6),
+                          const Icon(
+                            Icons.check_circle_rounded,
+                            size: 16,
+                            color: AppColors.green,
+                          ),
+                        ],
+                      ],
+                    ),
+                    Text(
+                      word.vietnamese,
+                      style: t(12, w: FontWeight.w600, color: C.muted),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                tooltip: favorite ? 'Bỏ yêu thích' : 'Lưu yêu thích',
+                onPressed: () =>
+                    unawaited(widget.appState.toggleFavorite(word.apiLabel)),
+                icon: Icon(
+                  favorite ? Icons.star_rounded : Icons.star_border_rounded,
+                  color: favorite ? C.amber : C.muted,
+                ),
+              ),
+              const Icon(Icons.chevron_right_rounded, color: C.muted),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  // ─── Trạng thái ban đầu: chụp / chọn ảnh ─────────────────────────────────
-  Widget _buildPicker() => Stack(
-    children: [
-      // Nền gradient
-      Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF0E0E1C), Color(0xFF1A1A2E)],
-          ),
-        ),
-      ),
-      Positioned.fill(
-        child: LayoutBuilder(
-          builder: (context, constraints) => SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: math.max(0, constraints.maxHeight - 32),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Icon camera lớn
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: const LinearGradient(
-                        colors: [C.mint, C.mintLight],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: C.mint.withValues(alpha: 0.3),
-                          blurRadius: 28,
-                          spreadRadius: 4,
-                        ),
-                      ],
-                    ),
-                    alignment: Alignment.center,
-                    child: const Icon(
-                      Icons.camera_alt_rounded,
-                      size: 48,
-                      color: C.navy,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Nhận diện đồ dùng học tập',
-                    textAlign: TextAlign.center,
-                    style: t(20, w: FontWeight.w800, color: Colors.white),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Chụp ảnh hoặc chọn ảnh từ thư viện\nđể nhận diện vật thể',
-                    textAlign: TextAlign.center,
-                    style: t(13, w: FontWeight.w500, color: Colors.white54),
-                  ),
-                  const SizedBox(height: 20),
-                  _modelSelector(),
-                  const SizedBox(height: 20),
-
-                  // Nút chụp ảnh
-                  SizedBox(
-                    width: double.infinity,
-                    height: 52,
-                    child: ElevatedButton.icon(
-                      onPressed: _takePhoto,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: C.mint,
-                        foregroundColor: C.navy,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        elevation: 0,
-                      ),
-                      icon: const Icon(Icons.camera_alt_rounded, size: 22),
-                      label: Text('Chụp ảnh', style: t(15, w: FontWeight.w800)),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Nút chọn từ thư viện
-                  SizedBox(
-                    width: double.infinity,
-                    height: 52,
-                    child: OutlinedButton.icon(
-                      onPressed: _pickFromGallery,
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        side: BorderSide(
-                          color: Colors.white.withValues(alpha: 0.3),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      icon: const Icon(Icons.photo_library_rounded, size: 22),
-                      label: Text(
-                        'Chọn từ thư viện',
-                        style: t(15, w: FontWeight.w700, color: Colors.white),
-                      ),
-                    ),
-                  ),
-
-                  // Lỗi (nếu có)
-                  if (_error != null) ...[
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: C.coral.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: C.coral.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.error_outline_rounded,
-                            color: C.coral,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              _error!,
-                              style: t(12, w: FontWeight.w600, color: C.coral),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    ],
-  );
-
-  // ─── Xem trước ảnh đã chụp/chọn ──────────────────────────────────────────
-  Widget _buildPreview() => Stack(
-    children: [
-      // Ảnh preview
-      Positioned.fill(child: Image.file(_pickedImage!, fit: BoxFit.contain)),
-      Positioned(
-        top: 16,
-        left: 16,
-        right: 16,
-        child: _modelSelector(compact: true),
-      ),
-      // Gradient overlay phía dưới
-      Positioned(
-        left: 0,
-        right: 0,
-        bottom: 0,
-        child: Container(
-          height: 220,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.transparent, Color(0xE60E0E1C)],
-            ),
-          ),
-        ),
-      ),
-      // Các nút hành động
-      Positioned(
-        left: 24,
-        right: 24,
-        bottom: 100,
-        child: Column(
-          children: [
-            // Lỗi (nếu có)
-            if (_error != null) ...[
-              Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: C.coral.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: C.coral.withValues(alpha: 0.3)),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.error_outline_rounded,
-                      color: C.coral,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        _error!,
-                        style: t(12, w: FontWeight.w600, color: C.coral),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-
-            // Loading hoặc nút
-            if (_isSending) ...[
-              const CircularProgressIndicator(color: C.mint),
-              const SizedBox(height: 12),
+  void _showWordDetails(BuildContext context, VocabularyWord word) {
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      backgroundColor: AppColors.surface,
+      builder: (sheetContext) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(word.emoji, style: const TextStyle(fontSize: 56)),
+              const SizedBox(height: 8),
+              Text(word.english, style: t(24, w: FontWeight.w900)),
               Text(
-                'Đang nhận diện...',
-                style: t(14, w: FontWeight.w700, color: Colors.white),
+                word.vietnamese,
+                style: t(16, w: FontWeight.w700, color: C.muted),
               ),
-            ] else ...[
-              // Nút "Sử dụng ảnh này"
+              const SizedBox(height: 18),
+              Text(
+                'Mã lớp E4: ${word.apiLabel}',
+                style: t(12, w: FontWeight.w600, color: C.muted),
+              ),
+              const SizedBox(height: 14),
               SizedBox(
                 width: double.infinity,
-                height: 52,
-                child: ElevatedButton.icon(
-                  onPressed: _sendForInference,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: C.mint,
-                    foregroundColor: C.navy,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 0,
-                  ),
-                  icon: const Icon(Icons.check_rounded, size: 22),
-                  label: Text(
-                    'Sử dụng ảnh này',
-                    style: t(15, w: FontWeight.w800),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              // Nút "Chụp lại"
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: OutlinedButton.icon(
-                  onPressed: _retake,
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    side: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.3),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  icon: const Icon(Icons.refresh_rounded, size: 22),
-                  label: Text(
-                    'Chụp lại',
-                    style: t(15, w: FontWeight.w700, color: Colors.white),
-                  ),
+                child: FilledButton(
+                  onPressed: () => Navigator.of(sheetContext).pop(),
+                  child: const Text('Đóng'),
                 ),
               ),
             ],
-          ],
+          ),
         ),
       ),
-    ],
-  );
+    );
+  }
 }
 
 // ─── Profile screen ──────────────────────────────────────────────────────────
 class ProfileScreen extends StatelessWidget {
+  final AppState appState;
   final VoidCallback? onOpenSettings;
-  const ProfileScreen({super.key, this.onOpenSettings});
-  static const _stats = [
-    ('🔥', '5', 'Ngày streak', C.orange, C.orangeSoft),
-    ('🏆', '12', 'Thành tích', C.indigo, C.indigoSoft),
-    ('📚', '48', 'Màn đã học', C.mint, C.mintPale),
-  ];
+  const ProfileScreen({super.key, required this.appState, this.onOpenSettings});
   static const _ach = [
     (
       '🌟',
@@ -1112,16 +1317,16 @@ class ProfileScreen extends StatelessWidget {
     ('🐣', 'Từ vựng đầu tiên', 'Học được 10 từ mới', C.mint, C.mintPale),
     (
       '🚀',
-      'Tốc độ siêu nhanh',
-      'Hoàn thành trong 1 phút',
+      'Màn học đầu tiên',
+      'Hoàn thành một phiên học',
       C.indigo,
       C.indigoSoft,
     ),
-    ('💯', 'Điểm tuyệt đối', 'Trả lời đúng 100% một màn', C.coral, C.coralSoft),
-    ('📚', 'Mọt sách nhí', 'Học đủ 100 từ vựng', C.mint, C.mintPale),
+    ('💯', 'Điểm chăm chỉ', 'Tích lũy 100 điểm', C.coral, C.coralSoft),
+    ('📚', 'Mọt sách nhí', 'Học đủ 15 từ vựng', C.mint, C.mintPale),
     ('🦉', 'Cú đêm chăm chỉ', 'Học bài sau 22:00', C.purple, C.indigoSoft),
-    ('🎯', 'Xạ thủ từ vựng', 'Đúng 50 từ không sai', C.orange, C.orangeSoft),
-    ('👑', 'Nhà vô địch tuần', 'Đứng top bảng xếp hạng', C.amber, C.amberSoft),
+    ('🎯', 'Bậc thầy điểm số', 'Tích lũy 500 điểm', C.orange, C.orangeSoft),
+    ('👑', 'Nhà vô địch tuần', 'Giữ streak 30 ngày', C.amber, C.amberSoft),
   ];
   @override
   Widget build(BuildContext ctx) => ListView(
@@ -1134,18 +1339,12 @@ class ProfileScreen extends StatelessWidget {
           child: Container(
             width: 40,
             height: 40,
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: AppColors.surface,
               shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x1A000000),
-                  blurRadius: 12,
-                  offset: Offset(0, 2),
-                ),
-              ],
+              border: Border.all(color: AppColors.cardBorder, width: 1.5),
             ),
-            child: const Icon(Icons.settings, size: 20, color: C.navy),
+            child: const Icon(Icons.settings, size: 20, color: AppColors.text),
           ),
         ),
       ),
@@ -1176,13 +1375,15 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  'B',
+                  appState.profileName.isEmpty
+                      ? 'B'
+                      : appState.profileName.substring(0, 1).toUpperCase(),
                   style: t(40, w: FontWeight.w900, color: Colors.white),
                 ),
               ),
             ),
             const SizedBox(height: 14),
-            Text('Bo', style: t(22, w: FontWeight.w900)),
+            Text(appState.profileName, style: t(22, w: FontWeight.w900)),
             Text(
               'Người học chăm chỉ 🌟',
               style: t(13, w: FontWeight.w600, color: C.muted),
@@ -1193,100 +1394,142 @@ class ProfileScreen extends StatelessWidget {
       const SizedBox(height: 20),
       // stats
       Row(
-        children: _stats
-            .map(
-              (s) => Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 14,
-                      horizontal: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
-                        BoxShadow(color: Color(0x0A000000), blurRadius: 20),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: s.$5,
-                            shape: BoxShape.circle,
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            s.$1,
-                            style: const TextStyle(fontSize: 22),
-                          ),
+        children:
+            [
+                  (
+                    '🔥',
+                    '${appState.streak}',
+                    'Ngày streak',
+                    C.orange,
+                    C.orangeSoft,
+                  ),
+                  (
+                    '🏆',
+                    '${appState.achievementCount}',
+                    'Thành tích',
+                    C.indigo,
+                    C.indigoSoft,
+                  ),
+                  (
+                    '📚',
+                    '${appState.sessions}',
+                    'Màn đã học',
+                    C.mint,
+                    C.mintPale,
+                  ),
+                ]
+                .map(
+                  (s) => Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 14,
+                          horizontal: 6,
                         ),
-                        const SizedBox(height: 8),
-                        Text(s.$2, style: t(22, w: FontWeight.w900)),
-                        Text(
-                          s.$3,
-                          style: t(11, w: FontWeight.w700, color: C.muted),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: AppColors.cardBorder,
+                            width: 2,
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: AppColors.cardEdge,
+                              offset: Offset(0, 4),
+                              blurRadius: 0,
+                            ),
+                          ],
                         ),
-                      ],
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                color: s.$5,
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                s.$1,
+                                style: const TextStyle(fontSize: 22),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(s.$2, style: t(22, w: FontWeight.w900)),
+                            Text(
+                              s.$3,
+                              style: t(11, w: FontWeight.w700, color: C.muted),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            )
-            .toList(),
+                )
+                .toList(),
       ),
       const SizedBox(height: 20),
       Text('Thành tích gần đây 🏅', style: t(15, w: FontWeight.w800)),
       const SizedBox(height: 12),
-      ..._ach.map(
-        (a) => Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
-              boxShadow: const [
-                BoxShadow(color: Color(0x0F000000), blurRadius: 14),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: a.$5,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(a.$1, style: const TextStyle(fontSize: 22)),
+      ..._ach.indexed
+          .where((entry) => _profileAchievementUnlocked(entry.$1))
+          .map((entry) => entry.$2)
+          .map(
+            (a) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: AppColors.cardBorder, width: 2),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.cardEdge,
+                      offset: Offset(0, 4),
+                      blurRadius: 0,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(a.$2, style: t(13, w: FontWeight.w800)),
-                      Text(
-                        a.$3,
-                        style: t(11, w: FontWeight.w600, color: C.muted),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: a.$5,
+                        borderRadius: BorderRadius.circular(14),
                       ),
-                    ],
-                  ),
+                      alignment: Alignment.center,
+                      child: Text(a.$1, style: const TextStyle(fontSize: 22)),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(a.$2, style: t(13, w: FontWeight.w800)),
+                          Text(
+                            a.$3,
+                            style: t(11, w: FontWeight.w600, color: C.muted),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(Icons.chevron_right_rounded, color: a.$4, size: 20),
+                  ],
                 ),
-                Icon(Icons.chevron_right_rounded, color: a.$4, size: 20),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
     ],
   );
+
+  bool _profileAchievementUnlocked(int index) =>
+      appState.isAchievementUnlocked(index);
 }
 
 // ─── Bottom Nav (cutout notch) ───────────────────────────────────────────────
@@ -1441,10 +1684,16 @@ class _NavBarPainter extends CustomPainter {
       ..lineTo(s.width, s.height)
       ..lineTo(0, s.height)
       ..close();
-    // shadow
-    c.drawShadow(path, Colors.black.withValues(alpha: 0.12), 12, false);
     // fill
-    c.drawPath(path, Paint()..color = Colors.white);
+    c.drawPath(path, Paint()..color = AppColors.bar);
+    // top border line
+    c.drawPath(
+      path,
+      Paint()
+        ..color = AppColors.cardBorder
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
   }
 
   @override
@@ -1571,32 +1820,30 @@ const List<LMNode> _nodes = [
 ];
 
 class LearningMapScreen extends StatelessWidget {
+  final AppState appState;
   final VoidCallback onClose;
-  const LearningMapScreen({super.key, required this.onClose});
+  final ValueChanged<LearningMode>? onOpenMode;
+
+  const LearningMapScreen({
+    super.key,
+    required this.appState,
+    required this.onClose,
+    this.onOpenMode,
+  });
 
   @override
   Widget build(BuildContext context) => Container(
-    decoration: const BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Color(0xFFF4FFFB), Color(0xFFE8F4FF)],
-      ),
-    ),
+    color: AppColors.background,
     child: Column(
       children: [
         Container(
           height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.92),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x17000000),
-                offset: Offset(0, 2),
-                blurRadius: 16,
-              ),
-            ],
+          decoration: const BoxDecoration(
+            color: AppColors.bar,
+            border: Border(
+              bottom: BorderSide(color: AppColors.cardBorder, width: 2),
+            ),
           ),
           child: Row(
             children: [
@@ -1605,23 +1852,31 @@ class LearningMapScreen extends StatelessWidget {
                 child: Container(
                   width: 36,
                   height: 36,
-                  decoration: BoxDecoration(
-                    color: C.navy.withValues(alpha: 0.07),
+                  decoration: const BoxDecoration(
+                    color: AppColors.surfaceAlt,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.chevron_left,
                     size: 22,
-                    color: C.navy,
+                    color: AppColors.text,
                   ),
                 ),
               ),
               Expanded(
                 child: Center(
-                  child: Text('Lộ trình học', style: t(18, w: FontWeight.w900)),
+                  child: Text(
+                    'Lộ trình học',
+                    style: t(18, w: FontWeight.w900, color: AppColors.text),
+                  ),
                 ),
               ),
-              _pill('⭐', '320', const Color(0xFFFFF7E0), C.navy),
+              _pill(
+                '⭐',
+                '${appState.points}',
+                AppColors.surfaceAlt,
+                AppColors.gold,
+              ),
             ],
           ),
         ),
@@ -1645,9 +1900,11 @@ class LearningMapScreen extends StatelessWidget {
                     width: 3,
                     height: 12,
                     margin: const EdgeInsets.only(left: 31),
-                    color: _nodes[i].state == 'done'
-                        ? C.mint
-                        : const Color(0xFFD8DCE5),
+                    color:
+                        _nodes[i].id <=
+                            math.min(_nodes.length, appState.sessions)
+                        ? AppColors.blue
+                        : AppColors.locked,
                   ),
               ],
             ],
@@ -1657,88 +1914,94 @@ class LearningMapScreen extends StatelessWidget {
     ),
   );
 
-  Widget _progressSummary() => Container(
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(22),
-      gradient: const LinearGradient(colors: [C.indigo, C.indigoMid]),
-      boxShadow: const [
-        BoxShadow(
-          color: Color(0x335B56F0),
-          offset: Offset(0, 8),
-          blurRadius: 22,
-        ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                'Bạn đã hoàn thành 3/8 chặng',
-                style: t(14, w: FontWeight.w800, color: Colors.white),
-              ),
-            ),
-            Text(
-              '38%',
-              style: t(14, w: FontWeight.w900, color: Colors.white),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: LinearProgressIndicator(
-            value: 3 / 8,
-            minHeight: 9,
-            backgroundColor: Colors.white24,
-            valueColor: const AlwaysStoppedAnimation(C.amber),
+  Widget _progressSummary() {
+    final completed = math.min(_nodes.length, appState.sessions);
+    final ratio = completed / _nodes.length;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.blue,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: AppColors.blueEdge, width: 2),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.blueEdge,
+            offset: Offset(0, 4),
+            blurRadius: 0,
           ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          'Chặng tiếp theo: 15 đồ dùng học tập',
-          style: t(12, w: FontWeight.w600, color: Colors.white70),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Bạn đã hoàn thành $completed/${_nodes.length} chặng',
+                  style: t(14, w: FontWeight.w800, color: Colors.white),
+                ),
+              ),
+              Text(
+                '${(ratio * 100).round()}%',
+                style: t(14, w: FontWeight.w900, color: Colors.white),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: LinearProgressIndicator(
+              value: ratio,
+              minHeight: 9,
+              backgroundColor: AppColors.surfaceAlt,
+              valueColor: const AlwaysStoppedAnimation(AppColors.gold),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Chặng tiếp theo: 15 đồ dùng học tập',
+            style: t(12, w: FontWeight.w600, color: Colors.white70),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _lessonTile(BuildContext context, LMNode node) {
-    final done = node.state == 'done';
-    final active = node.state == 'active';
-    final color = active ? C.indigo : (done ? C.mint : const Color(0xFFB8BEC9));
+    final completed = math.min(_nodes.length, appState.sessions);
+    final done = node.id <= completed;
+    final active = node.id == completed + 1;
+    final locked = !done && !active;
+    final color = active
+        ? AppColors.blue
+        : (done ? AppColors.green : AppColors.locked);
+    final practicedToday = math.min(appState.todayWords, appState.dailyGoal);
     final subtitle = done
         ? 'Đã hoàn thành'
         : active
-        ? 'Đang học • 8/15 từ'
+        ? 'Đang học • $practicedToday/${appState.dailyGoal} từ hôm nay'
         : 'Hoàn thành chặng trước để mở khóa';
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: active
-            ? () => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Mở bài học 15 đồ dùng học tập')),
-              )
-            : null,
+        onTap: active ? () => onOpenMode?.call(LearningMode.flashcard) : null,
         child: Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: active ? C.indigoSoft : Colors.white.withValues(alpha: 0.9),
+            color: active ? AppColors.blueTint : AppColors.surface,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: active ? C.indigo.withValues(alpha: 0.35) : Colors.white,
-              width: active ? 2 : 1,
+              color: active ? AppColors.blue : AppColors.cardBorder,
+              width: 2,
             ),
             boxShadow: const [
               BoxShadow(
-                color: Color(0x10000000),
+                color: AppColors.cardEdge,
                 offset: Offset(0, 4),
-                blurRadius: 14,
+                blurRadius: 0,
               ),
             ],
           ),
@@ -1753,7 +2016,7 @@ class LearningMapScreen extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Text(
-                  node.state == 'locked' ? '🔒' : node.emoji,
+                  locked ? '🔒' : node.emoji,
                   style: const TextStyle(fontSize: 23),
                 ),
               ),
@@ -1775,7 +2038,7 @@ class LearningMapScreen extends StatelessWidget {
                 ),
               ),
               if (done)
-                const Icon(Icons.check_circle_rounded, color: Color(0xFF16A37A))
+                const Icon(Icons.check_circle_rounded, color: AppColors.green)
               else if (active)
                 const Icon(Icons.arrow_forward_rounded, color: C.indigo),
             ],
@@ -1803,6 +2066,7 @@ class LearningMapScreen extends StatelessWidget {
       ],
     ),
   );
+  // ignore: unused_element
   Widget _resPill(String e, String v, Color bg) => Container(
     width: 68,
     height: 30,
@@ -1830,6 +2094,7 @@ class LearningMapScreen extends StatelessWidget {
     ),
   );
 
+  // ignore: unused_element
   Widget _activeCard(LMNode n) => Container(
     width: 224,
     padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
@@ -1877,6 +2142,7 @@ class LearningMapScreen extends StatelessWidget {
     ),
   );
 
+  // ignore: unused_element
   List<Widget> _rewards() {
     const rewards = [
       ('⭐', 190, 1620, -15.0),
@@ -1902,6 +2168,7 @@ class LearningMapScreen extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _ZLabel extends StatelessWidget {
   final String label;
   final Color color;
@@ -1921,6 +2188,7 @@ class _ZLabel extends StatelessWidget {
 }
 
 // ─── Hex node widget with 3D pillar ──────────────────────────────────────────
+// ignore: unused_element
 class _HexNodeWidget extends StatelessWidget {
   final LMNode node;
   final double pulse;
@@ -2047,7 +2315,9 @@ class _HexPainter extends CustomPainter {
 
   Path _poly(List<Offset> v) {
     final p = Path()..moveTo(v[0].dx, v[0].dy);
-    for (var i = 1; i < v.length; i++) p.lineTo(v[i].dx, v[i].dy);
+    for (var i = 1; i < v.length; i++) {
+      p.lineTo(v[i].dx, v[i].dy);
+    }
     p.close();
     return p;
   }
@@ -2127,6 +2397,7 @@ class _HexPainter extends CustomPainter {
 }
 
 // ─── Main map background painter (zones + iso tiles + path + cliffs) ────────
+// ignore: unused_element
 class _MapPainter extends CustomPainter {
   @override
   void paint(Canvas c, Size s) {
@@ -2364,8 +2635,13 @@ class _BgDecor extends StatelessWidget {
 
 // ─── Màn Cài đặt (bổ sung, khớp thiết kế Figma) ──────────────────────────────
 class SettingsScreen extends StatefulWidget {
+  final AppState appState;
   final VoidCallback onClose;
-  const SettingsScreen({super.key, required this.onClose});
+  const SettingsScreen({
+    super.key,
+    required this.appState,
+    required this.onClose,
+  });
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
@@ -2373,7 +2649,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   int direction = 0; // VN→GB / GB→VN
   int difficulty = 1; // Dễ / Vừa / Khó
-  int goal = 1; // 5 / 10 / 20
+  int goal = 1; // 5 / 10 / 15
   bool soundFx = true;
   bool bgMusic = true;
   double volume = 0.7;
@@ -2385,6 +2661,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   static const _swatches = [C.mint, C.indigo, C.coral, C.amber, C.lavender];
   static const _swatchNames = ['Mint', 'Indigo', 'Coral', 'Amber', 'Lavender'];
+
+  @override
+  void initState() {
+    super.initState();
+    direction = widget.appState.direction.clamp(0, 1);
+    difficulty = widget.appState.difficulty.clamp(0, 2);
+    goal = switch (widget.appState.dailyGoal) {
+      5 => 0,
+      15 => 2,
+      _ => 1,
+    };
+    soundFx = widget.appState.soundFx;
+    notify = widget.appState.notifications;
+    bgMusic = widget.appState.bgMusic;
+    volume = widget.appState.volume;
+    vibrate = widget.appState.vibrate;
+    dailyReminder = widget.appState.dailyReminder;
+    darkMode = widget.appState.darkMode;
+    themeColor = widget.appState.themeColor.clamp(0, _swatches.length - 1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -2413,11 +2709,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               C.indigoSoft,
               'Ngôn ngữ',
               'Chọn hướng học từ vựng',
-              _segmented(
-                ['VN→GB', 'GB→VN'],
-                direction,
-                (i) => setState(() => direction = i),
-              ),
+              _segmented(['VN→GB', 'GB→VN'], direction, (i) {
+                setState(() => direction = i);
+                unawaited(widget.appState.setDirection(i));
+              }),
             ),
             _tile(
               '🎯',
@@ -2425,23 +2720,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
               C.coralSoft,
               'Độ khó',
               'Ảnh hưởng gợi ý và số nghĩa',
-              _segmented(
-                ['Dễ', 'Vừa', 'Khó'],
-                difficulty,
-                (i) => setState(() => difficulty = i),
-              ),
+              _segmented(['Dễ', 'Vừa', 'Khó'], difficulty, (i) {
+                setState(() => difficulty = i);
+                unawaited(widget.appState.setDifficulty(i));
+              }),
             ),
             _tile(
               '📗',
               C.mint,
               C.mintPale,
               'Mục tiêu mỗi ngày',
-              'Học 10 từ vựng / ngày',
-              _segmented(
-                ['5', '10', '20'],
-                goal,
-                (i) => setState(() => goal = i),
-              ),
+              'Học ${[5, 10, 15][goal]} từ vựng / ngày',
+              _segmented(['5', '10', '15'], goal, (i) {
+                setState(() => goal = i);
+                unawaited(widget.appState.setDailyGoal([5, 10, 15][i]));
+              }),
             ),
 
             const SizedBox(height: 6),
@@ -2452,7 +2745,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               C.orangeSoft,
               'Hiệu ứng âm thanh',
               'Tiếng khi bấm và trả lời',
-              _switch(soundFx, (v) => setState(() => soundFx = v), C.orange),
+              _switch(soundFx, (v) {
+                setState(() => soundFx = v);
+                unawaited(widget.appState.setSoundFx(v));
+              }, C.orange),
             ),
             _tile(
               '🎵',
@@ -2460,7 +2756,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               C.indigoSoft,
               'Nhạc nền',
               'Nhạc êm dịu khi học',
-              _switch(bgMusic, (v) => setState(() => bgMusic = v), C.indigo),
+              _switch(bgMusic, (v) {
+                setState(() => bgMusic = v);
+                unawaited(widget.appState.setBgMusic(v));
+              }, C.indigo),
             ),
             _tile(
               '🎚️',
@@ -2479,14 +2778,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           trackHeight: 5,
                           activeTrackColor: C.mint,
                           inactiveTrackColor: C.mint.withValues(alpha: 0.25),
-                          thumbColor: const Color(0xFF1FB9AA),
+                          thumbColor: AppColors.blue,
                           overlayShape: const RoundSliderOverlayShape(
                             overlayRadius: 12,
                           ),
                         ),
                         child: Slider(
                           value: volume,
-                          onChanged: (v) => setState(() => volume = v),
+                          onChanged: (v) {
+                            setState(() => volume = v);
+                            unawaited(widget.appState.setVolume(v));
+                          },
                         ),
                       ),
                     ),
@@ -2504,7 +2806,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               C.coralSoft,
               'Bật thông báo',
               'Cho phép app gửi thông báo',
-              _switch(notify, (v) => setState(() => notify = v), C.coral),
+              _switch(notify, (v) {
+                setState(() => notify = v);
+                unawaited(widget.appState.setNotifications(v));
+              }, C.coral),
             ),
             _tile(
               '⏰',
@@ -2512,11 +2817,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               C.amberSoft,
               'Nhắc học mỗi ngày',
               'Nhắc lúc 19:00 hằng ngày',
-              _switch(
-                dailyReminder,
-                (v) => setState(() => dailyReminder = v),
-                C.amber,
-              ),
+              _switch(dailyReminder, (v) {
+                setState(() => dailyReminder = v);
+                unawaited(widget.appState.setDailyReminder(v));
+              }, C.amber),
             ),
             _tile(
               '📳',
@@ -2524,7 +2828,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               C.orangeSoft,
               'Rung khi bấm',
               'Rung phản hồi khi tương tác',
-              _switch(vibrate, (v) => setState(() => vibrate = v), C.orange),
+              _switch(vibrate, (v) {
+                setState(() => vibrate = v);
+                unawaited(widget.appState.setVibrate(v));
+              }, C.orange),
             ),
 
             const SizedBox(height: 6),
@@ -2535,7 +2842,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               C.indigoSoft,
               'Chế độ tối',
               'Dịu mắt vào buổi tối',
-              _switch(darkMode, (v) => setState(() => darkMode = v), C.indigo),
+              _switch(darkMode, (v) {
+                setState(() => darkMode = v);
+                unawaited(widget.appState.setDarkMode(v));
+              }, C.indigo),
             ),
             _tile(
               '🎨',
@@ -2548,7 +2858,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   for (int i = 0; i < _swatches.length; i++)
                     GestureDetector(
-                      onTap: () => setState(() => themeColor = i),
+                      onTap: () {
+                        setState(() => themeColor = i);
+                        unawaited(widget.appState.setThemeColor(i));
+                      },
                       child: Container(
                         margin: const EdgeInsets.only(left: 6),
                         width: 22,
@@ -2630,7 +2943,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _logoutButton(BuildContext context) => GestureDetector(
-    onTap: () => _confirmLogout(context),
+    onTap: () => _confirmResetProgress(context),
     child: Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       alignment: Alignment.center,
@@ -2642,10 +2955,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.logout, color: C.coral, size: 20),
+          const Icon(Icons.restart_alt_rounded, color: C.coral, size: 20),
           const SizedBox(width: 8),
           Text(
-            'Đăng xuất',
+            'Đặt lại tiến độ',
             style: t(15, w: FontWeight.w800, color: C.coral),
           ),
         ],
@@ -2653,15 +2966,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ),
   );
 
-  void _confirmLogout(BuildContext context) {
+  void _confirmResetProgress(BuildContext context) {
     showDialog(
       context: context,
       builder: (dctx) => AlertDialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
-        title: Text('Đăng xuất?', style: t(18, w: FontWeight.w900)),
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(22),
+          side: const BorderSide(color: AppColors.cardBorder, width: 2),
+        ),
+        title: Text('Đặt lại tiến độ?', style: t(18, w: FontWeight.w900)),
         content: Text(
-          'Bạn có chắc muốn đăng xuất khỏi tài khoản Bo không?',
+          'Toàn bộ điểm, streak và từ đã học trên thiết bị sẽ được xóa. Không thể hoàn tác.',
           style: t(14, w: FontWeight.w600, color: C.muted),
         ),
         actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
@@ -2676,10 +2992,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ElevatedButton(
             onPressed: () {
               Navigator.of(dctx).pop();
+              unawaited(widget.appState.resetProgress());
               widget.onClose();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('👋 Đã đăng xuất. Hẹn gặp lại!'),
+                  content: Text('Đã đặt lại tiến độ trên thiết bị.'),
                   duration: Duration(seconds: 2),
                 ),
               );
@@ -2693,7 +3010,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             child: Text(
-              'Đăng xuất',
+              'Xóa tiến độ',
               style: t(14, w: FontWeight.w800, color: Colors.white),
             ),
           ),
@@ -2709,18 +3026,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Container(
           width: 40,
           height: 40,
-          decoration: const BoxDecoration(
-            color: Colors.white,
+          decoration: BoxDecoration(
+            color: AppColors.surface,
             shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x1A000000),
-                blurRadius: 12,
-                offset: Offset(0, 2),
-              ),
-            ],
+            border: Border.all(color: AppColors.cardBorder, width: 1.5),
           ),
-          child: const Icon(Icons.chevron_left, color: C.navy),
+          child: const Icon(Icons.chevron_left, color: AppColors.text),
         ),
       ),
       const SizedBox(width: 12),
@@ -2752,7 +3063,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             shape: BoxShape.circle,
           ),
           child: Text(
-            'B',
+            widget.appState.profileName.isEmpty
+                ? 'B'
+                : widget.appState.profileName.substring(0, 1).toUpperCase(),
             style: t(24, w: FontWeight.w900, color: Colors.white),
           ),
         ),
@@ -2762,11 +3075,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Bo',
+                widget.appState.profileName,
                 style: t(18, w: FontWeight.w800, color: Colors.white),
               ),
               Text(
-                'Đã học 48 màn · 5 ngày streak',
+                'Đã học ${widget.appState.sessions} màn · ${widget.appState.streak} ngày streak',
                 style: t(
                   12,
                   w: FontWeight.w600,
@@ -2782,14 +3095,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
             color: Colors.white.withValues(alpha: 0.25),
             borderRadius: BorderRadius.circular(14),
           ),
-          child: Text(
-            'Sửa',
-            style: t(13, w: FontWeight.w700, color: Colors.white),
+          child: InkWell(
+            onTap: () => _editProfileName(context),
+            borderRadius: BorderRadius.circular(14),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                'Sửa',
+                style: t(13, w: FontWeight.w700, color: Colors.white),
+              ),
+            ),
           ),
         ),
       ],
     ),
   );
+
+  Future<void> _editProfileName(BuildContext context) async {
+    final controller = TextEditingController(text: widget.appState.profileName);
+    final name = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Tên người học'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          maxLength: 24,
+          textInputAction: TextInputAction.done,
+          decoration: const InputDecoration(hintText: 'Nhập tên của bạn'),
+          onSubmitted: (value) => Navigator.of(dialogContext).pop(value),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('Hủy'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(controller.text),
+            child: const Text('Lưu'),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (name != null) await widget.appState.setProfileName(name);
+  }
 
   Widget _label(String s) => Padding(
     padding: const EdgeInsets.only(bottom: 10, top: 4),
@@ -2814,13 +3164,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     margin: const EdgeInsets.only(bottom: 12),
     padding: const EdgeInsets.all(14),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: AppColors.surface,
       borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: AppColors.cardBorder, width: 2),
       boxShadow: const [
         BoxShadow(
-          color: Color(0x0F000000),
-          blurRadius: 18,
-          offset: Offset(0, 6),
+          color: AppColors.cardEdge,
+          offset: Offset(0, 4),
+          blurRadius: 0,
         ),
       ],
     ),
@@ -2874,7 +3225,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ) => Container(
     padding: const EdgeInsets.all(3),
     decoration: BoxDecoration(
-      color: const Color(0xFFF1F5F3),
+      color: AppColors.surfaceAlt,
       borderRadius: BorderRadius.circular(12),
     ),
     child: Row(
@@ -2887,16 +3238,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               duration: const Duration(milliseconds: 160),
               padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
               decoration: BoxDecoration(
-                color: selected == i ? Colors.white : Colors.transparent,
+                color: selected == i ? AppColors.surface : Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: selected == i
-                    ? const [
-                        BoxShadow(
-                          color: Color(0x14000000),
-                          blurRadius: 6,
-                          offset: Offset(0, 2),
-                        ),
-                      ]
+                border: selected == i
+                    ? Border.all(color: AppColors.cardBorder, width: 1.5)
                     : null,
               ),
               child: Text(
@@ -2916,7 +3261,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
 // ─── Màn Thành tích (tab cúp) ────────────────────────────────────────────────
 class AchievementsScreen extends StatelessWidget {
-  const AchievementsScreen({super.key});
+  final AppState appState;
+
+  const AchievementsScreen({super.key, required this.appState});
 
   // (emoji, tên, mô tả, màu, nền, đã mở khóa)
   static const _all = [
@@ -2931,21 +3278,14 @@ class AchievementsScreen extends StatelessWidget {
     ('🐣', 'Từ vựng đầu tiên', 'Học được 10 từ mới', C.mint, C.mintPale, true),
     (
       '🚀',
-      'Tốc độ siêu nhanh',
-      'Hoàn thành trong 1 phút',
+      'Màn học đầu tiên',
+      'Hoàn thành một phiên học',
       C.indigo,
       C.indigoSoft,
       true,
     ),
-    (
-      '💯',
-      'Điểm tuyệt đối',
-      'Trả lời đúng 100% một màn',
-      C.coral,
-      C.coralSoft,
-      true,
-    ),
-    ('📚', 'Mọt sách nhí', 'Học đủ 100 từ vựng', C.mint, C.mintPale, true),
+    ('💯', 'Điểm chăm chỉ', 'Tích lũy 100 điểm', C.coral, C.coralSoft, true),
+    ('📚', 'Mọt sách nhí', 'Học đủ 15 từ vựng', C.mint, C.mintPale, true),
     (
       '🦉',
       'Cú đêm chăm chỉ',
@@ -2956,8 +3296,8 @@ class AchievementsScreen extends StatelessWidget {
     ),
     (
       '🎯',
-      'Xạ thủ từ vựng',
-      'Đúng 50 từ không sai',
+      'Bậc thầy điểm số',
+      'Tích lũy 500 điểm',
       C.orange,
       C.orangeSoft,
       true,
@@ -2965,15 +3305,15 @@ class AchievementsScreen extends StatelessWidget {
     (
       '👑',
       'Nhà vô địch tuần',
-      'Đứng top bảng xếp hạng',
+      'Giữ streak 30 ngày',
       C.amber,
       C.amberSoft,
       true,
     ),
     (
       '🔥',
-      'Chuỗi lửa 30 ngày',
-      'Học liên tục 30 ngày',
+      'Chuỗi lửa 10 màn',
+      'Hoàn thành 10 màn học',
       C.orange,
       C.orangeSoft,
       false,
@@ -2981,18 +3321,30 @@ class AchievementsScreen extends StatelessWidget {
     (
       '🏆',
       'Bậc thầy từ vựng',
-      'Học đủ 500 từ vựng',
+      'Học đủ 15 từ vựng',
       C.indigo,
       C.indigoSoft,
       false,
     ),
-    ('⚡', 'Thần tốc', 'Hoàn thành 10 màn/ngày', C.coral, C.coralSoft, false),
-    ('🌍', 'Nhà thám hiểm', 'Mở khóa mọi chủ đề', C.mint, C.mintPale, false),
+    ('⚡', 'Thần tốc', 'Hoàn thành 10 màn học', C.coral, C.coralSoft, false),
+    ('🌍', 'Nhà thám hiểm', 'Học đủ 15 lớp E4', C.mint, C.mintPale, false),
   ];
 
   @override
   Widget build(BuildContext ctx) {
-    final unlocked = _all.where((a) => a.$6).length;
+    final all = _all.indexed
+        .map(
+          (entry) => (
+            entry.$2.$1,
+            entry.$2.$2,
+            entry.$2.$3,
+            entry.$2.$4,
+            entry.$2.$5,
+            _isUnlocked(entry.$1),
+          ),
+        )
+        .toList();
+    final unlocked = all.where((a) => a.$6).length;
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
       children: [
@@ -3007,14 +3359,16 @@ class AchievementsScreen extends StatelessWidget {
         const SizedBox(height: 18),
         Text('Đã mở khóa ✨', style: t(15, w: FontWeight.w800)),
         const SizedBox(height: 12),
-        ..._all.where((a) => a.$6).map(_card),
+        ...all.where((a) => a.$6).map(_card),
         const SizedBox(height: 6),
         Text('Chưa mở khóa 🔒', style: t(15, w: FontWeight.w800)),
         const SizedBox(height: 12),
-        ..._all.where((a) => !a.$6).map(_card),
+        ...all.where((a) => !a.$6).map(_card),
       ],
     );
   }
+
+  bool _isUnlocked(int index) => appState.isAchievementUnlocked(index);
 
   Widget _progress(int done, int total) {
     final ratio = done / total;
@@ -3076,10 +3430,17 @@ class AchievementsScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: unlocked ? Colors.white : const Color(0xFFF3F6F4),
+          color: unlocked ? AppColors.surface : AppColors.surfaceAlt,
           borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: AppColors.cardBorder, width: 2),
           boxShadow: unlocked
-              ? const [BoxShadow(color: Color(0x0F000000), blurRadius: 14)]
+              ? const [
+                  BoxShadow(
+                    color: AppColors.cardEdge,
+                    offset: Offset(0, 4),
+                    blurRadius: 0,
+                  ),
+                ]
               : null,
         ),
         child: Row(
@@ -3089,7 +3450,7 @@ class AchievementsScreen extends StatelessWidget {
               height: 48,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: unlocked ? a.$5 : const Color(0xFFE4EAE7),
+                color: unlocked ? a.$5 : AppColors.locked,
                 shape: BoxShape.circle,
               ),
               child: unlocked

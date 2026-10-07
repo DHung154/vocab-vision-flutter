@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Needed only for optional catalog download, auth and sync. E4 inference remains local. -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="giao_dien"
+        android:label="Vocab Vision"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

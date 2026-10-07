@@ -33,6 +33,14 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Local backend account database (never commit user data)
+/backend/data/*.db
+/backend/data/*.db-*
+
+# Downloaded content sources and staging dumps stay outside Git.
+/raw/
+/.avd_runtime/
+
 # Symbolication related
 app.*.symbols
 
@@ -43,3 +51,31 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/build/
+
+# This repository publishes the Flutter app, not local plans/server/tooling.
+/backend/
+/content/
+/docs/
+/infra/
+/tools/
+/output/
+/.impeccable/
+/KE_HOACH_*.md
+/CHANGELOG.md
+/DESIGN.md
+/PRODUCT.md
+/assets/**/*.md
+
+# Private/local runtime data and signing material.
+.env
+.env.*
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.jks
+*.keystore
+key.properties
+*.apk
+*.aab

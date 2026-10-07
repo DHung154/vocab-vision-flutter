@@ -1,0 +1,838 @@
+{
+  "version": 3,
+  "physics": {
+    "fixedStep": 0.016666666666666666,
+    "maxCatchUpSteps": 4,
+    "maxBullets": 64,
+    "maxEffects": 18,
+    "playerShotInterval": 0.65,
+    "playerBulletSpeed": 0.65,
+    "playerBulletRadius": 0.012,
+    "enemyBulletRadius": 0.018,
+    "shipRadius": 0.038,
+    "enemyRadius": 0.052,
+    "enemySpacing": 0.24,
+    "enemyY": 0.21,
+    "invulnerability": 1.5,
+    "angerSpeedMultiplier": 1.22,
+    "angerRateMultiplier": 0.62,
+    "backgroundSpeed": 0.022,
+    "playerY": 0.86,
+    "playerMinY": 0.52,
+    "playerMaxY": 0.92,
+    "enemyHealth": 2,
+    "bossHealth": 8,
+    "effectDuration": 0.55,
+    "pickupInterval": 4,
+    "pickupSpeed": 0.1,
+    "pickupRadius": 0.045,
+    "wrongRepeatLimit": 1,
+    "comboMilestones": [
+      3,
+      5,
+      10
+    ],
+    "enemySpawnInterval": 3.8,
+    "enemyEntrance": 1.1,
+    "enemyMoveSpeed": 1.05,
+    "enemyMoveAmplitude": 0.105,
+    "enemyBobAmplitude": 0.028,
+    "bossMoveAmplitude": 0.07,
+    "bossRadiusX": 0.23,
+    "bossRadiusY": 0.14,
+    "bossAttackInterval": 6,
+    "bossLaserCharge": 1.6,
+    "bossLaserDuration": 1.15,
+    "bossLaserHalfWidth": 0.025,
+    "bossSlamCharge": 1.2,
+    "bossSlamDuration": 0.55,
+    "bossSlamRadius": 0.09,
+    "bossRecovery": 2
+  },
+  "stars": {
+    "threeHearts": 3,
+    "threeAccuracy": 0.9,
+    "twoHearts": 2,
+    "twoAccuracy": 0.65
+  },
+  "ships": [
+    {
+      "id": "ship_mint",
+      "stars": 0
+    },
+    {
+      "id": "ship_blue",
+      "stars": 6
+    },
+    {
+      "id": "ship_lilac",
+      "stars": 12
+    }
+  ],
+  "audio": {
+    "music": "assets/games/space_words/audio/music_game.mp3",
+    "bossMusic": "assets/games/space_words/audio/music_boss.mp3",
+    "rareBossMusic": "assets/games/space_words/audio/music_boss_rare.mp3",
+    "rareBossChance": 0.3333333333333333,
+    "shot": "assets/games/space_words/audio/laser.mp3",
+    "laser": "assets/games/space_words/audio/laser.mp3",
+    "correct": "assets/games/space_words/audio/explosion.wav",
+    "wrong": "assets/games/space_words/audio/pickup.wav",
+    "pickup": "assets/games/space_words/audio/pickup.wav",
+    "hit": "assets/games/space_words/audio/explosion.wav",
+    "win": "assets/games/space_words/audio/win.wav",
+    "lose": "assets/games/space_words/audio/game_over.wav",
+    "bossExplosion": "assets/games/space_words/audio/boss_explosion.wav"
+  },
+  "levels": [
+    {
+      "id": 1,
+      "title": "Tập lái cùng Mây",
+      "topic": "Động vật",
+      "wordIds": [
+        "cat",
+        "dog",
+        "fish"
+      ],
+      "enemyCount": 2,
+      "simultaneous": 1,
+      "choices": 3,
+      "enemySpeed": 0.1,
+      "enemyInterval": 3,
+      "angerSeconds": 4,
+      "pattern": "straight",
+      "listening": false,
+      "pickups": false,
+      "tutorial": true,
+      "boss": false,
+      "background": "sky",
+      "mapX": 0.51,
+      "mapY": 0.89
+    },
+    {
+      "id": 2,
+      "title": "Biệt đội thú nhỏ",
+      "topic": "Động vật",
+      "wordIds": [
+        "cat",
+        "dog",
+        "rabbit",
+        "bird",
+        "fish",
+        "hamster",
+        "turtle",
+        "tiger",
+        "elephant",
+        "eagle",
+        "parrot",
+        "whale",
+        "dolphin",
+        "lion",
+        "bear",
+        "monkey",
+        "horse",
+        "cow",
+        "goat",
+        "puppy",
+        "kitten",
+        "goldfish",
+        "guinea_pig",
+        "giraffe",
+        "zebra",
+        "panda",
+        "fox",
+        "wolf",
+        "swan",
+        "owl",
+        "pigeon",
+        "rooster",
+        "shark",
+        "octopus",
+        "crab",
+        "seahorse"
+      ],
+      "enemyCount": 12,
+      "simultaneous": 2,
+      "choices": 3,
+      "enemySpeed": 0.12,
+      "enemyInterval": 2.8,
+      "angerSeconds": 4,
+      "pattern": "straight",
+      "listening": false,
+      "pickups": false,
+      "tutorial": false,
+      "boss": false,
+      "background": "sky",
+      "mapX": 0.55,
+      "mapY": 0.74,
+      "allowedTopics": [
+        "Động vật",
+        "Thú nuôi",
+        "Động vật hoang dã",
+        "Chim",
+        "Sinh vật biển"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Dòng sông khám phá",
+      "topic": "Động vật",
+      "wordIds": [
+        "cat",
+        "dog",
+        "rabbit",
+        "bird",
+        "fish",
+        "hamster",
+        "turtle",
+        "tiger",
+        "elephant",
+        "eagle",
+        "parrot",
+        "whale",
+        "dolphin",
+        "lion",
+        "bear",
+        "monkey",
+        "horse",
+        "cow",
+        "goat",
+        "puppy",
+        "kitten",
+        "goldfish",
+        "guinea_pig",
+        "giraffe",
+        "zebra",
+        "panda",
+        "fox",
+        "wolf",
+        "swan",
+        "owl",
+        "pigeon",
+        "rooster",
+        "shark",
+        "octopus",
+        "crab",
+        "seahorse"
+      ],
+      "enemyCount": 16,
+      "simultaneous": 3,
+      "choices": 3,
+      "enemySpeed": 0.14,
+      "enemyInterval": 2.5,
+      "angerSeconds": 4,
+      "pattern": "fan",
+      "listening": false,
+      "pickups": false,
+      "tutorial": false,
+      "boss": false,
+      "background": "forest",
+      "mapX": 0.25,
+      "mapY": 0.59,
+      "allowedTopics": [
+        "Động vật",
+        "Thú nuôi",
+        "Động vật hoang dã",
+        "Chim",
+        "Sinh vật biển"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Lắng nghe giữa mây",
+      "topic": "Động vật",
+      "wordIds": [
+        "cat",
+        "dog",
+        "rabbit",
+        "bird",
+        "fish",
+        "hamster",
+        "turtle",
+        "tiger",
+        "elephant",
+        "eagle",
+        "parrot",
+        "whale",
+        "dolphin",
+        "lion",
+        "bear",
+        "monkey",
+        "horse",
+        "cow",
+        "goat",
+        "puppy",
+        "kitten",
+        "goldfish",
+        "guinea_pig",
+        "giraffe",
+        "zebra",
+        "panda",
+        "fox",
+        "wolf",
+        "swan",
+        "owl",
+        "pigeon",
+        "rooster",
+        "shark",
+        "octopus",
+        "crab",
+        "seahorse"
+      ],
+      "enemyCount": 14,
+      "simultaneous": 3,
+      "choices": 3,
+      "enemySpeed": 0.13,
+      "enemyInterval": 2.6,
+      "angerSeconds": 4,
+      "pattern": "straight",
+      "listening": true,
+      "pickups": false,
+      "tutorial": false,
+      "boss": false,
+      "background": "sky",
+      "mapX": 0.71,
+      "mapY": 0.44,
+      "allowedTopics": [
+        "Động vật",
+        "Thú nuôi",
+        "Động vật hoang dã",
+        "Chim",
+        "Sinh vật biển"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Săn đạn đại dương",
+      "topic": "Động vật",
+      "wordIds": [
+        "cat",
+        "dog",
+        "rabbit",
+        "bird",
+        "fish",
+        "hamster",
+        "turtle",
+        "tiger",
+        "elephant",
+        "eagle",
+        "parrot",
+        "whale",
+        "dolphin",
+        "lion",
+        "bear",
+        "monkey",
+        "horse",
+        "cow",
+        "goat",
+        "puppy",
+        "kitten",
+        "goldfish",
+        "guinea_pig",
+        "giraffe",
+        "zebra",
+        "panda",
+        "fox",
+        "wolf",
+        "swan",
+        "owl",
+        "pigeon",
+        "rooster",
+        "shark",
+        "octopus",
+        "crab",
+        "seahorse"
+      ],
+      "enemyCount": 18,
+      "simultaneous": 3,
+      "choices": 4,
+      "enemySpeed": 0.15,
+      "enemyInterval": 2.5,
+      "angerSeconds": 4,
+      "pattern": "fan",
+      "listening": false,
+      "pickups": true,
+      "tutorial": false,
+      "boss": false,
+      "background": "ocean",
+      "mapX": 0.38,
+      "mapY": 0.29,
+      "allowedTopics": [
+        "Động vật",
+        "Thú nuôi",
+        "Động vật hoang dã",
+        "Chim",
+        "Sinh vật biển"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Thủ lĩnh sao biển",
+      "topic": "Động vật",
+      "wordIds": [
+        "cat",
+        "dog",
+        "rabbit",
+        "bird",
+        "fish",
+        "hamster",
+        "turtle",
+        "tiger",
+        "elephant",
+        "eagle",
+        "parrot",
+        "whale",
+        "dolphin",
+        "lion",
+        "bear",
+        "monkey",
+        "horse",
+        "cow",
+        "goat",
+        "puppy",
+        "kitten",
+        "goldfish",
+        "guinea_pig",
+        "giraffe",
+        "zebra",
+        "panda",
+        "fox",
+        "wolf",
+        "swan",
+        "owl",
+        "pigeon",
+        "rooster",
+        "shark",
+        "octopus",
+        "crab",
+        "seahorse"
+      ],
+      "enemyCount": 6,
+      "simultaneous": 1,
+      "choices": 4,
+      "enemySpeed": 0.17,
+      "enemyInterval": 2.2,
+      "angerSeconds": 4,
+      "pattern": "fan",
+      "listening": false,
+      "pickups": false,
+      "tutorial": false,
+      "boss": true,
+      "background": "ocean",
+      "mapX": 0.54,
+      "mapY": 0.14,
+      "enemyY": 0.28,
+      "allowedTopics": [
+        "Động vật",
+        "Thú nuôi",
+        "Động vật hoang dã",
+        "Chim",
+        "Sinh vật biển"
+      ]
+    }
+  ],
+  "tutorial": [
+    {
+      "id": "hello",
+      "text": "Chào bé! Mình là Mây. Cùng lái phi thuyền và học từ mới nhé!",
+      "expression": "memeLaugh",
+      "highlight": "may",
+      "condition": "tap",
+      "behavior": "idle",
+      "wordIndex": 0
+    },
+    {
+      "id": "move",
+      "text": "Kéo phi thuyền sang trái, rồi sang phải nhé!",
+      "expression": "greetWave",
+      "highlight": "ship",
+      "condition": "drag_both",
+      "behavior": "idle",
+      "wordIndex": 0
+    },
+    {
+      "id": "dodge",
+      "text": "Kéo phi thuyền né một đợt đạn nhé. Lúc tập bé không mất tim!",
+      "expression": "encourage",
+      "highlight": "ship",
+      "condition": "dodge_wave",
+      "behavior": "practice",
+      "wordIndex": 0
+    },
+    {
+      "id": "word",
+      "text": "Nhìn từ tiếng Anh trên địch. Hãy nghe và tìm nghĩa tiếng Việt!",
+      "expression": "thinking",
+      "highlight": "target",
+      "condition": "tap",
+      "behavior": "inspect",
+      "wordIndex": 0
+    },
+    {
+      "id": "ammo",
+      "text": "Chạm viên đạn có nghĩa đúng với từ trên địch nhé!",
+      "expression": "encourage",
+      "highlight": "ammo",
+      "condition": "select_correct",
+      "behavior": "choose",
+      "wordIndex": 0
+    },
+    {
+      "id": "correct",
+      "text": "Đạn sẽ tự bắn. Lái phi thuyền xuống dưới mục tiêu để bắn trúng!",
+      "expression": "memeSurprised",
+      "highlight": "target",
+      "condition": "defeat_target",
+      "behavior": "correct",
+      "wordIndex": 0
+    },
+    {
+      "id": "wrong",
+      "text": "Giờ thử chọn một nghĩa SAI nhé. Khi tập bé không bị trừ gì!",
+      "expression": "memeLaugh",
+      "highlight": "ammo",
+      "condition": "wrong_hit",
+      "behavior": "wrong",
+      "wordIndex": 1
+    },
+    {
+      "id": "recover",
+      "text": "Ôi, địch giận rồi! Né đạn và chọn lại nghĩa đúng nhé!",
+      "expression": "memePout",
+      "highlight": "target",
+      "condition": "defeat_target",
+      "behavior": "recover",
+      "wordIndex": 1
+    },
+    {
+      "id": "hud",
+      "text": "Tim giúp bé bay tiếp. Hạ đúng liên tiếp sẽ tăng combo!",
+      "expression": "encourage",
+      "highlight": "hud",
+      "condition": "tap",
+      "behavior": "idle",
+      "wordIndex": 1
+    },
+    {
+      "id": "finish",
+      "text": "Tuyệt lắm! Bé nhận sao đầu tiên và mở màn 2 rồi!",
+      "expression": "completeCelebrate",
+      "highlight": "may",
+      "condition": "tap",
+      "behavior": "finish",
+      "wordIndex": 1
+    }
+  ],
+  "spriteNames": [
+    "ship_mint",
+    "ship_blue",
+    "ship_lilac",
+    "enemy_green",
+    "enemy_green_angry",
+    "enemy_green_hit",
+    "enemy_lilac",
+    "enemy_lilac_angry",
+    "enemy_lilac_hit",
+    "boss",
+    "boss_angry",
+    "boss_hit",
+    "node_locked",
+    "node_open",
+    "node_complete",
+    "node_boss",
+    "star_full",
+    "star_empty",
+    "bullet_blue",
+    "bullet_gold",
+    "bullet_lilac",
+    "bullet_enemy",
+    "bullet_enemy_diamond",
+    "heart",
+    "explosion_0",
+    "explosion_1",
+    "explosion_2",
+    "pickup",
+    "target_ring",
+    "arrow",
+    "word_panel",
+    "ammo_normal",
+    "ammo_selected",
+    "ammo_wrong",
+    "pause",
+    "button",
+    "boss_v2",
+    "boss_v2_angry",
+    "boss_v2_hit",
+    "boss_tentacle",
+    "boss_charge",
+    "boss_beam"
+  ],
+  "spriteRects": {
+    "ship_mint": [
+      0.012759170653907496,
+      0.019138755980861243,
+      0.15550239234449761,
+      0.17145135566188197
+    ],
+    "ship_blue": [
+      0.17703349282296652,
+      0.018341307814992026,
+      0.15789473684210525,
+      0.1722488038277512
+    ],
+    "ship_lilac": [
+      0.3405103668261563,
+      0.019138755980861243,
+      0.15709728867623604,
+      0.17145135566188197
+    ],
+    "enemy_green": [
+      0.5015948963317385,
+      0.0215311004784689,
+      0.1594896331738437,
+      0.14992025518341306
+    ],
+    "enemy_green_angry": [
+      0.6650717703349283,
+      0.0215311004784689,
+      0.16028708133971292,
+      0.1507177033492823
+    ],
+    "enemy_green_hit": [
+      0.8269537480063796,
+      0.019138755980861243,
+      0.16507177033492823,
+      0.15390749601275916
+    ],
+    "enemy_lilac": [
+      0.009569377990430622,
+      0.19059011164274323,
+      0.16188197767145135,
+      0.1682615629984051
+    ],
+    "enemy_lilac_angry": [
+      0.17304625199362042,
+      0.189792663476874,
+      0.16507177033492823,
+      0.17304625199362042
+    ],
+    "enemy_lilac_hit": [
+      0.3405103668261563,
+      0.189792663476874,
+      0.15869218500797447,
+      0.1722488038277512
+    ],
+    "boss": [
+      0.4984051036682616,
+      0.17703349282296652,
+      0.16905901116427433,
+      0.19537480063795853
+    ],
+    "boss_angry": [
+      0.6674641148325359,
+      0.17703349282296652,
+      0.16108452950558214,
+      0.19696969696969696
+    ],
+    "boss_hit": [
+      0.8261562998405104,
+      0.17703349282296652,
+      0.16586921850079744,
+      0.19617224880382775
+    ],
+    "node_locked": [
+      0.01594896331738437,
+      0.3700159489633174,
+      0.1547049441786284,
+      0.15550239234449761
+    ],
+    "node_open": [
+      0.17783094098883573,
+      0.3700159489633174,
+      0.15869218500797447,
+      0.15629984051036683
+    ],
+    "node_complete": [
+      0.3413078149920255,
+      0.36921850079744817,
+      0.16028708133971292,
+      0.15709728867623604
+    ],
+    "node_boss": [
+      0.5055821371610846,
+      0.36921850079744817,
+      0.15869218500797447,
+      0.15709728867623604
+    ],
+    "star_full": [
+      0.6913875598086124,
+      0.379585326953748,
+      0.12200956937799043,
+      0.1371610845295056
+    ],
+    "star_empty": [
+      0.8349282296650717,
+      0.38118022328548645,
+      0.14433811802232854,
+      0.13636363636363635
+    ],
+    "bullet_blue": [
+      0.044657097288676235,
+      0.5303030303030303,
+      0.10047846889952153,
+      0.14912280701754385
+    ],
+    "bullet_gold": [
+      0.20972886762360446,
+      0.5311004784688995,
+      0.094896331738437,
+      0.1467304625199362
+    ],
+    "bullet_lilac": [
+      0.3763955342902711,
+      0.5311004784688995,
+      0.09330143540669857,
+      0.1467304625199362
+    ],
+    "bullet_enemy": [
+      0.5239234449760766,
+      0.5526315789473685,
+      0.12200956937799043,
+      0.11562998405103668
+    ],
+    "bullet_enemy_diamond": [
+      0.7009569377990431,
+      0.5382775119617225,
+      0.09011164274322168,
+      0.1291866028708134
+    ],
+    "heart": [
+      0.8365231259968102,
+      0.5534290271132376,
+      0.1419457735247209,
+      0.11004784688995216
+    ],
+    "explosion_0": [
+      0.017543859649122806,
+      0.6881977671451356,
+      0.16108452950558214,
+      0.14433811802232854
+    ],
+    "explosion_1": [
+      0.17862838915470494,
+      0.6818181818181818,
+      0.16666666666666666,
+      0.15629984051036683
+    ],
+    "explosion_2": [
+      0.33811802232854865,
+      0.6818181818181818,
+      0.16427432216905902,
+      0.15789473684210525
+    ],
+    "pickup": [
+      0.5023923444976076,
+      0.6746411483253588,
+      0.16188197767145135,
+      0.15550239234449761
+    ],
+    "target_ring": [
+      0.664274322169059,
+      0.6770334928229665,
+      0.16028708133971292,
+      0.15789473684210525
+    ],
+    "arrow": [
+      0.8564593301435407,
+      0.6866028708133971,
+      0.11483253588516747,
+      0.1467304625199362
+    ],
+    "word_panel": [
+      0.011961722488038277,
+      0.861244019138756,
+      0.21212121212121213,
+      0.09728867623604466
+    ],
+    "ammo_normal": [
+      0.22567783094098884,
+      0.861244019138756,
+      0.14114832535885166,
+      0.10207336523125997
+    ],
+    "ammo_selected": [
+      0.37161084529505584,
+      0.8628389154704944,
+      0.13955342902711323,
+      0.09569377990430622
+    ],
+    "ammo_wrong": [
+      0.5175438596491229,
+      0.8628389154704944,
+      0.1419457735247209,
+      0.09888357256778309
+    ],
+    "pause": [
+      0.6650717703349283,
+      0.8492822966507177,
+      0.12599681020733652,
+      0.12280701754385964
+    ],
+    "button": [
+      0.7918660287081339,
+      0.861244019138756,
+      0.20015948963317384,
+      0.10287081339712918
+    ],
+    "boss_v2": [
+      0.008,
+      0.025,
+      0.33,
+      0.4
+    ],
+    "boss_v2_angry": [
+      0.34,
+      0.025,
+      0.323,
+      0.4
+    ],
+    "boss_v2_hit": [
+      0.665,
+      0.025,
+      0.33,
+      0.4
+    ],
+    "boss_tentacle": [
+      0.095,
+      0.478,
+      0.193,
+      0.472
+    ],
+    "boss_charge": [
+      0.38,
+      0.61,
+      0.244,
+      0.249
+    ],
+    "boss_beam": [
+      0.77,
+      0.46,
+      0.12,
+      0.512
+    ]
+  },
+  "spriteOverrides": {},
+  "mapEncouragement": [
+    "Mỗi từ mới là một ngôi sao!",
+    "Mây cùng bé khám phá nhé!",
+    "Bay chậm thôi, học chắc từng từ nhé!"
+  ],
+  "spriteSheets": {
+    "boss_v2": "boss_atlas_v2.png",
+    "boss_v2_angry": "boss_atlas_v2.png",
+    "boss_v2_hit": "boss_atlas_v2.png",
+    "boss_tentacle": "boss_atlas_v2.png",
+    "boss_charge": "boss_atlas_v2.png",
+    "boss_beam": "boss_atlas_v2.png"
+  }
+}

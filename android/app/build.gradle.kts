@@ -42,6 +42,18 @@ android {
 dependencies {
     implementation("com.microsoft.onnxruntime:onnxruntime-android:1.23.2")
     implementation("androidx.exifinterface:exifinterface:1.4.2")
+    // Keep the Flutter integration_test Android test dependencies on one
+    // Espresso line. AGP 9 rejects the older 3.2 transitive pair as a
+    // duplicate namespace during debug manifest validation.
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+}
+
+// integration_test 3.2 pulls espresso-core and its separate idling-resource
+// artifact into the debug application configuration. AGP 9 treats their
+// shared namespace as a manifest error; core is sufficient for this smoke
+// test and excludes the duplicate transitive module.
+configurations.all {
+    exclude(group = "androidx.test.espresso", module = "espresso-idling-resource")
 }
 
 kotlin {

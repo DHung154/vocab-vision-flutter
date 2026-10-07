@@ -4,4 +4,7 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Local FastAPI uses http://10.0.2.2 during debug only. Release builds
+         keep the main manifest's default so production must use HTTPS. -->
+    <application android:usesCleartextTraffic="true" />
 </manifest>

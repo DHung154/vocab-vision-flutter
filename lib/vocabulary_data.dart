@@ -4,11 +4,18 @@ class VocabularyWord {
   final String english;
   final String vietnamese;
 
+  /// A reviewed, licensed image URL/path for image-backed questions. It is
+  /// optional because text-only starter entries must not get a fake emoji.
+  final String? imageUrl;
+  final String? localImagePath;
+
   const VocabularyWord({
     required this.apiLabel,
     required this.emoji,
     required this.english,
     required this.vietnamese,
+    this.imageUrl,
+    this.localImagePath,
   });
 }
 

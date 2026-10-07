@@ -1,0 +1,150 @@
+{
+  "frameWidth": 384,
+  "frameHeight": 384,
+  "sheetMaxSize": 2048,
+  "animations": {
+    "idle": {
+      "asset": "assets/mascot/may/idle.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 4,
+      "frames": 16,
+      "fps": 12,
+      "loop": true,
+      "category": "runtime"
+    },
+    "greet_wave": {
+      "asset": "assets/mascot/may/greet_wave.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 5,
+      "frames": 18,
+      "fps": 14,
+      "loop": false,
+      "category": "runtime"
+    },
+    "correct_jump": {
+      "asset": "assets/mascot/may/correct_jump.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 4,
+      "frames": 16,
+      "fps": 14,
+      "loop": false,
+      "category": "runtime"
+    },
+    "correct_thumbs": {
+      "asset": "assets/mascot/may/correct_thumbs.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 4,
+      "frames": 14,
+      "fps": 13,
+      "loop": false,
+      "category": "runtime"
+    },
+    "correct_clap": {
+      "asset": "assets/mascot/may/correct_clap.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 4,
+      "frames": 16,
+      "fps": 14,
+      "loop": false,
+      "category": "runtime"
+    },
+    "correct_victory": {
+      "asset": "assets/mascot/may/correct_victory.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 5,
+      "frames": 18,
+      "fps": 14,
+      "loop": false,
+      "category": "runtime"
+    },
+    "incorrect_encourage": {
+      "asset": "assets/mascot/may/incorrect_encourage.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 5,
+      "frames": 20,
+      "fps": 12,
+      "loop": false,
+      "category": "runtime"
+    },
+    "complete_celebrate": {
+      "asset": "assets/mascot/may/complete_celebrate.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 5,
+      "columns": 5,
+      "frames": 22,
+      "fps": 15,
+      "loop": false,
+      "category": "runtime"
+    },
+    "loading": {
+      "asset": "assets/mascot/may/loading.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 4,
+      "frames": 16,
+      "fps": 10,
+      "loop": true,
+      "category": "runtime"
+    },
+    "thinking": {
+      "asset": "assets/mascot/may/thinking.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 4,
+      "frames": 16,
+      "fps": 10,
+      "loop": true,
+      "category": "runtime"
+    },
+    "encourage": {
+      "asset": "assets/mascot/may/encourage.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 4,
+      "frames": 14,
+      "fps": 12,
+      "loop": false,
+      "category": "runtime"
+    },
+    "overlay_wave": {
+      "asset": "assets/mascot/may/overlay_wave.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 4,
+      "columns": 4,
+      "frames": 14,
+      "fps": 12,
+      "loop": false,
+      "category": "runtime"
+    },
+    "easter_egg": {
+      "asset": "assets/mascot/may/easter_egg.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "rows": 5,
+      "columns": 5,
+      "frames": 24,
+      "fps": 15,
+      "loop": false,
+      "category": "runtime"
+    }
+  }
+}

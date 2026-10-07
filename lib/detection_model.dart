@@ -25,16 +25,43 @@ class Detection {
       if (rawBox.length != 4) {
         throw const FormatException('box phải có đúng 4 phần tử');
       }
+      final classId = (json['class_id'] as num).toInt();
+      if (classId < 0 || classId >= 15) {
+        throw FormatException('class_id ngoài phạm vi 15 lớp: $classId');
+      }
+      final confidence = (json['confidence'] as num).toDouble();
+      if (!confidence.isFinite || confidence < 0 || confidence > 1) {
+        throw const FormatException('confidence phải nằm trong [0, 1]');
+      }
+      if (rawBox.any((value) => !value.isFinite)) {
+        throw const FormatException('box chứa tọa độ không hữu hạn');
+      }
+      if (rawBox[2] <= rawBox[0] || rawBox[3] <= rawBox[1]) {
+        throw const FormatException(
+          'box phải có chiều rộng và chiều cao lớn hơn 0',
+        );
+      }
+      final label = json['label'] as String;
+      if (label.trim().isEmpty) {
+        throw const FormatException('label không được để trống');
+      }
       return Detection(
-        classId: (json['class_id'] as num).toInt(),
-        label: json['label'] as String,
-        confidence: (json['confidence'] as num).toDouble(),
+        classId: classId,
+        label: label,
+        confidence: confidence,
         box: rawBox.map((n) => n.toDouble()).toList(),
       );
     } catch (e) {
       if (e is FormatException) rethrow;
       throw FormatException('Detection JSON không hợp lệ: $e');
     }
+  }
+
+  /// Platform channels use dynamically typed maps. Normalize the map before
+  /// handing it to the strict JSON parser so Android codecs cannot surface a
+  /// raw `_Map<Object?, Object?>` cast error to the user.
+  factory Detection.fromPlatform(Object? value) {
+    return Detection.fromJson(_stringKeyedMap(value, label: 'detection'));
   }
 }
 
@@ -61,15 +88,21 @@ class DetectionResult {
   });
 
   /// Parse kết quả từ JSON map. Ném [FormatException] nếu sai cấu trúc.
-  factory DetectionResult.fromJson(Map<String, dynamic> json) {
+  factory DetectionResult.fromJson(Object? raw) {
     try {
+      final json = _stringKeyedMap(raw, label: 'DetectionResult');
       final rawDetections = json['detections'] as List? ?? [];
+      final imageWidth = (json['image_width'] as num).toInt();
+      final imageHeight = (json['image_height'] as num).toInt();
+      if (imageWidth <= 0 || imageHeight <= 0) {
+        throw const FormatException(
+          'image_width và image_height phải lớn hơn 0',
+        );
+      }
       return DetectionResult(
-        imageWidth: (json['image_width'] as num).toInt(),
-        imageHeight: (json['image_height'] as num).toInt(),
-        detections: rawDetections
-            .map((d) => Detection.fromJson(Map<String, dynamic>.from(d as Map)))
-            .toList(),
+        imageWidth: imageWidth,
+        imageHeight: imageHeight,
+        detections: rawDetections.map(Detection.fromPlatform).toList(),
         modelId: json['model_id'] as String? ?? '',
         modelLabel: json['model_label'] as String? ?? '',
         latencyMs: (json['latency_ms'] as num?)?.toDouble(),
@@ -87,4 +120,18 @@ class DetectionResult {
     if (detections.isEmpty) return null;
     return detections.reduce((a, b) => a.confidence >= b.confidence ? a : b);
   }
+}
+
+Map<String, dynamic> _stringKeyedMap(Object? value, {required String label}) {
+  if (value is! Map) {
+    throw FormatException('$label phải là một object JSON');
+  }
+  final output = <String, dynamic>{};
+  for (final entry in value.entries) {
+    if (entry.key is! String) {
+      throw FormatException('$label chứa key không phải chuỗi');
+    }
+    output[entry.key as String] = entry.value;
+  }
+  return output;
 }

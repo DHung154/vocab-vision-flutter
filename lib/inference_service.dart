@@ -37,10 +37,13 @@ class InferenceService {
     }
 
     try {
-      final response = await _channel.invokeMapMethod<String, dynamic>(
-        'predict',
-        {'imagePath': imageFile.path, 'confidence': confidence},
-      );
+      // Do not request a typed Map here: StandardMessageCodec may expose the
+      // nested Kotlin maps as Map<Object?, Object?>. DetectionResult performs
+      // the safe key validation/normalization at the boundary.
+      final response = await _channel.invokeMethod<Object?>('predict', {
+        'imagePath': imageFile.path,
+        'confidence': confidence,
+      });
       if (response == null) {
         throw const InferenceException('Android không trả kết quả E4.');
       }
