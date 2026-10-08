@@ -3,14 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'app_theme.dart';
 
-enum PlayfulButtonVariant {
-  primary,
-  success,
-  sky,
-  gold,
-  neutral,
-  danger,
-}
+enum PlayfulButtonVariant { primary, success, sky, gold, neutral, danger }
 
 /// A tactile, playful 3D button inspired by modern gamified learning apps.
 /// Features a chunky 4-5dp bevel edge and press-down displacement for satisfying feedback.
@@ -40,7 +33,10 @@ class PlayfulButton extends StatefulWidget {
     this.borderRadius = 16.0,
     this.isLoading = false,
     this.semanticLabel,
-  }) : assert(child != null || text != null, 'Either child or text must be provided');
+  }) : assert(
+         child != null || text != null,
+         'Either child or text must be provided',
+       );
 
   @override
   State<PlayfulButton> createState() => _PlayfulButtonState();
@@ -69,6 +65,7 @@ class _PlayfulButtonState extends State<PlayfulButton> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.vocabColors;
     Color faceColor;
     Color bevelColor;
     Color textColor;
@@ -104,22 +101,24 @@ class _PlayfulButtonState extends State<PlayfulButton> {
         textColor = Colors.white;
         break;
       case PlayfulButtonVariant.neutral:
-        faceColor = AppColors.surface; // #1B2A35
-        bevelColor = AppColors.cardEdge; // #0E171E
-        textColor = AppColors.text; // #FFFFFF
-        border = Border.all(color: AppColors.cardBorder, width: 2); // #2C3E4C
+        faceColor = colors.surface;
+        bevelColor = colors.borderStrong;
+        textColor = colors.textPrimary;
+        border = Border.all(color: colors.border, width: 2);
         break;
     }
 
     if (!_isEnabled) {
-      faceColor = AppColors.surface;
-      bevelColor = AppColors.cardEdge;
-      textColor = AppColors.locked; // #4A5D6B
-      border = Border.all(color: AppColors.cardBorder, width: 2);
+      faceColor = colors.surface;
+      bevelColor = colors.borderStrong;
+      textColor = colors.locked;
+      border = Border.all(color: colors.border, width: 2);
     }
 
     // On press: edge collapses and button moves down 3dp
-    final double effectiveDisplacement = _isPressed ? (widget.bevelHeight - 1.0).clamp(0.0, 3.0) : 0.0;
+    final double effectiveDisplacement = _isPressed
+        ? (widget.bevelHeight - 1.0).clamp(0.0, 3.0)
+        : 0.0;
     final double currentBevel = _isPressed ? 1.0 : widget.bevelHeight;
 
     final content = widget.isLoading

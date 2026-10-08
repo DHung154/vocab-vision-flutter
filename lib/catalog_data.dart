@@ -1,3 +1,5 @@
+import 'core/media/starter_illustrations.dart';
+
 /// Product vocabulary catalog.
 ///
 /// This catalog is intentionally separate from the 15 E4 detector labels.
@@ -53,7 +55,12 @@ class CatalogWord {
     this.localImagePath,
   });
 
-  CatalogWord copyWith({String? localImagePath}) => CatalogWord(
+  CatalogWord copyWith({
+    String? localImagePath,
+    String? imageUrl,
+    String? imageLicense,
+    String? imageAttribution,
+  }) => CatalogWord(
     id: id,
     english: english,
     vietnamese: vietnamese,
@@ -69,9 +76,9 @@ class CatalogWord {
     reviewerType: reviewerType,
     reviewerId: reviewerId,
     reviewedAt: reviewedAt,
-    imageUrl: imageUrl,
-    imageLicense: imageLicense,
-    imageAttribution: imageAttribution,
+    imageUrl: imageUrl ?? this.imageUrl,
+    imageLicense: imageLicense ?? this.imageLicense,
+    imageAttribution: imageAttribution ?? this.imageAttribution,
     localImagePath: localImagePath ?? this.localImagePath,
   );
 
@@ -106,7 +113,7 @@ class CatalogWord {
 
 /// Bump this only when the bundled starter content itself changes. A
 /// downloaded/remote release is never replaced by this fallback.
-const starterCatalogReleaseVersion = 'starter-2026-09-media3';
+const starterCatalogReleaseVersion = 'starter-2026-10-media4';
 
 CatalogWord _starterWord(
   String id,
@@ -126,9 +133,8 @@ CatalogWord _starterWord(
   exampleVietnamese: exampleVietnamese,
 );
 
-/// Text-only starter expansion. These entries intentionally do not claim
-/// licensed media or production publication; the release pipeline adds source,
-/// examples and review records before a remote pack can publish them.
+/// Editorial starter expansion. Bundled illustrations are attached to the
+/// assembled catalog below; production publication still requires text review.
 final _expandedStarterWords = <CatalogWord>[
   _starterWord(
     'one',
@@ -2487,7 +2493,7 @@ final _curatedStarterExpansion = <CatalogWord>[
 /// A bundled editorial starter set for the offline demo. The full release is
 /// loaded from the versioned backend catalog; this list must not be presented
 /// as the 3,000-word production target until the content report says so.
-final catalogWords = <CatalogWord>[
+final _starterCatalogWords = <CatalogWord>[
   CatalogWord(
     id: 'abacus',
     english: 'Abacus',
@@ -3040,6 +3046,17 @@ final catalogWords = <CatalogWord>[
   ..._expandedStarterWords,
   ..._curatedStarterExpansion,
 ];
+
+final catalogWords = _starterCatalogWords
+    .map((word) {
+      if (word.imageUrl?.trim().isNotEmpty == true) return word;
+      return word.copyWith(
+        imageUrl: 'assets/catalog/illustrations/${word.id}.png',
+        imageLicense: 'CC BY-SA 4.0',
+        imageAttribution: starterIllustrationAttribution(word.id),
+      );
+    })
+    .toList(growable: false);
 
 const catalogTopics = <String>[
   'Đồ dùng học tập',

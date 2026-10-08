@@ -447,7 +447,7 @@ void main() {
     expect(find.text('Nguồn nội dung'), findsOneWidget);
     expect(find.text('Gói starter offline'), findsOneWidget);
     expect(
-      find.text('300 mục • 40 chủ đề • 15 mục có media • 15 ảnh offline'),
+      find.text('300 mục • 40 chủ đề • 300 mục có media • 300 ảnh offline'),
       findsOneWidget,
     );
     expect(find.textContaining('human'), findsWidgets);

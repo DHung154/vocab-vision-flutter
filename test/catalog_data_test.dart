@@ -54,6 +54,6 @@ void main() {
       expect(word.imageAttribution, contains('school-objects v1'));
       expect(word.reviewedBy, contains('human publication review pending'));
     }
-    expect(starterCatalogReleaseVersion, 'starter-2026-09-media3');
+    expect(starterCatalogReleaseVersion, 'starter-2026-10-media4');
   });
 }

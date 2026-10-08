@@ -9,6 +9,7 @@ import 'app_config.dart';
 import 'box_geometry.dart';
 import 'catalog_data.dart';
 import 'core/theme/app_theme.dart';
+import 'core/media/display_image.dart';
 import 'detection_model.dart';
 
 /// Palette màu cho bounding box và chấm trạng thái theo độ tin cậy
@@ -64,12 +65,12 @@ class _ResultScreenState extends State<ResultScreen> {
         backgroundColor: Colors.transparent,
         foregroundColor: context.vocabColors.textPrimary,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Kết quả nhận diện',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
-            color: AppColors.ink,
+            color: context.vocabColors.textPrimary,
           ),
         ),
         leading: IconButton(
@@ -95,23 +96,23 @@ class _ResultScreenState extends State<ResultScreen> {
             expression: CameraBuddyExpression.oops,
           ),
           const SizedBox(height: 20),
-          const Text(
+          Text(
             'Chưa tìm thấy đồ dùng học tập',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
-              color: AppColors.ink,
+              color: context.vocabColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Hãy thử chụp lại với ánh sáng tốt hơn\nhoặc đưa vật thể gần camera hơn nhé!',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: AppColors.secondaryInk,
+              color: context.vocabColors.textSecondary,
             ),
           ),
           const SizedBox(height: 20),
@@ -157,7 +158,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
           // Danh sách các vật thể khác
           if (detections.length > 1) ...[
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(bottom: 10),
@@ -166,7 +167,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.secondaryInk,
+                    color: context.vocabColors.textSecondary,
                   ),
                 ),
               ),
@@ -194,12 +195,12 @@ class _ResultScreenState extends State<ResultScreen> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.vocabColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder, width: 2),
-        boxShadow: const [
+        border: Border.all(color: context.vocabColors.border, width: 2),
+        boxShadow: [
           BoxShadow(
-            color: AppColors.cardEdge,
+            color: context.vocabColors.borderStrong,
             offset: Offset(0, 3),
             blurRadius: 0,
           ),
@@ -217,29 +218,29 @@ class _ResultScreenState extends State<ResultScreen> {
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.tune_rounded,
                       size: 18,
-                      color: AppColors.secondaryInk,
+                      color: context.vocabColors.textSecondary,
                     ),
                     const SizedBox(width: 8),
-                    const Expanded(
+                    Expanded(
                       child: Text(
                         'Thông tin kỹ thuật',
                         style: TextStyle(
                           fontSize: 13.5,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.ink,
+                          color: context.vocabColors.textPrimary,
                         ),
                       ),
                     ),
                     AnimatedRotation(
                       turns: _technicalExpanded ? 0.5 : 0.0,
                       duration: const Duration(milliseconds: 200),
-                      child: const Icon(
+                      child: Icon(
                         Icons.keyboard_arrow_down_rounded,
                         size: 20,
-                        color: AppColors.secondaryInk,
+                        color: context.vocabColors.textSecondary,
                       ),
                     ),
                   ],
@@ -258,39 +259,39 @@ class _ResultScreenState extends State<ResultScreen> {
                                   result.modelLabel.isEmpty
                                       ? 'Mô hình nhận diện'
                                       : result.modelLabel,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 12.5,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.ink,
+                                    color: context.vocabColors.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   'Latency thực đo: $latency • thiết bị: ${result.device ?? 'không rõ'}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 11.5,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.secondaryInk,
+                                    color: context.vocabColors.textSecondary,
                                   ),
                                 ),
                                 if (result.latencyScope != null) ...[
                                   const SizedBox(height: 3),
                                   Text(
                                     'Phạm vi đo: ${result.latencyScope}',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 11.5,
                                       fontWeight: FontWeight.w600,
-                                      color: AppColors.secondaryInk,
+                                      color: context.vocabColors.textSecondary,
                                     ),
                                   ),
                                 ],
                                 const SizedBox(height: 3),
-                                const Text(
+                                Text(
                                   'Confidence của box không phải AP/mAP hay độ chính xác của mô hình.',
                                   style: TextStyle(
                                     fontSize: 11.5,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.secondaryInk,
+                                    color: context.vocabColors.textSecondary,
                                   ),
                                 ),
                               ],
@@ -321,7 +322,6 @@ class _ResultScreenState extends State<ResultScreen> {
     return ChunkyCard(
       onTap: () => showModalBottomSheet<void>(
         context: context,
-        backgroundColor: AppColors.surface,
         showDragHandle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -336,45 +336,45 @@ class _ResultScreenState extends State<ResultScreen> {
                 children: [
                   Text(
                     word.english,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w900,
-                      color: AppColors.ink,
+                      color: context.vocabColors.textPrimary,
                     ),
                   ),
                   Text(
                     word.vietnamese,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.secondaryInk,
+                      color: context.vocabColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 14),
                   Text(
                     word.exampleEnglish,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.ink,
+                      color: context.vocabColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     word.exampleVietnamese,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.secondaryInk,
+                      color: context.vocabColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     'Nguồn: ${word.source}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.secondaryInk,
+                      color: context.vocabColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -418,13 +418,13 @@ class _ResultScreenState extends State<ResultScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-              color: AppColors.primaryTealTint,
+            decoration: BoxDecoration(
+              color: context.vocabColors.accentSoft,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               Icons.menu_book_rounded,
-              color: AppColors.primaryTealDark,
+              color: context.vocabColors.tealTextOnTint,
               size: 22,
             ),
           ),
@@ -435,18 +435,18 @@ class _ResultScreenState extends State<ResultScreen> {
               children: [
                 Text(
                   'Học thêm về ${word.english}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.ink,
+                    color: context.vocabColors.textPrimary,
                   ),
                 ),
                 Text(
                   '${word.vietnamese} • ${word.topic}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.secondaryInk,
+                    color: context.vocabColors.textSecondary,
                   ),
                 ),
               ],
@@ -455,8 +455,8 @@ class _ResultScreenState extends State<ResultScreen> {
           Icon(
             favorite ? Icons.bookmark_rounded : Icons.bookmark_outline_rounded,
             color: favorite
-                ? AppColors.sunFill
-                : AppColors.secondaryInk,
+                ? context.vocabColors.warningText
+                : context.vocabColors.textSecondary,
           ),
         ],
       ),
@@ -467,8 +467,7 @@ class _ResultScreenState extends State<ResultScreen> {
   Widget _topCard(Detection d, int colorIndex) {
     final viName = vietnameseName(d.label);
     final confPercent = d.confidence * 100;
-    final confText =
-        '${confPercent.toStringAsFixed(1).replaceAll('.', ',')}%';
+    final confText = '${confPercent.toStringAsFixed(1).replaceAll('.', ',')}%';
 
     final Color confBg;
     final Color confFg;
@@ -479,25 +478,25 @@ class _ResultScreenState extends State<ResultScreen> {
     final bool isLow;
 
     if (d.confidence >= 0.70) {
-      confBg = AppColors.primaryTealTint;
-      confFg = AppColors.primaryTealDark;
-      confEdge = AppColors.primaryTealEdge;
+      confBg = context.vocabColors.accentSoft;
+      confFg = context.vocabColors.tealTextOnTint;
+      confEdge = context.vocabColors.accentBevel;
       confIcon = Icons.check_circle_rounded;
       confTier = 'Độ tin cậy cao';
       confHint = null;
       isLow = false;
     } else if (d.confidence >= 0.50) {
-      confBg = AppColors.sunTint;
-      confFg = AppColors.textOnSun;
-      confEdge = AppColors.sunEdge;
+      confBg = context.vocabColors.warningSurface;
+      confFg = context.vocabColors.warningText;
+      confEdge = context.vocabColors.sunEdge;
       confIcon = Icons.check_circle_outline_rounded;
       confTier = 'Khá chắc';
       confHint = null;
       isLow = false;
     } else {
-      confBg = AppColors.coralTint;
-      confFg = AppColors.coralDark;
-      confEdge = AppColors.coralEdge;
+      confBg = context.vocabColors.coralTint;
+      confFg = context.vocabColors.coralText;
+      confEdge = context.vocabColors.coralEdge;
       confIcon = Icons.warning_amber_rounded;
       confTier = 'Độ tin cậy thấp';
       confHint = 'Thử chụp gần hơn nhé!';
@@ -518,12 +517,12 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
               ),
               const SizedBox(width: 8),
-              const Text(
+              Text(
                 'Kết quả đang chọn',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.secondaryInk,
+                  color: context.vocabColors.textSecondary,
                 ),
               ),
             ],
@@ -534,10 +533,10 @@ class _ResultScreenState extends State<ResultScreen> {
           Text(
             d.label.replaceAll('_', ' ').toUpperCase(),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w800,
-              color: AppColors.ink,
+              color: context.vocabColors.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -547,10 +546,10 @@ class _ResultScreenState extends State<ResultScreen> {
           Text(
             viName,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: AppColors.secondaryInk,
+              color: context.vocabColors.textSecondary,
             ),
           ),
           const SizedBox(height: 14),
@@ -596,10 +595,10 @@ class _ResultScreenState extends State<ResultScreen> {
                 Flexible(
                   child: Text(
                     confHint,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.secondaryInk,
+                      color: context.vocabColors.textSecondary,
                     ),
                   ),
                 ),
@@ -619,8 +618,7 @@ class _ResultScreenState extends State<ResultScreen> {
   }) {
     final viName = vietnameseName(d.label);
     final confPercent = d.confidence * 100;
-    final confText =
-        '${confPercent.toStringAsFixed(1).replaceAll('.', ',')}%';
+    final confText = '${confPercent.toStringAsFixed(1).replaceAll('.', ',')}%';
     final boxColor = _confidenceColor(d.confidence);
 
     final Color badgeBg;
@@ -629,19 +627,19 @@ class _ResultScreenState extends State<ResultScreen> {
     final IconData? badgeIcon;
 
     if (d.confidence >= 0.70) {
-      badgeBg = AppColors.primaryTealTint;
-      badgeFg = AppColors.primaryTealDark;
-      badgeEdge = AppColors.primaryTealEdge;
+      badgeBg = context.vocabColors.accentSoft;
+      badgeFg = context.vocabColors.tealTextOnTint;
+      badgeEdge = context.vocabColors.accentBevel;
       badgeIcon = Icons.check_circle_rounded;
     } else if (d.confidence >= 0.50) {
-      badgeBg = AppColors.sunTint;
-      badgeFg = AppColors.textOnSun;
-      badgeEdge = AppColors.sunEdge;
+      badgeBg = context.vocabColors.warningSurface;
+      badgeFg = context.vocabColors.warningText;
+      badgeEdge = context.vocabColors.sunEdge;
       badgeIcon = Icons.check_circle_outline_rounded;
     } else {
-      badgeBg = AppColors.coralTint;
-      badgeFg = AppColors.coralDark;
-      badgeEdge = AppColors.coralEdge;
+      badgeBg = context.vocabColors.coralTint;
+      badgeFg = context.vocabColors.coralText;
+      badgeEdge = context.vocabColors.coralEdge;
       badgeIcon = Icons.warning_amber_rounded;
     }
 
@@ -655,10 +653,7 @@ class _ResultScreenState extends State<ResultScreen> {
           Container(
             width: 10,
             height: 10,
-            decoration: BoxDecoration(
-              color: boxColor,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: boxColor, shape: BoxShape.circle),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -667,28 +662,25 @@ class _ResultScreenState extends State<ResultScreen> {
               children: [
                 Text(
                   d.label.replaceAll('_', ' '),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.ink,
+                    color: context.vocabColors.textPrimary,
                   ),
                 ),
                 Text(
                   viName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.secondaryInk,
+                    color: context.vocabColors.textSecondary,
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 4,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: badgeBg,
               borderRadius: BorderRadius.circular(10),
@@ -697,11 +689,7 @@ class _ResultScreenState extends State<ResultScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  badgeIcon,
-                  size: 14,
-                  color: badgeFg,
-                ),
+                Icon(badgeIcon, size: 14, color: badgeFg),
                 const SizedBox(width: 4),
                 Text(
                   confText,
@@ -786,10 +774,15 @@ class _ImageWithBoxes extends StatelessWidget {
                 children: [
                   // Nền letterbox rõ ràng để box không bị lệch khi aspect ratio
                   // của ảnh và khung hiển thị khác nhau.
-                  const Positioned.fill(child: ColoredBox(color: Colors.black12)),
+                  const Positioned.fill(
+                    child: ColoredBox(color: Colors.black12),
+                  ),
                   // Ảnh gốc; contain giữ toàn bộ ảnh, không crop vật thể.
                   Positioned.fill(
-                    child: Image.file(imageFile, fit: BoxFit.contain),
+                    child: DisplayImage(
+                      image: FileImage(imageFile),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   // Bounding boxes
                   CustomPaint(

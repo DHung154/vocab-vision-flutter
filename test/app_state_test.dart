@@ -299,7 +299,16 @@ void main() {
   test(
     'missing cached media is not treated as offline-ready after hydrate',
     () async {
-      final source = catalogWords.firstWhere((word) => word.imageUrl == null);
+      const source = CatalogWord(
+        id: 'remote-word',
+        english: 'Remote word',
+        vietnamese: 'Từ tải về',
+        topic: 'Test',
+        partOfSpeech: 'noun',
+        exampleEnglish: 'A remote word.',
+        exampleVietnamese: 'Một từ tải về.',
+        imageUrl: 'https://example.org/remote-image.png',
+      );
       final stale = source.copyWith(
         localImagePath: 'E:\\vocab-vision-missing-media\\pencil.img',
       );
@@ -323,6 +332,58 @@ void main() {
 
       expect(state.catalog.single.localImagePath, isNull);
       expect(state.catalog.single.hasOfflineImage, isFalse);
+    },
+  );
+
+  test(
+    'old starter catalog receives bundled illustrations on upgrade',
+    () async {
+      final catalogStore = _MemoryCatalogStore(
+        version: 'starter-2026-09-media3',
+        words: [catalogWords.first],
+      );
+      final state = AppState(
+        store: LocalAppStore(),
+        catalogStore: catalogStore,
+      );
+      addTearDown(state.dispose);
+      await state.load();
+      for (
+        var attempt = 0;
+        attempt < 20 && catalogStore.version != starterCatalogReleaseVersion;
+        attempt++
+      ) {
+        await Future<void>.delayed(const Duration(milliseconds: 1));
+      }
+      expect(catalogStore.version, starterCatalogReleaseVersion);
+      expect(state.catalog, hasLength(300));
+      expect(state.catalog.every((word) => word.hasOfflineImage), isTrue);
+    },
+  );
+
+  test(
+    'bundled media upgrade preserves a downloaded catalog release',
+    () async {
+      final catalogStore = _MemoryCatalogStore(
+        version: 'published-existing',
+        words: [catalogWords.first],
+      );
+      final state = AppState(
+        store: LocalAppStore(),
+        catalogStore: catalogStore,
+      );
+      addTearDown(state.dispose);
+      await state.load();
+      for (
+        var attempt = 0;
+        attempt < 20 && state.catalogReleaseVersion != 'published-existing';
+        attempt++
+      ) {
+        await Future<void>.delayed(const Duration(milliseconds: 1));
+      }
+      expect(state.catalogReleaseVersion, 'published-existing');
+      expect(catalogStore.version, 'published-existing');
+      expect(state.catalog, hasLength(1));
     },
   );
 

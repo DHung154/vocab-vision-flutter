@@ -59,6 +59,8 @@ class AppState extends ChangeNotifier {
   List<VocabularyCollection> _collections = const [];
   Map<String, dynamic>? _learningDraft;
   List<CatalogWord> _catalog = catalogWords;
+  List<CatalogWord>? _catalogViewSource;
+  List<CatalogWord>? _catalogView;
   String _catalogReleaseVersion = starterCatalogReleaseVersion;
   final CatalogStore _catalogDatabase;
   final CatalogMediaCache _catalogMediaCache;
@@ -96,7 +98,14 @@ class AppState extends ChangeNotifier {
   bool get onboardingComplete => _onboardingComplete;
   List<VocabularyCollection> get collections =>
       UnmodifiableListView(_collections);
-  List<CatalogWord> get catalog => UnmodifiableListView(_catalog);
+  List<CatalogWord> get catalog {
+    if (!identical(_catalog, _catalogViewSource)) {
+      _catalogViewSource = _catalog;
+      _catalogView = UnmodifiableListView(_catalog);
+    }
+    return _catalogView!;
+  }
+
   String get catalogReleaseVersion => _catalogReleaseVersion;
   Map<String, dynamic>? get learningDraft =>
       _learningDraft == null ? null : Map.unmodifiable(_learningDraft!);

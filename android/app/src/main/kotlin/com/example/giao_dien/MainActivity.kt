@@ -17,6 +17,8 @@ import android.os.Handler
 import android.os.Looper
 import android.speech.tts.UtteranceProgressListener
 import android.os.Build
+import android.os.Bundle
+import androidx.core.view.WindowCompat
 import android.os.SystemClock
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
@@ -42,6 +44,16 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 class MainActivity : FlutterActivity(), TextToSpeech.OnInitListener {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // Flutter starts with the same logo/background; remove the native
+            // overlay without fading a second copy over the first Flutter frame.
+            splashScreen.setOnExitAnimationListener { view -> view.remove() }
+        }
+        super.onCreate(savedInstanceState)
+    }
+
     private var textToSpeech: TextToSpeech? = null
     private var ttsReady = false
     private var gameMusic: MediaPlayer? = null

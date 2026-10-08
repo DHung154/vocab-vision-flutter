@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'app_config.dart';
+import 'app/launch_experience.dart';
 import 'catalog_data.dart';
 import 'core/state/app_state.dart';
 import 'core/learning/vocabulary_collection.dart';
@@ -17,6 +18,8 @@ import 'core/learning/review_scheduler.dart';
 import 'core/network/catalog_api_client.dart';
 import 'core/storage/catalog_media_cache.dart';
 import 'core/text/search_normalizer.dart';
+import 'core/text/catalog_search_index.dart';
+import 'core/media/display_image.dart';
 import 'core/theme/app_theme.dart';
 import 'inference_service.dart';
 import 'learning_screen.dart';
@@ -81,10 +84,15 @@ class _VocabAppState extends State<VocabApp> with WidgetsBindingObserver {
   var _rootOnboardingComplete = false;
   var _rootThemeColor = 0;
   var _rootDarkMode = false;
+  var _firstFrameDeferred = false;
 
   @override
   void initState() {
     super.initState();
+    if (Platform.isAndroid) {
+      WidgetsBinding.instance.deferFirstFrame();
+      _firstFrameDeferred = true;
+    }
     WidgetsBinding.instance.addObserver(this);
     appState = AppState();
     _captureRootState();
@@ -113,10 +121,17 @@ class _VocabAppState extends State<VocabApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    _allowFirstFrame();
     WidgetsBinding.instance.removeObserver(this);
     appState.removeListener(_rootStateListener);
     appState.dispose();
     super.dispose();
+  }
+
+  void _allowFirstFrame() {
+    if (!_firstFrameDeferred) return;
+    _firstFrameDeferred = false;
+    WidgetsBinding.instance.allowFirstFrame();
   }
 
   @override
@@ -155,10 +170,16 @@ class _VocabAppState extends State<VocabApp> with WidgetsBindingObserver {
       // Keep MaterialApp/Navigator and the product shell stable for routine
       // progress, draft and sync notifications. Individual pages subscribe
       // to AppState only where they need fresh data.
-      home: Platform.isAndroid && !_rootReady
-          ? const _BootScreen()
-          : Platform.isAndroid && !_rootOnboardingComplete
-          ? OnboardingScreen(appState: appState)
+      home: Platform.isAndroid
+          ? LaunchExperience(
+              ready: _rootReady,
+              onLogoReady: _allowFirstFrame,
+              child: !_rootReady
+                  ? const _BootScreen()
+                  : !_rootOnboardingComplete
+                  ? OnboardingScreen(appState: appState)
+                  : ProductShell(appState: appState),
+            )
           : ProductShell(appState: appState),
     );
   }

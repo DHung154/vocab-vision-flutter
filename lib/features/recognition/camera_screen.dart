@@ -347,7 +347,10 @@ class _CameraScreenState extends State<CameraScreen> {
                     curve: Curves.easeOut,
                     builder: (context, opacity, child) =>
                         Opacity(opacity: opacity, child: child),
-                    child: Image.file(_pickedImage!, fit: BoxFit.contain),
+                    child: DisplayImage(
+                      image: FileImage(_pickedImage!),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   if (!reduceMotion)
                     TweenAnimationBuilder<double>(
@@ -372,85 +375,86 @@ class _CameraScreenState extends State<CameraScreen> {
               ),
             ),
           ),
-        Material(
-          color: context.vocabColors.surface,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 14, 20, 18),
-            child: Column(
-              children: [
-                if (_error != null)
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: context.vocabColors.errorSurface,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: context.vocabColors.errorText.withValues(
-                          alpha: 0.4,
-                        ),
-                      ),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.error_outline_rounded,
-                          color: context.vocabColors.errorText,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            _error!,
-                            style: t(
-                              12,
-                              w: FontWeight.w600,
-                              color: context.vocabColors.errorText,
-                            ),
+          Material(
+            color: context.vocabColors.surface,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 14, 20, 18),
+              child: Column(
+                children: [
+                  if (_error != null)
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: context.vocabColors.errorSurface,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: context.vocabColors.errorText.withValues(
+                            alpha: 0.4,
                           ),
                         ),
-                      ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.error_outline_rounded,
+                            color: context.vocabColors.errorText,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              _error!,
+                              style: t(
+                                12,
+                                w: FontWeight.w600,
+                                color: context.vocabColors.errorText,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                if (_isSending) ...[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: CircularProgressIndicator(
-                      color: context.vocabColors.accentDark,
+                  if (_isSending) ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: CircularProgressIndicator(
+                        color: context.vocabColors.accentDark,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Đang nhận diện trên thiết bị…',
-                    style: t(
-                      14,
-                      w: FontWeight.w700,
-                      color: context.vocabColors.textPrimary,
+                    Text(
+                      'Đang nhận diện trên thiết bị…',
+                      style: t(
+                        14,
+                        w: FontWeight.w700,
+                        color: context.vocabColors.textPrimary,
+                      ),
                     ),
-                  ),
-                ] else ...[
-                  PlayfulButton(
-                    onPressed: _sendForInference,
-                    text: 'Sử dụng ảnh này',
-                    icon: Icons.check_rounded,
-                    variant: PlayfulButtonVariant.primary,
-                    height: 54,
-                  ),
-                  const SizedBox(height: 12),
-                  PlayfulButton(
-                    onPressed: _retake,
-                    text: 'Chụp lại',
-                    icon: Icons.refresh_rounded,
-                    variant: PlayfulButtonVariant.neutral,
-                    height: 50,
-                  ),
+                  ] else ...[
+                    PlayfulButton(
+                      onPressed: _sendForInference,
+                      text: 'Sử dụng ảnh này',
+                      icon: Icons.check_rounded,
+                      variant: PlayfulButtonVariant.primary,
+                      height: 54,
+                    ),
+                    const SizedBox(height: 12),
+                    PlayfulButton(
+                      onPressed: _retake,
+                      text: 'Chụp lại',
+                      icon: Icons.refresh_rounded,
+                      variant: PlayfulButtonVariant.neutral,
+                      height: 50,
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
-        ),
-      ],
-    ),);
+        ],
+      ),
+    );
   }
 }

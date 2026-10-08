@@ -274,9 +274,8 @@ class _MayMascotState extends State<MayMascot> with WidgetsBindingObserver {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _tickerModeEnabled = TickerMode.of(context);
-    _systemReduceMotion =
-        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    _tickerModeEnabled = TickerMode.valuesOf(context).enabled;
+    _systemReduceMotion = MediaQuery.disableAnimationsOf(context);
     _updateTimer();
   }
 

@@ -1825,6 +1825,8 @@ class _ProductVocabularyPageState extends State<_ProductVocabularyPage>
   String? _packError;
   var _favoriteSignature = 0;
   var _catalogSignature = 0;
+  late List<CatalogWord> _indexedCatalog;
+  late CatalogSearchIndex _searchIndex;
   double? _downloadProgressSignature;
 
   List<CatalogWord> get _catalog => widget.appState.catalog;
@@ -1842,6 +1844,8 @@ class _ProductVocabularyPageState extends State<_ProductVocabularyPage>
   }
 
   void _captureAppStateSnapshot() {
+    _indexedCatalog = widget.appState.catalog;
+    _searchIndex = CatalogSearchIndex(_indexedCatalog);
     _favoriteSignature = Object.hashAllUnordered(widget.appState.favoriteWords);
     _catalogSignature = Object.hash(
       widget.appState.catalogReleaseVersion,
@@ -1862,11 +1866,16 @@ class _ProductVocabularyPageState extends State<_ProductVocabularyPage>
     final progress = widget.appState.catalogDownloadProgress;
     if (favoriteSignature == _favoriteSignature &&
         catalogSignature == _catalogSignature &&
+        identical(_indexedCatalog, widget.appState.catalog) &&
         progress == _downloadProgressSignature) {
       return;
     }
     _favoriteSignature = favoriteSignature;
     _catalogSignature = catalogSignature;
+    if (!identical(_indexedCatalog, widget.appState.catalog)) {
+      _indexedCatalog = widget.appState.catalog;
+      _searchIndex = CatalogSearchIndex(_indexedCatalog);
+    }
     _downloadProgressSignature = progress;
     setState(() {});
   }
@@ -2305,17 +2314,11 @@ class _ProductVocabularyPageState extends State<_ProductVocabularyPage>
   Widget build(BuildContext context) {
     final colors = context.vocabColors;
     super.build(context);
-    final words = _catalog
-        .where((word) {
-          final haystack = normalizeSearchText(
-            '${word.english} ${word.vietnamese} ${word.id} ${word.topic}',
-          );
-          return (!_favoritesOnly ||
-                  widget.appState.favoriteWords.contains(word.id)) &&
-              (_topic == null || word.topic == _topic) &&
-              (_query.isEmpty || haystack.contains(_query));
-        })
-        .toList(growable: false);
+    final words = _searchIndex.search(
+      _query,
+      topic: _topic,
+      favoriteIds: _favoritesOnly ? widget.appState.favoriteWords : null,
+    );
     final grouped = <String, List<CatalogWord>>{};
     for (final word in words) {
       final trimmed = word.english.trim();
@@ -2631,8 +2634,7 @@ class _ProductVocabularyPageState extends State<_ProductVocabularyPage>
     );
   }
 
-  List<String> get _topics =>
-      _catalog.map((word) => word.topic).toSet().toList()..sort();
+  List<String> get _topics => _searchIndex.topics;
 
   Widget _vocabularyWordCard(
     BuildContext context,
@@ -2675,7 +2677,7 @@ class _ProductVocabularyPageState extends State<_ProductVocabularyPage>
               if (word.imageUrl?.trim().isNotEmpty == true) ...[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: Image(
+                  child: DisplayImage(
                     image: _catalogImage(word),
                     height: 150,
                     width: double.infinity,
@@ -3031,7 +3033,7 @@ class _VocabularyWordCard extends StatelessWidget {
                 height: 106,
                 child: image == null
                     ? _fallback(context)
-                    : Image(
+                    : DisplayImage(
                         image: image!,
                         fit: BoxFit.cover,
                         errorBuilder: (_, _, _) => _fallback(context),

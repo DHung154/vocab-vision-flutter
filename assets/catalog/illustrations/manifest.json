@@ -1,0 +1,4361 @@
+{
+  "openmoji_version": "16.0.0",
+  "width": 640,
+  "height": 400,
+  "images": [
+    {
+      "id": "apple",
+      "english": "Apple",
+      "vietnamese": "Quả táo",
+      "file": "apple.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F34E",
+          "annotation": "red apple",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F34E.svg"
+        }
+      ]
+    },
+    {
+      "id": "banana",
+      "english": "Banana",
+      "vietnamese": "Quả chuối",
+      "file": "banana.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F34C",
+          "annotation": "banana",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F34C.svg"
+        }
+      ]
+    },
+    {
+      "id": "orange",
+      "english": "Orange",
+      "vietnamese": "Quả cam",
+      "file": "orange.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F34A",
+          "annotation": "tangerine",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F34A.svg"
+        }
+      ]
+    },
+    {
+      "id": "grape",
+      "english": "Grape",
+      "vietnamese": "Quả nho",
+      "file": "grape.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F347",
+          "annotation": "grapes",
+          "author": "Hend Hourani",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F347.svg"
+        }
+      ]
+    },
+    {
+      "id": "watermelon",
+      "english": "Watermelon",
+      "vietnamese": "Dưa hấu",
+      "file": "watermelon.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F349",
+          "annotation": "watermelon",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F349.svg"
+        }
+      ]
+    },
+    {
+      "id": "carrot",
+      "english": "Carrot",
+      "vietnamese": "Cà rốt",
+      "file": "carrot.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F955",
+          "annotation": "carrot",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F955.svg"
+        }
+      ]
+    },
+    {
+      "id": "potato",
+      "english": "Potato",
+      "vietnamese": "Khoai tây",
+      "file": "potato.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F954",
+          "annotation": "potato",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F954.svg"
+        }
+      ]
+    },
+    {
+      "id": "tomato",
+      "english": "Tomato",
+      "vietnamese": "Cà chua",
+      "file": "tomato.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F345",
+          "annotation": "tomato",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F345.svg"
+        }
+      ]
+    },
+    {
+      "id": "cat",
+      "english": "Cat",
+      "vietnamese": "Con mèo",
+      "file": "cat.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F408",
+          "annotation": "cat",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F408.svg"
+        }
+      ]
+    },
+    {
+      "id": "dog",
+      "english": "Dog",
+      "vietnamese": "Con chó",
+      "file": "dog.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F415",
+          "annotation": "dog",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F415.svg"
+        }
+      ]
+    },
+    {
+      "id": "rabbit",
+      "english": "Rabbit",
+      "vietnamese": "Con thỏ",
+      "file": "rabbit.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F407",
+          "annotation": "rabbit",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F407.svg"
+        }
+      ]
+    },
+    {
+      "id": "bird",
+      "english": "Bird",
+      "vietnamese": "Con chim",
+      "file": "bird.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F426",
+          "annotation": "bird",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F426.svg"
+        }
+      ]
+    },
+    {
+      "id": "fish",
+      "english": "Fish",
+      "vietnamese": "Con cá",
+      "file": "fish.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F41F",
+          "annotation": "fish",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F41F.svg"
+        }
+      ]
+    },
+    {
+      "id": "mother",
+      "english": "Mother",
+      "vietnamese": "Mẹ",
+      "file": "mother.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F469",
+          "annotation": "woman",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F469.svg"
+        },
+        {
+          "hexcode": "1F467",
+          "annotation": "girl",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F467.svg"
+        },
+        {
+          "hexcode": "2764",
+          "annotation": "red heart",
+          "author": "Laura Humpfer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2764.svg"
+        }
+      ]
+    },
+    {
+      "id": "father",
+      "english": "Father",
+      "vietnamese": "Bố",
+      "file": "father.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F468",
+          "annotation": "man",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F468.svg"
+        },
+        {
+          "hexcode": "1F466",
+          "annotation": "boy",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F466.svg"
+        },
+        {
+          "hexcode": "2764",
+          "annotation": "red heart",
+          "author": "Laura Humpfer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2764.svg"
+        }
+      ]
+    },
+    {
+      "id": "sister",
+      "english": "Sister",
+      "vietnamese": "Chị/em gái",
+      "file": "sister.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F467",
+          "annotation": "girl",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F467.svg"
+        },
+        {
+          "hexcode": "1F466",
+          "annotation": "boy",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F466.svg"
+        },
+        {
+          "hexcode": "2B50",
+          "annotation": "star",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2B50.svg"
+        }
+      ]
+    },
+    {
+      "id": "brother",
+      "english": "Brother",
+      "vietnamese": "Anh/em trai",
+      "file": "brother.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F466",
+          "annotation": "boy",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F466.svg"
+        },
+        {
+          "hexcode": "1F467",
+          "annotation": "girl",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F467.svg"
+        },
+        {
+          "hexcode": "2B50",
+          "annotation": "star",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2B50.svg"
+        }
+      ]
+    },
+    {
+      "id": "home",
+      "english": "Home",
+      "vietnamese": "Nhà",
+      "file": "home.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3E0",
+          "annotation": "house",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3E0.svg"
+        }
+      ]
+    },
+    {
+      "id": "school",
+      "english": "School",
+      "vietnamese": "Trường học",
+      "file": "school.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3EB",
+          "annotation": "school",
+          "author": "Niklas Kuntz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3EB.svg"
+        }
+      ]
+    },
+    {
+      "id": "library",
+      "english": "Library",
+      "vietnamese": "Thư viện",
+      "file": "library.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3DB",
+          "annotation": "classical building",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3DB.svg"
+        },
+        {
+          "hexcode": "1F4DA",
+          "annotation": "books",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4DA.svg"
+        }
+      ]
+    },
+    {
+      "id": "classroom",
+      "english": "Classroom",
+      "vietnamese": "Lớp học",
+      "file": "classroom.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "red",
+      "english": "Red",
+      "vietnamese": "Màu đỏ",
+      "file": "red.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "blue",
+      "english": "Blue",
+      "vietnamese": "Màu xanh dương",
+      "file": "blue.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "green",
+      "english": "Green",
+      "vietnamese": "Màu xanh lá",
+      "file": "green.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "yellow",
+      "english": "Yellow",
+      "vietnamese": "Màu vàng",
+      "file": "yellow.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "run",
+      "english": "Run",
+      "vietnamese": "Chạy",
+      "file": "run.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3C3",
+          "annotation": "person running",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3C3.svg"
+        }
+      ]
+    },
+    {
+      "id": "read",
+      "english": "Read",
+      "vietnamese": "Đọc",
+      "file": "read.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D2",
+          "annotation": "child",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D2.svg"
+        },
+        {
+          "hexcode": "1F4D6",
+          "annotation": "open book",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4D6.svg"
+        }
+      ]
+    },
+    {
+      "id": "write",
+      "english": "Write",
+      "vietnamese": "Viết",
+      "file": "write.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "270D",
+          "annotation": "writing hand",
+          "author": "Julian Grüneberg",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/270D.svg"
+        }
+      ]
+    },
+    {
+      "id": "listen",
+      "english": "Listen",
+      "vietnamese": "Nghe",
+      "file": "listen.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F442",
+          "annotation": "ear",
+          "author": "Julian Grüneberg",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F442.svg"
+        },
+        {
+          "hexcode": "1F3B5",
+          "annotation": "musical note",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3B5.svg"
+        }
+      ]
+    },
+    {
+      "id": "happy",
+      "english": "Happy",
+      "vietnamese": "Vui vẻ",
+      "file": "happy.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F604",
+          "annotation": "grinning face with smiling eyes",
+          "author": "Emily Jäger",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F604.svg"
+        }
+      ]
+    },
+    {
+      "id": "tired",
+      "english": "Tired",
+      "vietnamese": "Mệt",
+      "file": "tired.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "E280",
+          "annotation": "exhausted face",
+          "author": "Mariella Steeb",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/E280.svg"
+        }
+      ]
+    },
+    {
+      "id": "one",
+      "english": "One",
+      "vietnamese": "Một",
+      "file": "one.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "ten",
+      "english": "Ten",
+      "vietnamese": "Mười",
+      "file": "ten.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "circle",
+      "english": "Circle",
+      "vietnamese": "Hình tròn",
+      "file": "circle.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "square",
+      "english": "Square",
+      "vietnamese": "Hình vuông",
+      "file": "square.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "head",
+      "english": "Head",
+      "vietnamese": "Đầu",
+      "file": "head.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "hand",
+      "english": "Hand",
+      "vietnamese": "Bàn tay",
+      "file": "hand.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "270B",
+          "annotation": "raised hand",
+          "author": "Julian Grüneberg",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/270B.svg"
+        }
+      ]
+    },
+    {
+      "id": "wake",
+      "english": "Wake up",
+      "vietnamese": "Thức dậy",
+      "file": "wake.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F6CF",
+          "annotation": "bed",
+          "author": "Lisa Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F6CF.svg"
+        },
+        {
+          "hexcode": "2600",
+          "annotation": "sun",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2600.svg"
+        },
+        {
+          "hexcode": "1F9D2",
+          "annotation": "child",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D2.svg"
+        }
+      ]
+    },
+    {
+      "id": "brush",
+      "english": "Brush",
+      "vietnamese": "Chải",
+      "file": "brush.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "table",
+      "english": "Table",
+      "vietnamese": "Cái bàn",
+      "file": "table.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "chair",
+      "english": "Chair",
+      "vietnamese": "Cái ghế",
+      "file": "chair.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1FA91",
+          "annotation": "chair",
+          "author": "Sam Eckert",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1FA91.svg"
+        }
+      ]
+    },
+    {
+      "id": "plate",
+      "english": "Plate",
+      "vietnamese": "Đĩa",
+      "file": "plate.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "spoon",
+      "english": "Spoon",
+      "vietnamese": "Thìa",
+      "file": "spoon.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F944",
+          "annotation": "spoon",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F944.svg"
+        }
+      ]
+    },
+    {
+      "id": "bed",
+      "english": "Bed",
+      "vietnamese": "Giường",
+      "file": "bed.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F6CF",
+          "annotation": "bed",
+          "author": "Lisa Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F6CF.svg"
+        }
+      ]
+    },
+    {
+      "id": "pillow",
+      "english": "Pillow",
+      "vietnamese": "Gối",
+      "file": "pillow.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "shirt",
+      "english": "Shirt",
+      "vietnamese": "Áo sơ mi",
+      "file": "shirt.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F455",
+          "annotation": "t-shirt",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F455.svg"
+        }
+      ]
+    },
+    {
+      "id": "dress",
+      "english": "Dress",
+      "vietnamese": "Váy",
+      "file": "dress.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F457",
+          "annotation": "dress",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F457.svg"
+        }
+      ]
+    },
+    {
+      "id": "shoe",
+      "english": "Shoe",
+      "vietnamese": "Giày",
+      "file": "shoe.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F45F",
+          "annotation": "running shoe",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F45F.svg"
+        }
+      ]
+    },
+    {
+      "id": "hat",
+      "english": "Hat",
+      "vietnamese": "Mũ",
+      "file": "hat.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9E2",
+          "annotation": "billed cap",
+          "author": "Jennifer Pätzold",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9E2.svg"
+        }
+      ]
+    },
+    {
+      "id": "rice",
+      "english": "Rice",
+      "vietnamese": "Cơm",
+      "file": "rice.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F35A",
+          "annotation": "cooked rice",
+          "author": "Miriam Vollmeier",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F35A.svg"
+        }
+      ]
+    },
+    {
+      "id": "bread",
+      "english": "Bread",
+      "vietnamese": "Bánh mì",
+      "file": "bread.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F35E",
+          "annotation": "bread",
+          "author": "Miriam Vollmeier",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F35E.svg"
+        }
+      ]
+    },
+    {
+      "id": "water",
+      "english": "Water",
+      "vietnamese": "Nước",
+      "file": "water.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "milk",
+      "english": "Milk",
+      "vietnamese": "Sữa",
+      "file": "milk.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F95B",
+          "annotation": "glass of milk",
+          "author": "Laura Humpfer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F95B.svg"
+        }
+      ]
+    },
+    {
+      "id": "hamster",
+      "english": "Hamster",
+      "vietnamese": "Chuột hamster",
+      "file": "hamster.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F439",
+          "annotation": "hamster",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F439.svg"
+        }
+      ]
+    },
+    {
+      "id": "turtle",
+      "english": "Turtle",
+      "vietnamese": "Rùa",
+      "file": "turtle.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F422",
+          "annotation": "turtle",
+          "author": "Robert Winslow",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F422.svg"
+        }
+      ]
+    },
+    {
+      "id": "tiger",
+      "english": "Tiger",
+      "vietnamese": "Hổ",
+      "file": "tiger.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F405",
+          "annotation": "tiger",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F405.svg"
+        }
+      ]
+    },
+    {
+      "id": "elephant",
+      "english": "Elephant",
+      "vietnamese": "Voi",
+      "file": "elephant.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F418",
+          "annotation": "elephant",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F418.svg"
+        }
+      ]
+    },
+    {
+      "id": "eagle",
+      "english": "Eagle",
+      "vietnamese": "Đại bàng",
+      "file": "eagle.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F985",
+          "annotation": "eagle",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F985.svg"
+        }
+      ]
+    },
+    {
+      "id": "parrot",
+      "english": "Parrot",
+      "vietnamese": "Vẹt",
+      "file": "parrot.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F99C",
+          "annotation": "parrot",
+          "author": "Ricarda Krejci",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F99C.svg"
+        }
+      ]
+    },
+    {
+      "id": "whale",
+      "english": "Whale",
+      "vietnamese": "Cá voi",
+      "file": "whale.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F40B",
+          "annotation": "whale",
+          "author": "Kris Kowal",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F40B.svg"
+        }
+      ]
+    },
+    {
+      "id": "dolphin",
+      "english": "Dolphin",
+      "vietnamese": "Cá heo",
+      "file": "dolphin.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F42C",
+          "annotation": "dolphin",
+          "author": "Kris Kowal",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F42C.svg"
+        }
+      ]
+    },
+    {
+      "id": "ant",
+      "english": "Ant",
+      "vietnamese": "Con kiến",
+      "file": "ant.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F41C",
+          "annotation": "ant",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F41C.svg"
+        }
+      ]
+    },
+    {
+      "id": "butterfly",
+      "english": "Butterfly",
+      "vietnamese": "Bướm",
+      "file": "butterfly.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F98B",
+          "annotation": "butterfly",
+          "author": "Robert Winslow",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F98B.svg"
+        }
+      ]
+    },
+    {
+      "id": "tree",
+      "english": "Tree",
+      "vietnamese": "Cây",
+      "file": "tree.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F333",
+          "annotation": "deciduous tree",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F333.svg"
+        }
+      ]
+    },
+    {
+      "id": "flower",
+      "english": "Flower",
+      "vietnamese": "Bông hoa",
+      "file": "flower.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F33C",
+          "annotation": "blossom",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F33C.svg"
+        }
+      ]
+    },
+    {
+      "id": "sunny",
+      "english": "Sunny",
+      "vietnamese": "Có nắng",
+      "file": "sunny.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2600",
+          "annotation": "sun",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2600.svg"
+        }
+      ]
+    },
+    {
+      "id": "rainy",
+      "english": "Rainy",
+      "vietnamese": "Có mưa",
+      "file": "rainy.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F327",
+          "annotation": "cloud with rain",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F327.svg"
+        }
+      ]
+    },
+    {
+      "id": "spring",
+      "english": "Spring",
+      "vietnamese": "Mùa xuân",
+      "file": "spring.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F333",
+          "annotation": "deciduous tree",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F333.svg"
+        },
+        {
+          "hexcode": "1F337",
+          "annotation": "tulip",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F337.svg"
+        },
+        {
+          "hexcode": "1F33C",
+          "annotation": "blossom",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F33C.svg"
+        },
+        {
+          "hexcode": "1F338",
+          "annotation": "cherry blossom",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F338.svg"
+        }
+      ]
+    },
+    {
+      "id": "winter",
+      "english": "Winter",
+      "vietnamese": "Mùa đông",
+      "file": "winter.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F332",
+          "annotation": "evergreen tree",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F332.svg"
+        },
+        {
+          "hexcode": "2744",
+          "annotation": "snowflake",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2744.svg"
+        }
+      ]
+    },
+    {
+      "id": "morning",
+      "english": "Morning",
+      "vietnamese": "Buổi sáng",
+      "file": "morning.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2600",
+          "annotation": "sun",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2600.svg"
+        },
+        {
+          "hexcode": "2601",
+          "annotation": "cloud",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2601.svg"
+        }
+      ]
+    },
+    {
+      "id": "night",
+      "english": "Night",
+      "vietnamese": "Ban đêm",
+      "file": "night.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F319",
+          "annotation": "crescent moon",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F319.svg"
+        },
+        {
+          "hexcode": "2B50",
+          "annotation": "star",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2B50.svg"
+        }
+      ]
+    },
+    {
+      "id": "monday",
+      "english": "Monday",
+      "vietnamese": "Thứ hai",
+      "file": "monday.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "january",
+      "english": "January",
+      "vietnamese": "Tháng một",
+      "file": "january.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "bus",
+      "english": "Bus",
+      "vietnamese": "Xe buýt",
+      "file": "bus.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F68C",
+          "annotation": "bus",
+          "author": "Ronja Bäurlen",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F68C.svg"
+        }
+      ]
+    },
+    {
+      "id": "bicycle",
+      "english": "Bicycle",
+      "vietnamese": "Xe đạp",
+      "file": "bicycle.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F6B2",
+          "annotation": "bicycle",
+          "author": "Ronja Bäurlen",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F6B2.svg"
+        }
+      ]
+    },
+    {
+      "id": "bridge",
+      "english": "Bridge",
+      "vietnamese": "Cây cầu",
+      "file": "bridge.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "traffic_light",
+      "english": "Traffic light",
+      "vietnamese": "Đèn giao thông",
+      "file": "traffic_light.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F6A6",
+          "annotation": "vertical traffic light",
+          "author": "Ronja Bäurlen",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F6A6.svg"
+        }
+      ]
+    },
+    {
+      "id": "doctor",
+      "english": "Doctor",
+      "vietnamese": "Bác sĩ",
+      "file": "doctor.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "E301",
+          "annotation": "male doctor",
+          "author": "Fanny Jung",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/E301.svg"
+        }
+      ]
+    },
+    {
+      "id": "teacher",
+      "english": "Teacher",
+      "vietnamese": "Giáo viên",
+      "file": "teacher.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D1-200D-1F3EB",
+          "annotation": "teacher",
+          "author": "Benedikt Groß",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D1-200D-1F3EB.svg"
+        }
+      ]
+    },
+    {
+      "id": "football",
+      "english": "Football",
+      "vietnamese": "Bóng đá",
+      "file": "football.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "26BD",
+          "annotation": "soccer ball",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/26BD.svg"
+        }
+      ]
+    },
+    {
+      "id": "swimming",
+      "english": "Swimming",
+      "vietnamese": "Bơi lội",
+      "file": "swimming.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3CA",
+          "annotation": "person swimming",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3CA.svg"
+        }
+      ]
+    },
+    {
+      "id": "drawing",
+      "english": "Drawing",
+      "vietnamese": "Vẽ tranh",
+      "file": "drawing.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F58D",
+          "annotation": "crayon",
+          "author": "Rana Cakir",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F58D.svg"
+        }
+      ]
+    },
+    {
+      "id": "music",
+      "english": "Music",
+      "vietnamese": "Âm nhạc",
+      "file": "music.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3B5",
+          "annotation": "musical note",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3B5.svg"
+        }
+      ]
+    },
+    {
+      "id": "doll",
+      "english": "Doll",
+      "vietnamese": "Búp bê",
+      "file": "doll.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "ball",
+      "english": "Ball",
+      "vietnamese": "Quả bóng",
+      "file": "ball.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "26BD",
+          "annotation": "soccer ball",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/26BD.svg"
+        }
+      ]
+    },
+    {
+      "id": "piano",
+      "english": "Piano",
+      "vietnamese": "Đàn piano",
+      "file": "piano.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3B9",
+          "annotation": "musical keyboard",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3B9.svg"
+        }
+      ]
+    },
+    {
+      "id": "guitar",
+      "english": "Guitar",
+      "vietnamese": "Đàn ghi-ta",
+      "file": "guitar.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3B8",
+          "annotation": "guitar",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3B8.svg"
+        }
+      ]
+    },
+    {
+      "id": "computer",
+      "english": "Computer",
+      "vietnamese": "Máy tính",
+      "file": "computer.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F4BB",
+          "annotation": "laptop",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4BB.svg"
+        }
+      ]
+    },
+    {
+      "id": "tablet",
+      "english": "Tablet",
+      "vietnamese": "Máy tính bảng",
+      "file": "tablet.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "E1CC",
+          "annotation": "tablet",
+          "author": "Kai Wanschura",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/E1CC.svg"
+        }
+      ]
+    },
+    {
+      "id": "river",
+      "english": "River",
+      "vietnamese": "Dòng sông",
+      "file": "river.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F333",
+          "annotation": "deciduous tree",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F333.svg"
+        }
+      ]
+    },
+    {
+      "id": "mountain",
+      "english": "Mountain",
+      "vietnamese": "Ngọn núi",
+      "file": "mountain.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "26F0",
+          "annotation": "mountain",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/26F0.svg"
+        }
+      ]
+    },
+    {
+      "id": "airport",
+      "english": "Airport",
+      "vietnamese": "Sân bay",
+      "file": "airport.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2708",
+          "annotation": "airplane",
+          "author": "Ronja Bäurlen",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2708.svg"
+        }
+      ]
+    },
+    {
+      "id": "hotel",
+      "english": "Hotel",
+      "vietnamese": "Khách sạn",
+      "file": "hotel.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3E8",
+          "annotation": "hotel",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3E8.svg"
+        }
+      ]
+    },
+    {
+      "id": "folder",
+      "english": "Folder",
+      "vietnamese": "Bìa hồ sơ",
+      "file": "folder.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F4C1",
+          "annotation": "file folder",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4C1.svg"
+        }
+      ]
+    },
+    {
+      "id": "marker",
+      "english": "Marker",
+      "vietnamese": "Bút dạ",
+      "file": "marker.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "stapler",
+      "english": "Stapler",
+      "vietnamese": "Dập ghim",
+      "file": "stapler.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "calculator",
+      "english": "Calculator",
+      "vietnamese": "Máy tính",
+      "file": "calculator.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "globe",
+      "english": "Globe",
+      "vietnamese": "Quả địa cầu",
+      "file": "globe.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F310",
+          "annotation": "globe with meridians",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F310.svg"
+        }
+      ]
+    },
+    {
+      "id": "mango",
+      "english": "Mango",
+      "vietnamese": "Quả xoài",
+      "file": "mango.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F96D",
+          "annotation": "mango",
+          "author": "Ricarda Krejci",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F96D.svg"
+        }
+      ]
+    },
+    {
+      "id": "pear",
+      "english": "Pear",
+      "vietnamese": "Quả lê",
+      "file": "pear.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F350",
+          "annotation": "pear",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F350.svg"
+        }
+      ]
+    },
+    {
+      "id": "peach",
+      "english": "Peach",
+      "vietnamese": "Quả đào",
+      "file": "peach.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F351",
+          "annotation": "peach",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F351.svg"
+        }
+      ]
+    },
+    {
+      "id": "strawberry",
+      "english": "Strawberry",
+      "vietnamese": "Quả dâu tây",
+      "file": "strawberry.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F353",
+          "annotation": "strawberry",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F353.svg"
+        }
+      ]
+    },
+    {
+      "id": "coconut",
+      "english": "Coconut",
+      "vietnamese": "Quả dừa",
+      "file": "coconut.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F965",
+          "annotation": "coconut",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F965.svg"
+        }
+      ]
+    },
+    {
+      "id": "onion",
+      "english": "Onion",
+      "vietnamese": "Củ hành tây",
+      "file": "onion.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9C5",
+          "annotation": "onion",
+          "author": "Yasmin Abdullahi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9C5.svg"
+        }
+      ]
+    },
+    {
+      "id": "cucumber",
+      "english": "Cucumber",
+      "vietnamese": "Dưa chuột",
+      "file": "cucumber.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F952",
+          "annotation": "cucumber",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F952.svg"
+        }
+      ]
+    },
+    {
+      "id": "cabbage",
+      "english": "Cabbage",
+      "vietnamese": "Bắp cải",
+      "file": "cabbage.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "corn",
+      "english": "Corn",
+      "vietnamese": "Ngô",
+      "file": "corn.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F33D",
+          "annotation": "ear of corn",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F33D.svg"
+        }
+      ]
+    },
+    {
+      "id": "pumpkin",
+      "english": "Pumpkin",
+      "vietnamese": "Bí ngô",
+      "file": "pumpkin.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "lion",
+      "english": "Lion",
+      "vietnamese": "Sư tử",
+      "file": "lion.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F981",
+          "annotation": "lion",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F981.svg"
+        }
+      ]
+    },
+    {
+      "id": "bear",
+      "english": "Bear",
+      "vietnamese": "Con gấu",
+      "file": "bear.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F43B",
+          "annotation": "bear",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F43B.svg"
+        }
+      ]
+    },
+    {
+      "id": "monkey",
+      "english": "Monkey",
+      "vietnamese": "Con khỉ",
+      "file": "monkey.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F412",
+          "annotation": "monkey",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F412.svg"
+        }
+      ]
+    },
+    {
+      "id": "horse",
+      "english": "Horse",
+      "vietnamese": "Con ngựa",
+      "file": "horse.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F40E",
+          "annotation": "horse",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F40E.svg"
+        }
+      ]
+    },
+    {
+      "id": "cow",
+      "english": "Cow",
+      "vietnamese": "Con bò",
+      "file": "cow.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F404",
+          "annotation": "cow",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F404.svg"
+        }
+      ]
+    },
+    {
+      "id": "goat",
+      "english": "Goat",
+      "vietnamese": "Con dê",
+      "file": "goat.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F410",
+          "annotation": "goat",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F410.svg"
+        }
+      ]
+    },
+    {
+      "id": "grandmother",
+      "english": "Grandmother",
+      "vietnamese": "Bà",
+      "file": "grandmother.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F475",
+          "annotation": "old woman",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F475.svg"
+        }
+      ]
+    },
+    {
+      "id": "grandfather",
+      "english": "Grandfather",
+      "vietnamese": "Ông",
+      "file": "grandfather.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F474",
+          "annotation": "old man",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F474.svg"
+        }
+      ]
+    },
+    {
+      "id": "cousin",
+      "english": "Cousin",
+      "vietnamese": "Anh chị em họ",
+      "file": "cousin.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F467",
+          "annotation": "girl",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F467.svg"
+        },
+        {
+          "hexcode": "1F466",
+          "annotation": "boy",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F466.svg"
+        }
+      ]
+    },
+    {
+      "id": "baby",
+      "english": "Baby",
+      "vietnamese": "Em bé",
+      "file": "baby.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F476",
+          "annotation": "baby",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F476.svg"
+        }
+      ]
+    },
+    {
+      "id": "park",
+      "english": "Park",
+      "vietnamese": "Công viên",
+      "file": "park.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3DE",
+          "annotation": "national park",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3DE.svg"
+        }
+      ]
+    },
+    {
+      "id": "hospital",
+      "english": "Hospital",
+      "vietnamese": "Bệnh viện",
+      "file": "hospital.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3E5",
+          "annotation": "hospital",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3E5.svg"
+        }
+      ]
+    },
+    {
+      "id": "museum",
+      "english": "Museum",
+      "vietnamese": "Bảo tàng",
+      "file": "museum.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3DB",
+          "annotation": "classical building",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3DB.svg"
+        }
+      ]
+    },
+    {
+      "id": "market",
+      "english": "Market",
+      "vietnamese": "Chợ",
+      "file": "market.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F34E",
+          "annotation": "red apple",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F34E.svg"
+        },
+        {
+          "hexcode": "1F955",
+          "annotation": "carrot",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F955.svg"
+        },
+        {
+          "hexcode": "1F34C",
+          "annotation": "banana",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F34C.svg"
+        }
+      ]
+    },
+    {
+      "id": "black",
+      "english": "Black",
+      "vietnamese": "Màu đen",
+      "file": "black.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "white",
+      "english": "White",
+      "vietnamese": "Màu trắng",
+      "file": "white.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "pink",
+      "english": "Pink",
+      "vietnamese": "Màu hồng",
+      "file": "pink.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "purple",
+      "english": "Purple",
+      "vietnamese": "Màu tím",
+      "file": "purple.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "jump",
+      "english": "Jump",
+      "vietnamese": "Nhảy",
+      "file": "jump.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "sit",
+      "english": "Sit",
+      "vietnamese": "Ngồi",
+      "file": "sit.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "stand",
+      "english": "Stand",
+      "vietnamese": "Đứng",
+      "file": "stand.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9CD",
+          "annotation": "person standing",
+          "author": "Laura Dworatschek",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9CD.svg"
+        }
+      ]
+    },
+    {
+      "id": "open",
+      "english": "Open",
+      "vietnamese": "Mở",
+      "file": "open.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "close",
+      "english": "Close",
+      "vietnamese": "Đóng",
+      "file": "close.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "sad",
+      "english": "Sad",
+      "vietnamese": "Buồn",
+      "file": "sad.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F622",
+          "annotation": "crying face",
+          "author": "Mariella Steeb",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F622.svg"
+        }
+      ]
+    },
+    {
+      "id": "angry",
+      "english": "Angry",
+      "vietnamese": "Tức giận",
+      "file": "angry.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F620",
+          "annotation": "angry face",
+          "author": "Mariella Steeb",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F620.svg"
+        }
+      ]
+    },
+    {
+      "id": "excited",
+      "english": "Excited",
+      "vietnamese": "Hào hứng",
+      "file": "excited.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F929",
+          "annotation": "star-struck",
+          "author": "Emily Jäger",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F929.svg"
+        }
+      ]
+    },
+    {
+      "id": "scared",
+      "english": "Scared",
+      "vietnamese": "Sợ hãi",
+      "file": "scared.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F628",
+          "annotation": "fearful face",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F628.svg"
+        }
+      ]
+    },
+    {
+      "id": "calm",
+      "english": "Calm",
+      "vietnamese": "Bình tĩnh",
+      "file": "calm.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F60C",
+          "annotation": "relieved face",
+          "author": "Mariella Steeb",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F60C.svg"
+        }
+      ]
+    },
+    {
+      "id": "proud",
+      "english": "Proud",
+      "vietnamese": "Tự hào",
+      "file": "proud.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F60A",
+          "annotation": "smiling face with smiling eyes",
+          "author": "Emily Jäger",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F60A.svg"
+        }
+      ]
+    },
+    {
+      "id": "two",
+      "english": "Two",
+      "vietnamese": "Hai",
+      "file": "two.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "three",
+      "english": "Three",
+      "vietnamese": "Ba",
+      "file": "three.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "four",
+      "english": "Four",
+      "vietnamese": "Bốn",
+      "file": "four.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "five",
+      "english": "Five",
+      "vietnamese": "Năm",
+      "file": "five.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "six",
+      "english": "Six",
+      "vietnamese": "Sáu",
+      "file": "six.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "triangle",
+      "english": "Triangle",
+      "vietnamese": "Hình tam giác",
+      "file": "triangle.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "rectangle",
+      "english": "Rectangle",
+      "vietnamese": "Hình chữ nhật",
+      "file": "rectangle.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "oval",
+      "english": "Oval",
+      "vietnamese": "Hình bầu dục",
+      "file": "oval.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "star",
+      "english": "Star",
+      "vietnamese": "Ngôi sao",
+      "file": "star.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2B50",
+          "annotation": "star",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2B50.svg"
+        }
+      ]
+    },
+    {
+      "id": "heart",
+      "english": "Heart",
+      "vietnamese": "Trái tim",
+      "file": "heart.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2764",
+          "annotation": "red heart",
+          "author": "Laura Humpfer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2764.svg"
+        }
+      ]
+    },
+    {
+      "id": "eye",
+      "english": "Eye",
+      "vietnamese": "Mắt",
+      "file": "eye.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F441",
+          "annotation": "eye",
+          "author": "Julian Grüneberg",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F441.svg"
+        }
+      ]
+    },
+    {
+      "id": "ear",
+      "english": "Ear",
+      "vietnamese": "Tai",
+      "file": "ear.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F442",
+          "annotation": "ear",
+          "author": "Julian Grüneberg",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F442.svg"
+        }
+      ]
+    },
+    {
+      "id": "nose",
+      "english": "Nose",
+      "vietnamese": "Mũi",
+      "file": "nose.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F443",
+          "annotation": "nose",
+          "author": "Julian Grüneberg",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F443.svg"
+        }
+      ]
+    },
+    {
+      "id": "mouth",
+      "english": "Mouth",
+      "vietnamese": "Miệng",
+      "file": "mouth.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F444",
+          "annotation": "mouth",
+          "author": "Julian Grüneberg",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F444.svg"
+        }
+      ]
+    },
+    {
+      "id": "foot",
+      "english": "Foot",
+      "vietnamese": "Bàn chân",
+      "file": "foot.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9B6",
+          "annotation": "foot",
+          "author": "Daniel Utz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9B6.svg"
+        }
+      ]
+    },
+    {
+      "id": "brush_teeth",
+      "english": "Brush teeth",
+      "vietnamese": "Đánh răng",
+      "file": "brush_teeth.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9B7",
+          "annotation": "tooth",
+          "author": "Laura Schießer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9B7.svg"
+        },
+        {
+          "hexcode": "1FAA5",
+          "annotation": "toothbrush",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1FAA5.svg"
+        }
+      ]
+    },
+    {
+      "id": "eat",
+      "english": "Eat",
+      "vietnamese": "Ăn",
+      "file": "eat.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D2",
+          "annotation": "child",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D2.svg"
+        },
+        {
+          "hexcode": "1F37D",
+          "annotation": "fork and knife with plate",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F37D.svg"
+        },
+        {
+          "hexcode": "1F96A",
+          "annotation": "sandwich",
+          "author": "Miriam Vollmeier",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F96A.svg"
+        }
+      ]
+    },
+    {
+      "id": "drink",
+      "english": "Drink",
+      "vietnamese": "Uống",
+      "file": "drink.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D2",
+          "annotation": "child",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D2.svg"
+        }
+      ]
+    },
+    {
+      "id": "sleep",
+      "english": "Sleep",
+      "vietnamese": "Ngủ",
+      "file": "sleep.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F6CF",
+          "annotation": "bed",
+          "author": "Lisa Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F6CF.svg"
+        },
+        {
+          "hexcode": "1F4A4",
+          "annotation": "ZZZ",
+          "author": "Laura Humpfer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4A4.svg"
+        }
+      ]
+    },
+    {
+      "id": "wash",
+      "english": "Wash",
+      "vietnamese": "Rửa",
+      "file": "wash.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "E0B2",
+          "annotation": "wash hands",
+          "author": "Guemil Project",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/E0B2.svg"
+        }
+      ]
+    },
+    {
+      "id": "sofa",
+      "english": "Sofa",
+      "vietnamese": "Ghế sofa",
+      "file": "sofa.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F6CB",
+          "annotation": "couch and lamp",
+          "author": "Lisa Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F6CB.svg"
+        }
+      ]
+    },
+    {
+      "id": "door",
+      "english": "Door",
+      "vietnamese": "Cửa ra vào",
+      "file": "door.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F6AA",
+          "annotation": "door",
+          "author": "Lisa Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F6AA.svg"
+        }
+      ]
+    },
+    {
+      "id": "window",
+      "english": "Window",
+      "vietnamese": "Cửa sổ",
+      "file": "window.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1FA9F",
+          "annotation": "window",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1FA9F.svg"
+        }
+      ]
+    },
+    {
+      "id": "lamp",
+      "english": "Lamp",
+      "vietnamese": "Đèn",
+      "file": "lamp.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "clock",
+      "english": "Clock",
+      "vietnamese": "Đồng hồ",
+      "file": "clock.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F552",
+          "annotation": "three o’clock",
+          "author": "Rana Cakir",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F552.svg"
+        }
+      ]
+    },
+    {
+      "id": "pan",
+      "english": "Pan",
+      "vietnamese": "Chảo",
+      "file": "pan.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F373",
+          "annotation": "cooking",
+          "author": "Miriam Vollmeier",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F373.svg"
+        }
+      ]
+    },
+    {
+      "id": "pot",
+      "english": "Pot",
+      "vietnamese": "Nồi",
+      "file": "pot.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F372",
+          "annotation": "pot of food",
+          "author": "Miriam Vollmeier",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F372.svg"
+        }
+      ]
+    },
+    {
+      "id": "bowl",
+      "english": "Bowl",
+      "vietnamese": "Bát",
+      "file": "bowl.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "knife",
+      "english": "Knife",
+      "vietnamese": "Dao",
+      "file": "knife.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F52A",
+          "annotation": "kitchen knife",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F52A.svg"
+        }
+      ]
+    },
+    {
+      "id": "fridge",
+      "english": "Fridge",
+      "vietnamese": "Tủ lạnh",
+      "file": "fridge.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F34E",
+          "annotation": "red apple",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F34E.svg"
+        }
+      ]
+    },
+    {
+      "id": "blanket",
+      "english": "Blanket",
+      "vietnamese": "Chăn",
+      "file": "blanket.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "desk",
+      "english": "Desk",
+      "vietnamese": "Bàn học",
+      "file": "desk.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F4D6",
+          "annotation": "open book",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4D6.svg"
+        }
+      ]
+    },
+    {
+      "id": "wardrobe",
+      "english": "Wardrobe",
+      "vietnamese": "Tủ quần áo",
+      "file": "wardrobe.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "mirror",
+      "english": "Mirror",
+      "vietnamese": "Gương",
+      "file": "mirror.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1FA9E",
+          "annotation": "mirror",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1FA9E.svg"
+        }
+      ]
+    },
+    {
+      "id": "alarm_clock",
+      "english": "Alarm clock",
+      "vietnamese": "Đồng hồ báo thức",
+      "file": "alarm_clock.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "23F0",
+          "annotation": "alarm clock",
+          "author": "Rana Cakir",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/23F0.svg"
+        }
+      ]
+    },
+    {
+      "id": "pants",
+      "english": "Pants",
+      "vietnamese": "Quần dài",
+      "file": "pants.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F456",
+          "annotation": "jeans",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F456.svg"
+        }
+      ]
+    },
+    {
+      "id": "skirt",
+      "english": "Skirt",
+      "vietnamese": "Váy",
+      "file": "skirt.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "socks",
+      "english": "Socks",
+      "vietnamese": "Tất",
+      "file": "socks.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9E6",
+          "annotation": "socks",
+          "author": "Laura Schießer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9E6.svg"
+        }
+      ]
+    },
+    {
+      "id": "coat",
+      "english": "Coat",
+      "vietnamese": "Áo khoác",
+      "file": "coat.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9E5",
+          "annotation": "coat",
+          "author": "Daniel Quiros",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9E5.svg"
+        }
+      ]
+    },
+    {
+      "id": "sweater",
+      "english": "Sweater",
+      "vietnamese": "Áo len",
+      "file": "sweater.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "sandals",
+      "english": "Sandals",
+      "vietnamese": "Dép xăng-đan",
+      "file": "sandals.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1FA74",
+          "annotation": "thong sandal",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1FA74.svg"
+        }
+      ]
+    },
+    {
+      "id": "boots",
+      "english": "Boots",
+      "vietnamese": "Ủng",
+      "file": "boots.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F462",
+          "annotation": "woman’s boot",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F462.svg"
+        }
+      ]
+    },
+    {
+      "id": "belt",
+      "english": "Belt",
+      "vietnamese": "Thắt lưng",
+      "file": "belt.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "scarf",
+      "english": "Scarf",
+      "vietnamese": "Khăn quàng",
+      "file": "scarf.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9E3",
+          "annotation": "scarf",
+          "author": "Laura Schießer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9E3.svg"
+        }
+      ]
+    },
+    {
+      "id": "gloves",
+      "english": "Gloves",
+      "vietnamese": "Găng tay",
+      "file": "gloves.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9E4",
+          "annotation": "gloves",
+          "author": "Laura Schießer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9E4.svg"
+        }
+      ]
+    },
+    {
+      "id": "noodles",
+      "english": "Noodles",
+      "vietnamese": "Mì",
+      "file": "noodles.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F35C",
+          "annotation": "steaming bowl",
+          "author": "Hend Hourani",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F35C.svg"
+        }
+      ]
+    },
+    {
+      "id": "soup",
+      "english": "Soup",
+      "vietnamese": "Súp",
+      "file": "soup.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F963",
+          "annotation": "bowl with spoon",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F963.svg"
+        }
+      ]
+    },
+    {
+      "id": "egg",
+      "english": "Egg",
+      "vietnamese": "Quả trứng",
+      "file": "egg.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F95A",
+          "annotation": "egg",
+          "author": "Niklas Kuntz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F95A.svg"
+        }
+      ]
+    },
+    {
+      "id": "chicken",
+      "english": "Chicken",
+      "vietnamese": "Thịt gà",
+      "file": "chicken.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F357",
+          "annotation": "poultry leg",
+          "author": "Miriam Vollmeier",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F357.svg"
+        }
+      ]
+    },
+    {
+      "id": "sandwich",
+      "english": "Sandwich",
+      "vietnamese": "Bánh mì kẹp",
+      "file": "sandwich.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F96A",
+          "annotation": "sandwich",
+          "author": "Miriam Vollmeier",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F96A.svg"
+        }
+      ]
+    },
+    {
+      "id": "pizza",
+      "english": "Pizza",
+      "vietnamese": "Bánh pizza",
+      "file": "pizza.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F355",
+          "annotation": "pizza",
+          "author": "Miriam Vollmeier",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F355.svg"
+        }
+      ]
+    },
+    {
+      "id": "juice",
+      "english": "Juice",
+      "vietnamese": "Nước ép",
+      "file": "juice.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F34A",
+          "annotation": "tangerine",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F34A.svg"
+        }
+      ]
+    },
+    {
+      "id": "tea",
+      "english": "Tea",
+      "vietnamese": "Trà",
+      "file": "tea.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F375",
+          "annotation": "teacup without handle",
+          "author": "Laura Humpfer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F375.svg"
+        }
+      ]
+    },
+    {
+      "id": "coffee",
+      "english": "Coffee",
+      "vietnamese": "Cà phê",
+      "file": "coffee.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2615",
+          "annotation": "hot beverage",
+          "author": "Alexander Müller",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2615.svg"
+        }
+      ]
+    },
+    {
+      "id": "lemonade",
+      "english": "Lemonade",
+      "vietnamese": "Nước chanh",
+      "file": "lemonade.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F34B",
+          "annotation": "lemon",
+          "author": "Marius Schnabel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F34B.svg"
+        }
+      ]
+    },
+    {
+      "id": "puppy",
+      "english": "Puppy",
+      "vietnamese": "Chó con",
+      "file": "puppy.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F415",
+          "annotation": "dog",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F415.svg"
+        },
+        {
+          "hexcode": "1F3BE",
+          "annotation": "tennis",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3BE.svg"
+        }
+      ]
+    },
+    {
+      "id": "kitten",
+      "english": "Kitten",
+      "vietnamese": "Mèo con",
+      "file": "kitten.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F408",
+          "annotation": "cat",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F408.svg"
+        },
+        {
+          "hexcode": "1F9F6",
+          "annotation": "yarn",
+          "author": "Nicole Kornhaas",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9F6.svg"
+        }
+      ]
+    },
+    {
+      "id": "goldfish",
+      "english": "Goldfish",
+      "vietnamese": "Cá vàng",
+      "file": "goldfish.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "E000",
+          "annotation": "goldfish",
+          "author": "Kai Magnus Müller",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/E000.svg"
+        }
+      ]
+    },
+    {
+      "id": "guinea_pig",
+      "english": "Guinea pig",
+      "vietnamese": "Chuột lang",
+      "file": "guinea_pig.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "giraffe",
+      "english": "Giraffe",
+      "vietnamese": "Hươu cao cổ",
+      "file": "giraffe.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F992",
+          "annotation": "giraffe",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F992.svg"
+        }
+      ]
+    },
+    {
+      "id": "zebra",
+      "english": "Zebra",
+      "vietnamese": "Ngựa vằn",
+      "file": "zebra.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F993",
+          "annotation": "zebra",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F993.svg"
+        }
+      ]
+    },
+    {
+      "id": "panda",
+      "english": "Panda",
+      "vietnamese": "Gấu trúc",
+      "file": "panda.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F43C",
+          "annotation": "panda",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F43C.svg"
+        }
+      ]
+    },
+    {
+      "id": "fox",
+      "english": "Fox",
+      "vietnamese": "Con cáo",
+      "file": "fox.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F98A",
+          "annotation": "fox",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F98A.svg"
+        }
+      ]
+    },
+    {
+      "id": "wolf",
+      "english": "Wolf",
+      "vietnamese": "Con sói",
+      "file": "wolf.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F43A",
+          "annotation": "wolf",
+          "author": "Sofie Ascherl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F43A.svg"
+        }
+      ]
+    },
+    {
+      "id": "swan",
+      "english": "Swan",
+      "vietnamese": "Thiên nga",
+      "file": "swan.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9A2",
+          "annotation": "swan",
+          "author": "Laura Schießer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9A2.svg"
+        }
+      ]
+    },
+    {
+      "id": "owl",
+      "english": "Owl",
+      "vietnamese": "Con cú",
+      "file": "owl.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F989",
+          "annotation": "owl",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F989.svg"
+        }
+      ]
+    },
+    {
+      "id": "pigeon",
+      "english": "Pigeon",
+      "vietnamese": "Chim bồ câu",
+      "file": "pigeon.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "E009",
+          "annotation": "pigeon",
+          "author": "Carlin MacKenzie",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/E009.svg"
+        }
+      ]
+    },
+    {
+      "id": "rooster",
+      "english": "Rooster",
+      "vietnamese": "Gà trống",
+      "file": "rooster.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F413",
+          "annotation": "rooster",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F413.svg"
+        }
+      ]
+    },
+    {
+      "id": "shark",
+      "english": "Shark",
+      "vietnamese": "Cá mập",
+      "file": "shark.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F988",
+          "annotation": "shark",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F988.svg"
+        }
+      ]
+    },
+    {
+      "id": "octopus",
+      "english": "Octopus",
+      "vietnamese": "Bạch tuộc",
+      "file": "octopus.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F419",
+          "annotation": "octopus",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F419.svg"
+        }
+      ]
+    },
+    {
+      "id": "crab",
+      "english": "Crab",
+      "vietnamese": "Con cua",
+      "file": "crab.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F980",
+          "annotation": "crab",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F980.svg"
+        }
+      ]
+    },
+    {
+      "id": "seahorse",
+      "english": "Seahorse",
+      "vietnamese": "Cá ngựa",
+      "file": "seahorse.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "bee",
+      "english": "Bee",
+      "vietnamese": "Con ong",
+      "file": "bee.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F41D",
+          "annotation": "honeybee",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F41D.svg"
+        }
+      ]
+    },
+    {
+      "id": "beetle",
+      "english": "Beetle",
+      "vietnamese": "Bọ cánh cứng",
+      "file": "beetle.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1FAB2",
+          "annotation": "beetle",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1FAB2.svg"
+        }
+      ]
+    },
+    {
+      "id": "ladybug",
+      "english": "Ladybug",
+      "vietnamese": "Bọ rùa",
+      "file": "ladybug.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F41E",
+          "annotation": "lady beetle",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F41E.svg"
+        }
+      ]
+    },
+    {
+      "id": "mosquito",
+      "english": "Mosquito",
+      "vietnamese": "Muỗi",
+      "file": "mosquito.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F99F",
+          "annotation": "mosquito",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F99F.svg"
+        }
+      ]
+    },
+    {
+      "id": "grasshopper",
+      "english": "Grasshopper",
+      "vietnamese": "Châu chấu",
+      "file": "grasshopper.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F997",
+          "annotation": "cricket",
+          "author": "Selina Bauder",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F997.svg"
+        }
+      ]
+    },
+    {
+      "id": "rose",
+      "english": "Rose",
+      "vietnamese": "Hoa hồng",
+      "file": "rose.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F339",
+          "annotation": "rose",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F339.svg"
+        }
+      ]
+    },
+    {
+      "id": "sunflower",
+      "english": "Sunflower",
+      "vietnamese": "Hoa hướng dương",
+      "file": "sunflower.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F33B",
+          "annotation": "sunflower",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F33B.svg"
+        }
+      ]
+    },
+    {
+      "id": "leaf",
+      "english": "Leaf",
+      "vietnamese": "Lá cây",
+      "file": "leaf.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F343",
+          "annotation": "leaf fluttering in wind",
+          "author": "Ricarda Krejci",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F343.svg"
+        }
+      ]
+    },
+    {
+      "id": "grass",
+      "english": "Grass",
+      "vietnamese": "Cỏ",
+      "file": "grass.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "seed",
+      "english": "Seed",
+      "vietnamese": "Hạt giống",
+      "file": "seed.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "cloudy",
+      "english": "Cloudy",
+      "vietnamese": "Nhiều mây",
+      "file": "cloudy.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2601",
+          "annotation": "cloud",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2601.svg"
+        }
+      ]
+    },
+    {
+      "id": "windy",
+      "english": "Windy",
+      "vietnamese": "Nhiều gió",
+      "file": "windy.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F32C",
+          "annotation": "wind face",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F32C.svg"
+        }
+      ]
+    },
+    {
+      "id": "snowy",
+      "english": "Snowy",
+      "vietnamese": "Có tuyết",
+      "file": "snowy.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F328",
+          "annotation": "cloud with snow",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F328.svg"
+        }
+      ]
+    },
+    {
+      "id": "storm",
+      "english": "Storm",
+      "vietnamese": "Cơn bão",
+      "file": "storm.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "26C8",
+          "annotation": "cloud with lightning and rain",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/26C8.svg"
+        }
+      ]
+    },
+    {
+      "id": "rainbow",
+      "english": "Rainbow",
+      "vietnamese": "Cầu vồng",
+      "file": "rainbow.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F308",
+          "annotation": "rainbow",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F308.svg"
+        }
+      ]
+    },
+    {
+      "id": "summer",
+      "english": "Summer",
+      "vietnamese": "Mùa hè",
+      "file": "summer.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F333",
+          "annotation": "deciduous tree",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F333.svg"
+        },
+        {
+          "hexcode": "2600",
+          "annotation": "sun",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2600.svg"
+        }
+      ]
+    },
+    {
+      "id": "autumn",
+      "english": "Autumn",
+      "vietnamese": "Mùa thu",
+      "file": "autumn.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F342",
+          "annotation": "fallen leaf",
+          "author": "Ricarda Krejci",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F342.svg"
+        },
+        {
+          "hexcode": "1F341",
+          "annotation": "maple leaf",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F341.svg"
+        }
+      ]
+    },
+    {
+      "id": "afternoon",
+      "english": "Afternoon",
+      "vietnamese": "Buổi chiều",
+      "file": "afternoon.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2600",
+          "annotation": "sun",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2600.svg"
+        },
+        {
+          "hexcode": "2601",
+          "annotation": "cloud",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2601.svg"
+        }
+      ]
+    },
+    {
+      "id": "evening",
+      "english": "Evening",
+      "vietnamese": "Buổi tối",
+      "file": "evening.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2600",
+          "annotation": "sun",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2600.svg"
+        },
+        {
+          "hexcode": "2601",
+          "annotation": "cloud",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2601.svg"
+        }
+      ]
+    },
+    {
+      "id": "today",
+      "english": "Today",
+      "vietnamese": "Hôm nay",
+      "file": "today.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "tomorrow",
+      "english": "Tomorrow",
+      "vietnamese": "Ngày mai",
+      "file": "tomorrow.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "yesterday",
+      "english": "Yesterday",
+      "vietnamese": "Hôm qua",
+      "file": "yesterday.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "tuesday",
+      "english": "Tuesday",
+      "vietnamese": "Thứ ba",
+      "file": "tuesday.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "wednesday",
+      "english": "Wednesday",
+      "vietnamese": "Thứ tư",
+      "file": "wednesday.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "thursday",
+      "english": "Thursday",
+      "vietnamese": "Thứ năm",
+      "file": "thursday.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "friday",
+      "english": "Friday",
+      "vietnamese": "Thứ sáu",
+      "file": "friday.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "sunday",
+      "english": "Sunday",
+      "vietnamese": "Chủ nhật",
+      "file": "sunday.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "car",
+      "english": "Car",
+      "vietnamese": "Ô tô",
+      "file": "car.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F697",
+          "annotation": "automobile",
+          "author": "Ronja Bäurlen",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F697.svg"
+        }
+      ]
+    },
+    {
+      "id": "train",
+      "english": "Train",
+      "vietnamese": "Tàu hỏa",
+      "file": "train.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F686",
+          "annotation": "train",
+          "author": "Nadja Grün",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F686.svg"
+        }
+      ]
+    },
+    {
+      "id": "plane",
+      "english": "Plane",
+      "vietnamese": "Máy bay",
+      "file": "plane.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2708",
+          "annotation": "airplane",
+          "author": "Ronja Bäurlen",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2708.svg"
+        }
+      ]
+    },
+    {
+      "id": "boat",
+      "english": "Boat",
+      "vietnamese": "Thuyền",
+      "file": "boat.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "26F5",
+          "annotation": "sailboat",
+          "author": "Ronja Bäurlen",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/26F5.svg"
+        }
+      ]
+    },
+    {
+      "id": "taxi",
+      "english": "Taxi",
+      "vietnamese": "Xe taxi",
+      "file": "taxi.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F695",
+          "annotation": "taxi",
+          "author": "Ronja Bäurlen",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F695.svg"
+        }
+      ]
+    },
+    {
+      "id": "road",
+      "english": "Road",
+      "vietnamese": "Con đường",
+      "file": "road.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "sidewalk",
+      "english": "Sidewalk",
+      "vietnamese": "Vỉa hè",
+      "file": "sidewalk.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F6B6",
+          "annotation": "person walking",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F6B6.svg"
+        }
+      ]
+    },
+    {
+      "id": "crossing",
+      "english": "Crossing",
+      "vietnamese": "Chỗ qua đường",
+      "file": "crossing.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "sign",
+      "english": "Sign",
+      "vietnamese": "Biển báo",
+      "file": "sign.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "E094",
+          "annotation": "signpost",
+          "author": "Guemil Project",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/E094.svg"
+        }
+      ]
+    },
+    {
+      "id": "nurse",
+      "english": "Nurse",
+      "vietnamese": "Y tá",
+      "file": "nurse.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "E302",
+          "annotation": "female nurse",
+          "author": "Tonia Reinhardt",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/E302.svg"
+        }
+      ]
+    },
+    {
+      "id": "farmer",
+      "english": "Farmer",
+      "vietnamese": "Nông dân",
+      "file": "farmer.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D1-200D-1F33E",
+          "annotation": "farmer",
+          "author": "Benedikt Groß",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D1-200D-1F33E.svg"
+        }
+      ]
+    },
+    {
+      "id": "driver",
+      "english": "Driver",
+      "vietnamese": "Tài xế",
+      "file": "driver.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D1",
+          "annotation": "person",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D1.svg"
+        },
+        {
+          "hexcode": "1F697",
+          "annotation": "automobile",
+          "author": "Ronja Bäurlen",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F697.svg"
+        }
+      ]
+    },
+    {
+      "id": "chef",
+      "english": "Chef",
+      "vietnamese": "Đầu bếp",
+      "file": "chef.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D1-200D-1F373",
+          "annotation": "cook",
+          "author": "Benedikt Groß",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D1-200D-1F373.svg"
+        }
+      ]
+    },
+    {
+      "id": "firefighter",
+      "english": "Firefighter",
+      "vietnamese": "Lính cứu hỏa",
+      "file": "firefighter.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D1-200D-1F692",
+          "annotation": "firefighter",
+          "author": "Benedikt Groß",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D1-200D-1F692.svg"
+        }
+      ]
+    },
+    {
+      "id": "basketball",
+      "english": "Basketball",
+      "vietnamese": "Bóng rổ",
+      "file": "basketball.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3C0",
+          "annotation": "basketball",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3C0.svg"
+        }
+      ]
+    },
+    {
+      "id": "tennis",
+      "english": "Tennis",
+      "vietnamese": "Quần vợt",
+      "file": "tennis.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3BE",
+          "annotation": "tennis",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3BE.svg"
+        }
+      ]
+    },
+    {
+      "id": "volleyball",
+      "english": "Volleyball",
+      "vietnamese": "Bóng chuyền",
+      "file": "volleyball.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3D0",
+          "annotation": "volleyball",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3D0.svg"
+        }
+      ]
+    },
+    {
+      "id": "running",
+      "english": "Running",
+      "vietnamese": "Chạy bộ",
+      "file": "running.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3C3",
+          "annotation": "person running",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3C3.svg"
+        }
+      ]
+    },
+    {
+      "id": "cycling",
+      "english": "Cycling",
+      "vietnamese": "Đạp xe",
+      "file": "cycling.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F6B4",
+          "annotation": "person biking",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F6B4.svg"
+        }
+      ]
+    },
+    {
+      "id": "reading",
+      "english": "Reading",
+      "vietnamese": "Đọc sách",
+      "file": "reading.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F4D6",
+          "annotation": "open book",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4D6.svg"
+        }
+      ]
+    },
+    {
+      "id": "painting",
+      "english": "Painting",
+      "vietnamese": "Vẽ tranh",
+      "file": "painting.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3A8",
+          "annotation": "artist palette",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3A8.svg"
+        }
+      ]
+    },
+    {
+      "id": "singing",
+      "english": "Singing",
+      "vietnamese": "Ca hát",
+      "file": "singing.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D1-200D-1F3A4",
+          "annotation": "singer",
+          "author": "Benedikt Groß",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D1-200D-1F3A4.svg"
+        }
+      ]
+    },
+    {
+      "id": "dancing",
+      "english": "Dancing",
+      "vietnamese": "Nhảy múa",
+      "file": "dancing.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F483",
+          "annotation": "woman dancing",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F483.svg"
+        }
+      ]
+    },
+    {
+      "id": "cooking",
+      "english": "Cooking",
+      "vietnamese": "Nấu ăn",
+      "file": "cooking.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D1-200D-1F373",
+          "annotation": "cook",
+          "author": "Benedikt Groß",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D1-200D-1F373.svg"
+        }
+      ]
+    },
+    {
+      "id": "puzzle",
+      "english": "Puzzle",
+      "vietnamese": "Trò ghép hình",
+      "file": "puzzle.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9E9",
+          "annotation": "puzzle piece",
+          "author": "Nicole Kornhaas",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9E9.svg"
+        }
+      ]
+    },
+    {
+      "id": "kite",
+      "english": "Kite",
+      "vietnamese": "Con diều",
+      "file": "kite.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1FA81",
+          "annotation": "kite",
+          "author": "Evelyn Soos",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1FA81.svg"
+        }
+      ]
+    },
+    {
+      "id": "robot",
+      "english": "Robot",
+      "vietnamese": "Rô-bốt",
+      "file": "robot.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F916",
+          "annotation": "robot",
+          "author": "Mariella Steeb",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F916.svg"
+        }
+      ]
+    },
+    {
+      "id": "teddy_bear",
+      "english": "Teddy bear",
+      "vietnamese": "Gấu bông",
+      "file": "teddy_bear.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9F8",
+          "annotation": "teddy bear",
+          "author": "Liz Bravo",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9F8.svg"
+        }
+      ]
+    },
+    {
+      "id": "blocks",
+      "english": "Blocks",
+      "vietnamese": "Khối xếp hình",
+      "file": "blocks.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Vocab Vision original educational illustration, CC BY-SA 4.0",
+      "sources": []
+    },
+    {
+      "id": "drum",
+      "english": "Drum",
+      "vietnamese": "Trống",
+      "file": "drum.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F941",
+          "annotation": "drum",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F941.svg"
+        }
+      ]
+    },
+    {
+      "id": "violin",
+      "english": "Violin",
+      "vietnamese": "Đàn vĩ cầm",
+      "file": "violin.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3BB",
+          "annotation": "violin",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3BB.svg"
+        }
+      ]
+    },
+    {
+      "id": "flute",
+      "english": "Flute",
+      "vietnamese": "Sáo",
+      "file": "flute.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1FA88",
+          "annotation": "flute",
+          "author": "Christian Engler",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1FA88.svg"
+        }
+      ]
+    },
+    {
+      "id": "trumpet",
+      "english": "Trumpet",
+      "vietnamese": "Kèn trumpet",
+      "file": "trumpet.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3BA",
+          "annotation": "trumpet",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3BA.svg"
+        }
+      ]
+    },
+    {
+      "id": "phone",
+      "english": "Phone",
+      "vietnamese": "Điện thoại",
+      "file": "phone.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F4F1",
+          "annotation": "mobile phone",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4F1.svg"
+        }
+      ]
+    },
+    {
+      "id": "camera",
+      "english": "Camera",
+      "vietnamese": "Máy ảnh",
+      "file": "camera.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F4F7",
+          "annotation": "camera",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4F7.svg"
+        }
+      ]
+    },
+    {
+      "id": "keyboard",
+      "english": "Keyboard",
+      "vietnamese": "Bàn phím",
+      "file": "keyboard.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2328",
+          "annotation": "keyboard",
+          "author": "Carlin MacKenzie",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2328.svg"
+        }
+      ]
+    },
+    {
+      "id": "mouse",
+      "english": "Mouse",
+      "vietnamese": "Chuột máy tính",
+      "file": "mouse.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F5B1",
+          "annotation": "computer mouse",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F5B1.svg"
+        }
+      ]
+    },
+    {
+      "id": "screen",
+      "english": "Screen",
+      "vietnamese": "Màn hình",
+      "file": "screen.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F5A5",
+          "annotation": "desktop computer",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F5A5.svg"
+        }
+      ]
+    },
+    {
+      "id": "charger",
+      "english": "Charger",
+      "vietnamese": "Bộ sạc",
+      "file": "charger.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F50C",
+          "annotation": "electric plug",
+          "author": "Jonas Roßner",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F50C.svg"
+        }
+      ]
+    },
+    {
+      "id": "forest",
+      "english": "Forest",
+      "vietnamese": "Khu rừng",
+      "file": "forest.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F333",
+          "annotation": "deciduous tree",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F333.svg"
+        },
+        {
+          "hexcode": "1F332",
+          "annotation": "evergreen tree",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F332.svg"
+        }
+      ]
+    },
+    {
+      "id": "lake",
+      "english": "Lake",
+      "vietnamese": "Hồ",
+      "file": "lake.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F333",
+          "annotation": "deciduous tree",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F333.svg"
+        },
+        {
+          "hexcode": "1F332",
+          "annotation": "evergreen tree",
+          "author": "Hilda Kalyoncu",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F332.svg"
+        }
+      ]
+    },
+    {
+      "id": "beach",
+      "english": "Beach",
+      "vietnamese": "Bãi biển",
+      "file": "beach.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3D6",
+          "annotation": "beach with umbrella",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3D6.svg"
+        }
+      ]
+    },
+    {
+      "id": "island",
+      "english": "Island",
+      "vietnamese": "Hòn đảo",
+      "file": "island.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F3DD",
+          "annotation": "desert island",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F3DD.svg"
+        }
+      ]
+    },
+    {
+      "id": "sky",
+      "english": "Sky",
+      "vietnamese": "Bầu trời",
+      "file": "sky.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "2601",
+          "annotation": "cloud",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2601.svg"
+        },
+        {
+          "hexcode": "2600",
+          "annotation": "sun",
+          "author": "Vanessa Boutzikoudi",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/2600.svg"
+        }
+      ]
+    },
+    {
+      "id": "ticket",
+      "english": "Ticket",
+      "vietnamese": "Vé",
+      "file": "ticket.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F39F",
+          "annotation": "admission tickets",
+          "author": "Laura Humpfer",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F39F.svg"
+        }
+      ]
+    },
+    {
+      "id": "passport",
+      "english": "Passport",
+      "vietnamese": "Hộ chiếu",
+      "file": "passport.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F310",
+          "annotation": "globe with meridians",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F310.svg"
+        }
+      ]
+    },
+    {
+      "id": "map",
+      "english": "Map",
+      "vietnamese": "Bản đồ",
+      "file": "map.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F5FA",
+          "annotation": "world map",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F5FA.svg"
+        }
+      ]
+    },
+    {
+      "id": "suitcase",
+      "english": "Suitcase",
+      "vietnamese": "Va-li",
+      "file": "suitcase.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9F3",
+          "annotation": "luggage",
+          "author": "Jonas Dunkel",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9F3.svg"
+        }
+      ]
+    },
+    {
+      "id": "guide",
+      "english": "Guide",
+      "vietnamese": "Hướng dẫn viên",
+      "file": "guide.png",
+      "license": "CC BY-SA 4.0",
+      "attribution": "OpenMoji contributors (https://openmoji.org), CC BY-SA 4.0; composition/adaptations by Vocab Vision",
+      "sources": [
+        {
+          "hexcode": "1F9D1",
+          "annotation": "person",
+          "author": "Johanna Wellnitz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F9D1.svg"
+        },
+        {
+          "hexcode": "1F5FA",
+          "annotation": "world map",
+          "author": "Martin Wehl",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F5FA.svg"
+        },
+        {
+          "hexcode": "1F4CD",
+          "annotation": "round pushpin",
+          "author": "Sina Schulz",
+          "url": "https://github.com/hfg-gmuend/openmoji/blob/16.0.0/color/svg/1F4CD.svg"
+        }
+      ]
+    }
+  ]
+}
